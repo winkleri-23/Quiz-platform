@@ -18,6 +18,7 @@ const COLORS = {
 const BASE_URL = "https://www.decodedsecurity.com/p/";
 const SUBSCRIBE_URL = "https://www.decodedsecurity.com/subscribe";
 const GUMROAD_LEAD_MAGNET = "https://decodedsecurity.gumroad.com/l/Top10_Cybersecurity_Concepts";
+const SOURCE_ARTICLE_URL = "https://www.decodedsecurity.com/p/how-to-choose-the-right-cybersecurity";
 
 const QUESTIONS = [
   {
@@ -280,9 +281,44 @@ export default function PathFinder() {
             <p style={{ fontSize: 17, lineHeight: 1.6, color: "#cccccc", marginBottom: 12, maxWidth: 560 }}>
               Most people drift through cybersecurity without a plan. They watch random YouTube videos. They start certs they never finish. They burn months going nowhere.
             </p>
-            <p style={{ fontSize: 17, lineHeight: 1.6, color: "#cccccc", marginBottom: 40, maxWidth: 560 }}>
+            <p style={{ fontSize: 17, lineHeight: 1.6, color: "#cccccc", marginBottom: 32, maxWidth: 560 }}>
               This 60-second diagnostic tells you exactly where to focus, with a personalized reading list pulled from the Decoded Security archive.
             </p>
+
+            {/* SOURCE ARTICLE REFERENCE */}
+            <a
+              href={SOURCE_ARTICLE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "block",
+                borderLeft: `2px solid ${COLORS.red}`,
+                paddingLeft: 16,
+                marginBottom: 40,
+                maxWidth: 560,
+                textDecoration: "none",
+                color: COLORS.white,
+                transition: "all 150ms ease-out",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.paddingLeft = "20px";
+                e.currentTarget.style.backgroundColor = "rgba(230, 72, 51, 0.04)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.paddingLeft = "16px";
+                e.currentTarget.style.backgroundColor = "transparent";
+              }}
+            >
+              <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 2, marginBottom: 6 }}>
+                BASED ON THE ARTICLE
+              </div>
+              <div style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.4, color: COLORS.white }}>
+                How to Choose the Right Cybersecurity Role <span style={{ color: COLORS.red }}>↗</span>
+              </div>
+              <div style={{ fontSize: 12, color: COLORS.muted, marginTop: 4, letterSpacing: 0.5 }}>
+                Read the full piece on Decoded Security
+              </div>
+            </a>
 
             <div style={{ display: "flex", gap: 32, marginBottom: 48, flexWrap: "wrap", fontSize: 13, color: COLORS.muted }}>
               <div><span style={{ color: COLORS.red }}>06</span> questions</div>
