@@ -157,6 +157,39 @@ const PATHS = {
 // Tie-break priority: prefer more specific paths when scores are equal
 const PATH_PRIORITY = ["cissp", "grc", "stuck", "switcher", "foundation"];
 
+function buildExportText(pathKey) {
+  const path = PATHS[pathKey];
+  const sep = "=".repeat(56);
+  const sub = "-".repeat(56);
+  const lines = [];
+  lines.push("DECODED SECURITY // YOUR CYBERSECURITY PATH");
+  lines.push(sep);
+  lines.push("");
+  lines.push(`PATH:      ${path.title}`);
+  lines.push(`CODE:      [${path.label}]`);
+  lines.push("");
+  lines.push(path.tagline);
+  lines.push("");
+  lines.push("DIAGNOSIS");
+  lines.push(sub);
+  lines.push(path.diagnosis);
+  lines.push("");
+  lines.push("YOUR READING LIST");
+  lines.push(sub);
+  lines.push("");
+  path.articles.forEach((article, idx) => {
+    lines.push(`${String(idx + 1).padStart(2, "0")}. ${article.title}`);
+    lines.push(`    ${article.why}`);
+    lines.push(`    ${BASE_URL}${article.slug}`);
+    lines.push("");
+  });
+  lines.push(sub);
+  lines.push(`Quiz based on:  ${SOURCE_ARTICLE_URL}`);
+  lines.push(`Newsletter:     ${SUBSCRIBE_URL}`);
+  lines.push("");
+  return lines.join("\n");
+}
+
 function calculatePath(answers) {
   const scores = { foundation: 0, switcher: 0, grc: 0, cissp: 0, stuck: 0 };
   answers.forEach((answerIdx, qIdx) => {
@@ -225,6 +258,20 @@ export default function PathFinder() {
     setStage("quiz");
     setCurrentQ(0);
     setAnswers([]);
+  };
+
+  const handleDownload = () => {
+    if (!result) return;
+    const text = buildExportText(result.winner);
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `decoded-security-${result.winner}-reading-list.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   const progress = ((currentQ) / QUESTIONS.length) * 100;
@@ -489,6 +536,44 @@ export default function PathFinder() {
                   </a>
                 ))}
               </div>
+            </div>
+
+            {/* EXPORT READING LIST */}
+            <div
+              style={{
+                border: `1px solid ${COLORS.border}`,
+                padding: 24,
+                marginBottom: 20,
+              }}
+            >
+              <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 3, marginBottom: 10 }}>
+                EXPORT
+              </div>
+              <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 6, lineHeight: 1.3 }}>
+                Save your reading list
+              </div>
+              <p style={{ fontSize: 13, color: "#aaaaaa", marginBottom: 18, lineHeight: 1.5 }}>
+                Take it with you. Paste it into Notes, Notion, or your inbox so you actually come back to it.
+              </p>
+              <button
+                onClick={handleDownload}
+                style={{
+                  fontFamily: fontStack,
+                  fontSize: 13,
+                  fontWeight: 600,
+                  letterSpacing: 1.5,
+                  color: COLORS.white,
+                  backgroundColor: "transparent",
+                  border: `1px solid ${COLORS.border}`,
+                  padding: "12px 20px",
+                  cursor: "pointer",
+                  transition: "all 150ms ease-out",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = COLORS.red; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = COLORS.border; }}
+              >
+                EXPORT THE READING LIST ↓
+              </button>
             </div>
 
             {/* CTA: FREE LEAD MAGNET */}
