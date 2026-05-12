@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { track } from "@vercel/analytics/react";
 
 // =============================================================================
 // DECODED SECURITY — PATH FINDER QUIZ
@@ -230,6 +231,7 @@ export default function PathFinder() {
   const fontStack = "'IBM Plex Mono', ui-monospace, Menlo, monospace";
 
   const handleAnswer = (optionIdx) => {
+    track("question_answered", { question: currentQ + 1, answer: optionIdx });
     const newAnswers = [...answers, optionIdx];
     setTransitioning(true);
     setTimeout(() => {
@@ -239,6 +241,7 @@ export default function PathFinder() {
         setTransitioning(false);
       } else {
         const r = calculatePath(newAnswers);
+        track("quiz_completed", { path: r.winner });
         setResult(r);
         setAnswers(newAnswers);
         setStage("result");
@@ -248,6 +251,7 @@ export default function PathFinder() {
   };
 
   const restart = () => {
+    track("quiz_restarted", { from_path: result?.winner ?? null });
     setStage("welcome");
     setCurrentQ(0);
     setAnswers([]);
@@ -255,6 +259,7 @@ export default function PathFinder() {
   };
 
   const startQuiz = () => {
+    track("quiz_started");
     setStage("quiz");
     setCurrentQ(0);
     setAnswers([]);
@@ -262,6 +267,7 @@ export default function PathFinder() {
 
   const handleDownload = () => {
     if (!result) return;
+    track("reading_list_exported", { path: result.winner });
     const text = buildExportText(result.winner);
     const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -337,6 +343,7 @@ export default function PathFinder() {
               href={SOURCE_ARTICLE_URL}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => track("source_article_clicked")}
               style={{
                 display: "block",
                 borderLeft: `2px solid ${COLORS.red}`,
@@ -503,6 +510,7 @@ export default function PathFinder() {
                     href={`${BASE_URL}${article.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => track("article_clicked", { path: result.winner, slug: article.slug, position: idx + 1 })}
                     style={{
                       display: "block",
                       padding: "20px 0",
@@ -598,6 +606,7 @@ export default function PathFinder() {
                 href={GUMROAD_LEAD_MAGNET}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => track("lead_magnet_clicked", { path: result.winner })}
                 style={{
                   display: "inline-block",
                   fontFamily: fontStack,
@@ -635,6 +644,7 @@ export default function PathFinder() {
                 href={SUBSCRIBE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => track("subscribe_clicked", { path: result.winner })}
                 style={{
                   display: "inline-block",
                   fontFamily: fontStack,
