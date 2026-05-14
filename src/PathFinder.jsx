@@ -234,9 +234,6 @@ export default function PathFinder() {
   const [answers, setAnswers] = useState([]);
   const [result, setResult] = useState(null);
   const [transitioning, setTransitioning] = useState(false);
-  const [email, setEmail] = useState("");
-  const [emailSubmitState, setEmailSubmitState] = useState("idle"); // idle | submitting | success | error
-  const [emailErrorMsg, setEmailErrorMsg] = useState("");
 
   // Inject IBM Plex Mono
   useEffect(() => {
@@ -301,48 +298,6 @@ export default function PathFinder() {
     URL.revokeObjectURL(url);
   };
 
-  // Simple RFC-5322-ish email validation. Not perfect, but catches typos.
-  const isValidEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
-
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
-    if (!result) return;
-    const cleanEmail = email.trim();
-    if (!isValidEmail(cleanEmail)) {
-      setEmailErrorMsg("That doesn't look like a valid email.");
-      setEmailSubmitState("error");
-      return;
-    }
-    setEmailSubmitState("submitting");
-    setEmailErrorMsg("");
-    track("reading_list_emailed", { path: result.winner });
-
-    const endpoint = import.meta.env.VITE_EMAIL_ENDPOINT;
-    try {
-      if (endpoint) {
-        // Backend is configured — POST email + path + reading list text
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: cleanEmail,
-            path: result.winner,
-            pathTitle: PATHS[result.winner].title,
-            readingList: buildExportText(result.winner),
-          }),
-        });
-        if (!res.ok) throw new Error(`Server returned ${res.status}`);
-      } else {
-        // No backend yet — still feel responsive, and hand them the file
-        await new Promise((r) => setTimeout(r, 500));
-        handleDownload();
-      }
-      setEmailSubmitState("success");
-    } catch (err) {
-      setEmailErrorMsg("Something went wrong. Try the download instead.");
-      setEmailSubmitState("error");
-    }
-  };
 
   const progress = ((currentQ) / QUESTIONS.length) * 100;
 
@@ -619,105 +574,33 @@ export default function PathFinder() {
               }}
             >
               <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 3, marginBottom: 10 }}>
-                SAVE YOUR LIST
+                EXPORT
               </div>
               <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 6, lineHeight: 1.3 }}>
-                Email me my reading list
+                Save your reading list
               </div>
               <p style={{ fontSize: 13, color: "#aaaaaa", marginBottom: 18, lineHeight: 1.5 }}>
-                Get it in your inbox so you actually come back to it. No spam, no signup — just your list.
+                Take it with you. Paste it into Notes, Notion, or your inbox so you actually come back to it.
               </p>
-
-              {emailSubmitState !== "success" ? (
-                <form onSubmit={handleEmailSubmit} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      if (emailSubmitState === "error") {
-                        setEmailSubmitState("idle");
-                        setEmailErrorMsg("");
-                      }
-                    }}
-                    placeholder="you@example.com"
-                    required
-                    disabled={emailSubmitState === "submitting"}
-                    style={{
-                      flex: "1 1 220px",
-                      fontFamily: fontStack,
-                      fontSize: 14,
-                      color: COLORS.white,
-                      backgroundColor: "transparent",
-                      border: `1px solid ${emailSubmitState === "error" ? COLORS.red : COLORS.border}`,
-                      padding: "12px 14px",
-                      outline: "none",
-                      transition: "border-color 150ms",
-                    }}
-                    onFocus={(e) => { if (emailSubmitState !== "error") e.currentTarget.style.borderColor = COLORS.red; }}
-                    onBlur={(e) => { if (emailSubmitState !== "error") e.currentTarget.style.borderColor = COLORS.border; }}
-                  />
-                  <button
-                    type="submit"
-                    disabled={emailSubmitState === "submitting"}
-                    style={{
-                      fontFamily: fontStack,
-                      fontSize: 13,
-                      fontWeight: 600,
-                      letterSpacing: 1.5,
-                      color: COLORS.white,
-                      backgroundColor: COLORS.red,
-                      border: "none",
-                      padding: "12px 20px",
-                      cursor: emailSubmitState === "submitting" ? "wait" : "pointer",
-                      opacity: emailSubmitState === "submitting" ? 0.7 : 1,
-                      transition: "all 150ms ease-out",
-                    }}
-                  >
-                    {emailSubmitState === "submitting" ? "SENDING…" : "EMAIL IT TO ME →"}
-                  </button>
-                </form>
-              ) : (
-                <div
-                  style={{
-                    fontSize: 14,
-                    color: COLORS.red,
-                    borderLeft: `2px solid ${COLORS.red}`,
-                    paddingLeft: 14,
-                    lineHeight: 1.5,
-                  }}
-                >
-                  Sent to <strong style={{ color: COLORS.white }}>{email}</strong>. Check your inbox in a minute.
-                </div>
-              )}
-
-              {emailSubmitState === "error" && emailErrorMsg && (
-                <div style={{ fontSize: 12, color: COLORS.red, marginTop: 10 }}>
-                  {emailErrorMsg}
-                </div>
-              )}
-
-              <div style={{ marginTop: 16, fontSize: 12, color: COLORS.muted }}>
-                Prefer offline?{" "}
-                <button
-                  onClick={handleDownload}
-                  style={{
-                    fontFamily: fontStack,
-                    fontSize: 12,
-                    color: COLORS.muted,
-                    backgroundColor: "transparent",
-                    border: "none",
-                    padding: 0,
-                    cursor: "pointer",
-                    textDecoration: "underline",
-                    letterSpacing: 0.5,
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.red; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.muted; }}
-                >
-                  Download as .txt instead ↓
-                </button>
-              </div>
+              <button
+                onClick={handleDownload}
+                style={{
+                  fontFamily: fontStack,
+                  fontSize: 13,
+                  fontWeight: 600,
+                  letterSpacing: 1.5,
+                  color: COLORS.white,
+                  backgroundColor: "transparent",
+                  border: `1px solid ${COLORS.border}`,
+                  padding: "12px 20px",
+                  cursor: "pointer",
+                  transition: "all 150ms ease-out",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = COLORS.red; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = COLORS.border; }}
+              >
+                DOWNLOAD .TXT ↓
+              </button>
             </div>
 
             {/* CTA: FREE LEAD MAGNET */}
