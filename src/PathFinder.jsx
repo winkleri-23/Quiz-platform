@@ -25,8 +25,8 @@ const QUESTIONS = [
   {
     question: "Where are you in your cybersecurity journey?",
     options: [
-      { text: "Just exploring. Curious about the field.", w: { foundation: 3, switcher: 1 } },
-      { text: "Actively planning to switch careers into cyber.", w: { switcher: 3, foundation: 1 } },
+      { text: "Just exploring. Curious about the field.", w: { foundation: 3, switcher: 1, cc: 1 } },
+      { text: "Actively planning to switch careers into cyber.", w: { switcher: 3, foundation: 1, cc: 1 } },
       { text: "Junior cyber role (0–2 years in).", w: { stuck: 2, grc: 1, cissp: 1 } },
       { text: "Mid-level pro looking for the next step.", w: { stuck: 2, cissp: 2 } },
       { text: "Senior, ready for advanced specialization.", w: { cissp: 3, stuck: 1 } },
@@ -35,8 +35,8 @@ const QUESTIONS = [
   {
     question: "What's your biggest frustration right now?",
     options: [
-      { text: "I have no idea where to even start.", w: { foundation: 3 } },
-      { text: "I'm overwhelmed by too many options.", w: { switcher: 2, foundation: 2 } },
+      { text: "I have no idea where to even start.", w: { foundation: 3, cc: 1 } },
+      { text: "I'm overwhelmed by too many options.", w: { switcher: 2, foundation: 2, cc: 1 } },
       { text: "I keep starting things and never finishing.", w: { switcher: 2, stuck: 1 } },
       { text: "I know the basics but feel stuck at my level.", w: { stuck: 3, cissp: 1 } },
       { text: "I want to specialize but don't know in what.", w: { grc: 2, cissp: 2 } },
@@ -49,14 +49,14 @@ const QUESTIONS = [
       { text: "In a SOC, hunting threats, working with logs.", w: { foundation: 1, stuck: 2 } },
       { text: "Auditing systems, checking compliance.", w: { grc: 3 } },
       { text: "Architecting secure systems and controls.", w: { cissp: 3 } },
-      { text: "Honestly, I'm still figuring it out.", w: { switcher: 2, foundation: 2 } },
+      { text: "Honestly, I'm still figuring it out.", w: { switcher: 2, foundation: 2, cc: 1 } },
     ],
   },
   {
     question: "How comfortable are you with networking fundamentals (TCP/IP, DNS, subnetting)?",
     options: [
-      { text: "I've never heard most of these terms.", w: { foundation: 3 } },
-      { text: "I recognize them but couldn't explain them.", w: { foundation: 2, switcher: 1 } },
+      { text: "I've never heard most of these terms.", w: { foundation: 3, cc: 2 } },
+      { text: "I recognize them but couldn't explain them.", w: { foundation: 2, switcher: 1, cc: 1 } },
       { text: "I can use them in conversation.", w: { grc: 1, stuck: 2 } },
       { text: "I can explain them in detail.", w: { cissp: 2, stuck: 1 } },
       { text: "I could teach this stuff.", w: { cissp: 3 } },
@@ -65,6 +65,7 @@ const QUESTIONS = [
   {
     question: "Which certification feels most relevant to your next 12 months?",
     options: [
+      { text: "ISC2 CC (Certified in Cybersecurity).", w: { cc: 4, foundation: 1 } },
       { text: "Security+ (or none yet).", w: { foundation: 2, switcher: 2 } },
       { text: "CISA or another GRC cert.", w: { grc: 3 } },
       { text: "CISSP.", w: { cissp: 3 } },
@@ -75,9 +76,9 @@ const QUESTIONS = [
   {
     question: "What does success look like 12 months from now?",
     options: [
-      { text: "I've chosen a clear direction in cyber.", w: { foundation: 3, switcher: 1 } },
+      { text: "I've chosen a clear direction in cyber.", w: { foundation: 3, switcher: 1, cc: 1 } },
       { text: "I've landed my first cybersecurity job.", w: { switcher: 3 } },
-      { text: "I've passed a major certification.", w: { cissp: 2, grc: 1 } },
+      { text: "I've passed a major certification.", w: { cissp: 2, grc: 1, cc: 3 } },
       { text: "I've grown into a more senior role.", w: { stuck: 3, cissp: 1 } },
       { text: "I'm the go-to GRC person at my company.", w: { grc: 3 } },
     ],
@@ -97,6 +98,23 @@ const PATHS = {
       { title: "Threat ≠ Risk ≠ Vulnerability", slug: "threat-risk-vulnerability-why-cissp", why: "The three words everyone confuses. Stop being one of them." },
       { title: "7 Networking Questions That Instantly Show Your Level", slug: "7-networking-questions-that-instantly", why: "Self-test before you waste money on a course." },
       { title: "This Is How I Explain Subnetting", slug: "this-is-how-i-explain-subnetting", why: "The networking topic that scares everyone, demystified." },
+    ],
+  },
+  cc: {
+    label: "CC_CANDIDATE",
+    title: "The CC Candidate",
+    tagline: "You're going for ISC2's Certified in Cybersecurity — the cleanest entry into the field. The cert that gets you taken seriously before you've worked a day in cyber.",
+    diagnosis: "The CC isn't a vocab test. It's a structured proof that you understand how security actually works. Treat it like a roadmap, not a cram. Cover all five domains, not just the ones that feel easy.",
+    articles: [
+      { title: "Start Here: The Decoded Security Roadmap", slug: "start-here-decoded-security-roadmap", why: "Orient yourself before opening a single CC study guide." },
+      { title: "Cybersecurity Controls from Zero to Hero", slug: "cybersecurity-controls-from-zero", why: "The concept that anchors Domain 1." },
+      { title: "Threat ≠ Risk ≠ Vulnerability", slug: "threat-risk-vulnerability-why-cissp", why: "The three words the CC exam tests over and over." },
+      { title: "The 8 Security Principles Every CISSP Must Know", slug: "the-8-security-principles-every-cissp", why: "Tagged CISSP, but these principles are foundational — CC tests them too." },
+      { title: "The AAA Framework", slug: "the-aaa-framework-can-your-cowokers", why: "Domain 3 (Access Controls) in one article." },
+      { title: "7 Networking Questions That Instantly Show Your Level", slug: "7-networking-questions-that-instantly", why: "Self-test before tackling Domain 4." },
+      { title: "This Is How I Explain Subnetting", slug: "this-is-how-i-explain-subnetting", why: "The Domain 4 topic that scares everyone." },
+      { title: "Security Policies, Standards, and Procedures", slug: "security-policies-standards-and-procedures", why: "Governance basics — light on the CC but they show up." },
+      { title: "The Data Lifecycle: From Creation to Secure Destruction", slug: "the-data-lifecycle-from-creation", why: "Domain 5 (Security Operations) anchor for data handling." },
     ],
   },
   switcher: {
@@ -156,7 +174,7 @@ const PATHS = {
 };
 
 // Tie-break priority: prefer more specific paths when scores are equal
-const PATH_PRIORITY = ["cissp", "grc", "stuck", "switcher", "foundation"];
+const PATH_PRIORITY = ["cissp", "grc", "stuck", "cc", "switcher", "foundation"];
 
 function buildExportText(pathKey) {
   const path = PATHS[pathKey];
@@ -192,7 +210,7 @@ function buildExportText(pathKey) {
 }
 
 function calculatePath(answers) {
-  const scores = { foundation: 0, switcher: 0, grc: 0, cissp: 0, stuck: 0 };
+  const scores = { foundation: 0, switcher: 0, grc: 0, cissp: 0, stuck: 0, cc: 0 };
   answers.forEach((answerIdx, qIdx) => {
     const weights = QUESTIONS[qIdx].options[answerIdx].w;
     Object.entries(weights).forEach(([path, points]) => {
@@ -216,6 +234,9 @@ export default function PathFinder() {
   const [answers, setAnswers] = useState([]);
   const [result, setResult] = useState(null);
   const [transitioning, setTransitioning] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailSubmitState, setEmailSubmitState] = useState("idle"); // idle | submitting | success | error
+  const [emailErrorMsg, setEmailErrorMsg] = useState("");
 
   // Inject IBM Plex Mono
   useEffect(() => {
@@ -278,6 +299,49 @@ export default function PathFinder() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  // Simple RFC-5322-ish email validation. Not perfect, but catches typos.
+  const isValidEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
+
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+    if (!result) return;
+    const cleanEmail = email.trim();
+    if (!isValidEmail(cleanEmail)) {
+      setEmailErrorMsg("That doesn't look like a valid email.");
+      setEmailSubmitState("error");
+      return;
+    }
+    setEmailSubmitState("submitting");
+    setEmailErrorMsg("");
+    track("reading_list_emailed", { path: result.winner });
+
+    const endpoint = import.meta.env.VITE_EMAIL_ENDPOINT;
+    try {
+      if (endpoint) {
+        // Backend is configured — POST email + path + reading list text
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: cleanEmail,
+            path: result.winner,
+            pathTitle: PATHS[result.winner].title,
+            readingList: buildExportText(result.winner),
+          }),
+        });
+        if (!res.ok) throw new Error(`Server returned ${res.status}`);
+      } else {
+        // No backend yet — still feel responsive, and hand them the file
+        await new Promise((r) => setTimeout(r, 500));
+        handleDownload();
+      }
+      setEmailSubmitState("success");
+    } catch (err) {
+      setEmailErrorMsg("Something went wrong. Try the download instead.");
+      setEmailSubmitState("error");
+    }
   };
 
   const progress = ((currentQ) / QUESTIONS.length) * 100;
@@ -376,7 +440,7 @@ export default function PathFinder() {
 
             <div style={{ display: "flex", gap: 32, marginBottom: 48, flexWrap: "wrap", fontSize: 13, color: COLORS.muted }}>
               <div><span style={{ color: COLORS.red }}>06</span> questions</div>
-              <div><span style={{ color: COLORS.red }}>05</span> possible paths</div>
+              <div><span style={{ color: COLORS.red }}>06</span> possible paths</div>
               <div><span style={{ color: COLORS.red }}>~60s</span> to complete</div>
             </div>
 
@@ -555,33 +619,105 @@ export default function PathFinder() {
               }}
             >
               <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 3, marginBottom: 10 }}>
-                EXPORT
+                SAVE YOUR LIST
               </div>
               <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 6, lineHeight: 1.3 }}>
-                Save your reading list
+                Email me my reading list
               </div>
               <p style={{ fontSize: 13, color: "#aaaaaa", marginBottom: 18, lineHeight: 1.5 }}>
-                Take it with you. Paste it into Notes, Notion, or your inbox so you actually come back to it.
+                Get it in your inbox so you actually come back to it. No spam, no signup — just your list.
               </p>
-              <button
-                onClick={handleDownload}
-                style={{
-                  fontFamily: fontStack,
-                  fontSize: 13,
-                  fontWeight: 600,
-                  letterSpacing: 1.5,
-                  color: COLORS.white,
-                  backgroundColor: "transparent",
-                  border: `1px solid ${COLORS.border}`,
-                  padding: "12px 20px",
-                  cursor: "pointer",
-                  transition: "all 150ms ease-out",
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = COLORS.red; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = COLORS.border; }}
-              >
-                EXPORT THE READING LIST ↓
-              </button>
+
+              {emailSubmitState !== "success" ? (
+                <form onSubmit={handleEmailSubmit} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (emailSubmitState === "error") {
+                        setEmailSubmitState("idle");
+                        setEmailErrorMsg("");
+                      }
+                    }}
+                    placeholder="you@example.com"
+                    required
+                    disabled={emailSubmitState === "submitting"}
+                    style={{
+                      flex: "1 1 220px",
+                      fontFamily: fontStack,
+                      fontSize: 14,
+                      color: COLORS.white,
+                      backgroundColor: "transparent",
+                      border: `1px solid ${emailSubmitState === "error" ? COLORS.red : COLORS.border}`,
+                      padding: "12px 14px",
+                      outline: "none",
+                      transition: "border-color 150ms",
+                    }}
+                    onFocus={(e) => { if (emailSubmitState !== "error") e.currentTarget.style.borderColor = COLORS.red; }}
+                    onBlur={(e) => { if (emailSubmitState !== "error") e.currentTarget.style.borderColor = COLORS.border; }}
+                  />
+                  <button
+                    type="submit"
+                    disabled={emailSubmitState === "submitting"}
+                    style={{
+                      fontFamily: fontStack,
+                      fontSize: 13,
+                      fontWeight: 600,
+                      letterSpacing: 1.5,
+                      color: COLORS.white,
+                      backgroundColor: COLORS.red,
+                      border: "none",
+                      padding: "12px 20px",
+                      cursor: emailSubmitState === "submitting" ? "wait" : "pointer",
+                      opacity: emailSubmitState === "submitting" ? 0.7 : 1,
+                      transition: "all 150ms ease-out",
+                    }}
+                  >
+                    {emailSubmitState === "submitting" ? "SENDING…" : "EMAIL IT TO ME →"}
+                  </button>
+                </form>
+              ) : (
+                <div
+                  style={{
+                    fontSize: 14,
+                    color: COLORS.red,
+                    borderLeft: `2px solid ${COLORS.red}`,
+                    paddingLeft: 14,
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Sent to <strong style={{ color: COLORS.white }}>{email}</strong>. Check your inbox in a minute.
+                </div>
+              )}
+
+              {emailSubmitState === "error" && emailErrorMsg && (
+                <div style={{ fontSize: 12, color: COLORS.red, marginTop: 10 }}>
+                  {emailErrorMsg}
+                </div>
+              )}
+
+              <div style={{ marginTop: 16, fontSize: 12, color: COLORS.muted }}>
+                Prefer offline?{" "}
+                <button
+                  onClick={handleDownload}
+                  style={{
+                    fontFamily: fontStack,
+                    fontSize: 12,
+                    color: COLORS.muted,
+                    backgroundColor: "transparent",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    letterSpacing: 0.5,
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.red; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.muted; }}
+                >
+                  Download as .txt instead ↓
+                </button>
+              </div>
             </div>
 
             {/* CTA: FREE LEAD MAGNET */}
