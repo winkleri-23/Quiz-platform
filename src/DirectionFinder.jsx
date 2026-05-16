@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { track } from "@vercel/analytics/react";
 
 // =============================================================================
-// DECODED SECURITY — PATH FINDER QUIZ
-// A diagnostic tool that turns visitors into subscribers by routing them to
-// the right articles based on where they are in their cybersecurity journey.
+// DECODED SECURITY — DIRECTION FINDER QUIZ
+// A diagnostic for people who've committed to cybersecurity but haven't picked
+// which of the five career lanes from "How to Choose the Right Cybersecurity
+// Role" fits them. Routes to: Offensive, SOC, Builder, GRC, Leader.
 // =============================================================================
 
 const COLORS = {
@@ -18,172 +19,163 @@ const COLORS = {
 
 const BASE_URL = "https://www.decodedsecurity.com/p/";
 const SUBSCRIBE_URL = "https://www.decodedsecurity.com/subscribe";
-const GUMROAD_LEAD_MAGNET = "https://decodedsecurity.gumroad.com/l/Top10_Cybersecurity_Concepts";
+const GUMROAD_LEAD_MAGNET = "https://decodedsecurity.gumroad.com/l/CybersecurityBlueprint";
+const SOURCE_ARTICLE_URL = "https://www.decodedsecurity.com/p/how-to-choose-the-right-cybersecurity";
 
 const QUESTIONS = [
   {
-    question: "Where are you in your cybersecurity journey?",
+    question: "It's a regular Tuesday. What does your ideal work day look like?",
     options: [
-      { text: "Just exploring. Curious about the field.", w: { foundation: 3, switcher: 1, cc: 1 } },
-      { text: "Actively planning to switch careers into cyber.", w: { switcher: 3, foundation: 1, cc: 1 } },
-      { text: "Junior cyber role (0–2 years in).", w: { stuck: 2, grc: 1, cissp: 1 } },
-      { text: "Mid-level pro looking for the next step.", w: { stuck: 2, cissp: 2 } },
-      { text: "Senior, ready for advanced specialization.", w: { cissp: 3, stuck: 1 } },
+      { text: "Trying to break into a specific system. Looking for the weakness no one else found.", w: { offensive: 3 } },
+      { text: "Watching the SIEM, hunting through logs, deciding what's real and what's noise.", w: { soc: 3 } },
+      { text: "Designing how a new service will be built securely from day one.", w: { builder: 3 } },
+      { text: "Reading a regulation, mapping it to reality, finding the gaps.", w: { grc: 3 } },
+      { text: "Running 1:1s, unblocking the team, deciding what we ship next quarter.", w: { leader: 3 } },
     ],
   },
   {
-    question: "What's your biggest frustration right now?",
+    question: "Which sentence sounds most like you?",
     options: [
-      { text: "I have no idea where to even start.", w: { foundation: 3, cc: 1 } },
-      { text: "I'm overwhelmed by too many options.", w: { switcher: 2, foundation: 2, cc: 1 } },
-      { text: "I keep starting things and never finishing.", w: { switcher: 2, stuck: 1 } },
-      { text: "I know the basics but feel stuck at my level.", w: { stuck: 3, cissp: 1 } },
-      { text: "I want to specialize but don't know in what.", w: { grc: 2, cissp: 2 } },
+      { text: "I love finding the assumption everyone else missed.", w: { offensive: 3 } },
+      { text: "I love patterns. Especially when one doesn't fit.", w: { soc: 3 } },
+      { text: "I love drawing systems. Then making them real.", w: { builder: 3 } },
+      { text: "I love translating between worlds — tech and business, rules and reality.", w: { grc: 3 } },
+      { text: "I love getting smart people to do their best work.", w: { leader: 3 } },
     ],
   },
   {
-    question: "When you imagine your ideal cybersecurity work, you're...",
+    question: "How do you feel about being on call?",
     options: [
-      { text: "Reading policies, assessing risks, advising leadership.", w: { grc: 3 } },
-      { text: "In a SOC, hunting threats, working with logs.", w: { foundation: 1, stuck: 2 } },
-      { text: "Auditing systems, checking compliance.", w: { grc: 3 } },
-      { text: "Architecting secure systems and controls.", w: { cissp: 3 } },
-      { text: "Honestly, I'm still figuring it out.", w: { switcher: 2, foundation: 2, cc: 1 } },
+      { text: "Fine. When something's actually happening, I want to be there.", w: { soc: 3, offensive: 1 } },
+      { text: "Sometimes — but I'd rather be doing focused work most days.", w: { builder: 2, offensive: 2 } },
+      { text: "Hard pass. I want to control my time and work on long-horizon problems.", w: { grc: 3, leader: 2, builder: 1 } },
+      { text: "I'd rather be the one deciding who's on call.", w: { leader: 3 } },
+      { text: "Not sure yet — I haven't done it.", w: { soc: 1, builder: 1 } },
     ],
   },
   {
-    question: "How comfortable are you with networking fundamentals (TCP/IP, DNS, subnetting)?",
+    question: "Pick the project that excites you most.",
     options: [
-      { text: "I've never heard most of these terms.", w: { foundation: 3, cc: 2 } },
-      { text: "I recognize them but couldn't explain them.", w: { foundation: 2, switcher: 1, cc: 1 } },
-      { text: "I can use them in conversation.", w: { grc: 1, stuck: 2 } },
-      { text: "I can explain them in detail.", w: { cissp: 2, stuck: 1 } },
-      { text: "I could teach this stuff.", w: { cissp: 3 } },
+      { text: "A 6-week engagement against a critical app, ending in a breach scenario.", w: { offensive: 3 } },
+      { text: "A detection rule that catches an attacker behavior nobody's flagging yet.", w: { soc: 3 } },
+      { text: "Redesigning the cloud identity model — federation down to roles.", w: { builder: 3 } },
+      { text: "Leading the ISO 27001 readiness program — certified in 9 months.", w: { grc: 3 } },
+      { text: "Building a security team from scratch. Hiring plan, budget, year-one roadmap.", w: { leader: 3 } },
     ],
   },
   {
-    question: "Which certification feels most relevant to your next 12 months?",
+    question: "What kind of feedback loop do you want from your work?",
     options: [
-      { text: "ISC2 CC (Certified in Cybersecurity).", w: { cc: 4, foundation: 1 } },
-      { text: "Security+ (or none yet).", w: { foundation: 2, switcher: 2 } },
-      { text: "CISA or another GRC cert.", w: { grc: 3 } },
-      { text: "CISSP.", w: { cissp: 3 } },
-      { text: "A specialized cert (cloud, offensive, etc.).", w: { stuck: 2, cissp: 1 } },
-      { text: "I'm not focused on certs right now.", w: { foundation: 1, switcher: 1, stuck: 1 } },
+      { text: "Instant. Did the exploit land or didn't it.", w: { offensive: 3, soc: 1 } },
+      { text: "Daily. Did we catch what we were looking for.", w: { soc: 3 } },
+      { text: "Quarterly. Did the design scale and stay secure.", w: { builder: 3 } },
+      { text: "Annual. Did the audit pass. Did the program mature.", w: { grc: 3, leader: 1 } },
+      { text: "Multi-year. Did the team grow. Did the strategy hold.", w: { leader: 3 } },
     ],
   },
   {
-    question: "What does success look like 12 months from now?",
+    question: "Looking five years out, what does success look like?",
     options: [
-      { text: "I've chosen a clear direction in cyber.", w: { foundation: 3, switcher: 1, cc: 1 } },
-      { text: "I've landed my first cybersecurity job.", w: { switcher: 3 } },
-      { text: "I've passed a major certification.", w: { cissp: 2, grc: 1, cc: 3 } },
-      { text: "I've grown into a more senior role.", w: { stuck: 3, cissp: 1 } },
-      { text: "I'm the go-to GRC person at my company.", w: { grc: 3 } },
+      { text: "I'm a respected pentester or red teamer. I find break-ins others can't.", w: { offensive: 3 } },
+      { text: "I'm a senior SOC engineer or threat hunter. I shaped detection at my company.", w: { soc: 3 } },
+      { text: "I'm a principal security architect or cloud security lead. My designs run the place.", w: { builder: 3 } },
+      { text: "I'm head of GRC, risk, or compliance. Leadership trusts me on regulatory calls.", w: { grc: 3 } },
+      { text: "I'm a CISO or security director. I run an org.", w: { leader: 3 } },
     ],
   },
 ];
 
 const PATHS = {
-  foundation: {
-    label: "FOUNDATION_BUILDER",
-    title: "The Foundation Builder",
-    tagline: "You're early on the path. Your edge is building rock-solid fundamentals before chasing certifications or specializations.",
-    diagnosis: "Most beginners skip the basics and pay for it later. Don't be one of them. Get the fundamentals right first, then everything else compounds.",
+  offensive: {
+    label: "OFFENSIVE_OPERATOR",
+    title: "The Offensive Operator",
+    tagline: "You think in attacks. Your edge is finding the assumption everyone else trusts and proving it wrong.",
+    diagnosis: "Offensive isn't a beginner lane. The good operators have ruthless networking and Linux depth before they touch a single exploit. Start there.",
     articles: [
-      { title: "Start Here: The Decoded Security Roadmap", slug: "start-here-decoded-security-roadmap", why: "The map of where you're going." },
-      { title: "Cybersecurity Controls from Zero to Hero", slug: "cybersecurity-controls-from-zero", why: "The single concept that anchors everything else." },
-      { title: "The AAA Framework", slug: "the-aaa-framework-can-your-cowokers", why: "Authentication, authorization, accounting. Explained for real people." },
-      { title: "Threat ≠ Risk ≠ Vulnerability", slug: "threat-risk-vulnerability-why-cissp", why: "The three words everyone confuses. Stop being one of them." },
-      { title: "7 Networking Questions That Instantly Show Your Level", slug: "7-networking-questions-that-instantly", why: "Self-test before you waste money on a course." },
-      { title: "This Is How I Explain Subnetting", slug: "this-is-how-i-explain-subnetting", why: "The networking topic that scares everyone, demystified." },
+      { title: "7 Networking Questions That Instantly Show Your Level", slug: "7-networking-questions-that-instantly", why: "Offensive work starts with network depth. Test where you are." },
+      { title: "Top 5 Most Important Network Protocols", slug: "top-5-most-important-network-protocols", why: "Every attack rides on these. Know them cold." },
+      { title: "This Is How I Explain Subnetting", slug: "this-is-how-i-explain-subnetting", why: "Subnetting is the networking topic that scares everyone — until you nail it." },
+      { title: "This Is How I Explain DNS To Beginners", slug: "this-is-how-i-explain-dns-to-beginners", why: "DNS is the layer most attackers abuse. Know it cold." },
+      { title: "What Are The Things That Keep Our Networks Safe", slug: "what-are-the-things-that-keep-our", why: "If you don't know what's protecting it, you won't know what to bypass." },
+      { title: "Threat ≠ Risk ≠ Vulnerability", slug: "threat-risk-vulnerability-why-cissp", why: "The three words you'll need before any vuln chain makes sense." },
+      { title: "Most Cybersecurity Beginners Study Wrong", slug: "most-cybersecurity-beginners-study", why: "Offensive isn't beginner-friendly. Don't approach it like one." },
     ],
   },
-  cc: {
-    label: "CC_CANDIDATE",
-    title: "The CC Candidate",
-    tagline: "You're going for ISC2's Certified in Cybersecurity — the cleanest entry into the field. The cert that gets you taken seriously before you've worked a day in cyber.",
-    diagnosis: "The CC isn't a vocab test. It's a structured proof that you understand how security actually works. Treat it like a roadmap, not a cram. Cover all five domains, not just the ones that feel easy.",
+  soc: {
+    label: "SOC_DEFENDER",
+    title: "The SOC Defender",
+    tagline: "You're built for the room where alarms go off. You like patterns, pressure, and the moment of figuring out what's real.",
+    diagnosis: "The SOC is the best entry into operational cyber. The trick isn't memorizing tools — it's learning to read network conversations and tell signal from noise.",
     articles: [
-      { title: "Start Here: The Decoded Security Roadmap", slug: "start-here-decoded-security-roadmap", why: "Orient yourself before opening a single CC study guide." },
-      { title: "Cybersecurity Controls from Zero to Hero", slug: "cybersecurity-controls-from-zero", why: "The concept that anchors Domain 1." },
-      { title: "Threat ≠ Risk ≠ Vulnerability", slug: "threat-risk-vulnerability-why-cissp", why: "The three words the CC exam tests over and over." },
-      { title: "The 8 Security Principles Every CISSP Must Know", slug: "the-8-security-principles-every-cissp", why: "Tagged CISSP, but these principles are foundational — CC tests them too." },
-      { title: "The AAA Framework", slug: "the-aaa-framework-can-your-cowokers", why: "Domain 3 (Access Controls) in one article." },
-      { title: "7 Networking Questions That Instantly Show Your Level", slug: "7-networking-questions-that-instantly", why: "Self-test before tackling Domain 4." },
-      { title: "This Is How I Explain Subnetting", slug: "this-is-how-i-explain-subnetting", why: "The Domain 4 topic that scares everyone." },
-      { title: "Security Policies, Standards, and Procedures", slug: "security-policies-standards-and-procedures", why: "Governance basics — light on the CC but they show up." },
-      { title: "The Data Lifecycle: From Creation to Secure Destruction", slug: "the-data-lifecycle-from-creation", why: "Domain 5 (Security Operations) anchor for data handling." },
+      { title: "The Incident Response Mistakes That Cost Careers", slug: "the-incident-response-mistakes-that", why: "Make these mistakes in training, not in production." },
+      { title: "The AAA Framework", slug: "the-aaa-framework-can-your-cowokers", why: "Authentication, authorization, accounting. The model every alert assumes." },
+      { title: "7 Networking Questions That Instantly Show Your Level", slug: "7-networking-questions-that-instantly", why: "If you can't read a network conversation, you can't read an attack." },
+      { title: "This Is How I Explain Subnetting", slug: "this-is-how-i-explain-subnetting", why: "Subnetting underpins every IP-based alert. Don't skip it." },
+      { title: "Cybersecurity Controls from Zero to Hero", slug: "cybersecurity-controls-from-zero", why: "Controls are what fired the alert. Know which one and why." },
+      { title: "Threat ≠ Risk ≠ Vulnerability", slug: "threat-risk-vulnerability-why-cissp", why: "Triage means knowing which one the alert represents." },
+      { title: "Shadow AI Is the New Shadow IT", slug: "shadow-ai-is-the-new-shadow-it-only", why: "The next generation of weird alerts you'll have to make sense of." },
     ],
   },
-  switcher: {
-    label: "CAREER_SWITCHER",
-    title: "The Career Switcher",
-    tagline: "You're transitioning into cyber. Your biggest risk isn't lack of skill. It's wasting months on the wrong path.",
-    diagnosis: "The market doesn't reward effort. It rewards positioning. Pick the right role for your background, then go deep on what makes you hireable.",
+  builder: {
+    label: "BUILDER",
+    title: "The Builder",
+    tagline: "You don't react to security problems. You design them out. Architect, engineer, cloud — same lane, different altitudes.",
+    diagnosis: "Builders make security invisible. Your edge is reasoning across systems — identity, network, data, code — and writing the patterns the rest of the org follows.",
     articles: [
-      { title: "How to Choose the Right Cybersecurity Role", slug: "how-to-choose-the-right-cybersecurity", why: "Choose right or burn 12 months figuring it out the hard way." },
-      { title: "Start Here: The Decoded Security Roadmap", slug: "start-here-decoded-security-roadmap", why: "Your structured path from zero to hired." },
-      { title: "What Actually Makes a Cybersecurity Pro Stand Out", slug: "what-actually-makes-a-cybersecurity", why: "What hiring managers really look for." },
-      { title: "Most Cybersecurity Beginners Study Wrong", slug: "most-cybersecurity-beginners-study", why: "Don't burn 6 months on the wrong methods." },
-      { title: "You Can't Learn Cybersecurity Just by Watching", slug: "you-cant-learn-cybersecurity-just", why: "Why YouTube alone won't get you hired." },
+      { title: "The 8 Security Principles Every CISSP Must Know", slug: "the-8-security-principles-every-cissp", why: "The principles every good design has to satisfy." },
+      { title: "Cybersecurity Controls from Zero to Hero", slug: "cybersecurity-controls-from-zero", why: "The vocabulary for everything you're going to build." },
+      { title: "The AAA Framework", slug: "the-aaa-framework-can-your-cowokers", why: "Identity and access is half the architect's job." },
+      { title: "The Data Lifecycle: From Creation to Secure Destruction", slug: "the-data-lifecycle-from-creation", why: "Data isn't a feature. It's a system. Design for it." },
+      { title: "5 Specific Steps For Software Developers To Get a Job in Cybersecurity", slug: "5-specific-steps-for-software-developers", why: "The crossover playbook if you're coming from engineering." },
+      { title: "7 Networking Questions That Instantly Show Your Level", slug: "7-networking-questions-that-instantly", why: "Architects design across the network. Know it cold." },
+      { title: "Security Policies, Standards, and Procedures", slug: "security-policies-standards-and-procedures", why: "What the org expects from the systems you'll design." },
     ],
   },
   grc: {
-    label: "GRC_SPECIALIST",
-    title: "The GRC Specialist",
-    tagline: "You're built for governance, risk, and compliance. The path with the highest leverage and the lowest competition for non-technical backgrounds.",
-    diagnosis: "GRC is where business and security meet. Your job is to translate, prioritize, and decide. Less code. More impact.",
+    label: "GRC_TRANSLATOR",
+    title: "The GRC Translator",
+    tagline: "You operate in the gap between tech and the business. The job is to make sure security actually reflects what's required and what's real.",
+    diagnosis: "GRC isn't paperwork. It's leverage. Your job is to translate, prioritize, and decide — less code, more impact.",
     articles: [
-      { title: "GRC for Beginners: The Exact Study Plan", slug: "grc-for-beginners-the-exact-study", why: "The full roadmap, in order." },
-      { title: "Security Policies, Standards, and Procedures", slug: "security-policies-standards-and-procedures", why: "The boring stuff that actually saves companies." },
+      { title: "GRC for Beginners: The Exact Study Plan", slug: "grc-for-beginners-the-exact-study", why: "The roadmap, in order." },
+      { title: "Security Policies, Standards, and Procedures", slug: "security-policies-standards-and-procedures", why: "The boring stuff that actually runs companies." },
       { title: "How Risk Management Frameworks Keep Systems Secure", slug: "how-risk-management-frameworks-keep", why: "The frameworks every GRC role expects you to know." },
       { title: "Audit Process: Planning, Execution", slug: "audit-process-planning-execution", why: "If CISA is on your list, start here." },
       { title: "15 Laws Every CISSP Candidate Must Know", slug: "15-laws-every-cissp-candidate-must", why: "Compliance lives or dies on these." },
       { title: "The Data Lifecycle: From Creation to Secure Destruction", slug: "the-data-lifecycle-from-creation", why: "Data governance, simplified." },
+      { title: "Quantitative Risk Analysis: Let The Numbers Do All The Talking", slug: "quantitative-risk-analysis-let-the", why: "How to turn risk gut-feels into numbers that move budgets." },
     ],
   },
-  cissp: {
-    label: "CISSP_CANDIDATE",
-    title: "The CISSP Candidate",
-    tagline: "You're going for the big one. The CISSP rewards depth across 8 domains and punishes anyone who memorizes instead of understanding.",
-    diagnosis: "The CISSP isn't a knowledge test. It's a thinking test. Your study plan should mirror that.",
+  leader: {
+    label: "SECURITY_LEADER",
+    title: "The Security Leader",
+    tagline: "You're not measured by what you build or break. You're measured by what the team gets done.",
+    diagnosis: "Security leadership is a translation job — risk to budget, threat to strategy, technical to executive. Learn the language of the room before you walk into it.",
     articles: [
-      { title: "How I Passed the CISSP Exam in 3 Months", slug: "how-i-passed-the-cissp-exam-in-3", why: "The exact playbook from someone who did it." },
-      { title: "The 8 Security Principles Every CISSP Must Know", slug: "the-8-security-principles-every-cissp", why: "These show up everywhere on the exam." },
-      { title: "15 Laws Every CISSP Candidate Must Know", slug: "15-laws-every-cissp-candidate-must", why: "Don't lose easy points on the legal questions." },
-      { title: "Threat ≠ Risk ≠ Vulnerability", slug: "threat-risk-vulnerability-why-cissp", why: "Get this wrong and the exam will punish you." },
-      { title: "3 Things That Surprised Me About CISSP Domain 1", slug: "3-things-that-surprise-me-about-cissp", why: "What candidates underestimate." },
-      { title: "3 Things You Need to Know for Your CISSP", slug: "3-things-you-need-to-know-for-your", why: "Final-stretch insights that raise scores." },
-    ],
-  },
-  stuck: {
-    label: "STUCK_PROFESSIONAL",
-    title: "The Stuck Professional",
-    tagline: "You're already in cybersecurity but feel like you've plateaued. The next move isn't more knowledge. It's the right knowledge applied differently.",
-    diagnosis: "Most stuck pros don't need another cert. They need to operate at a higher level: thinking strategically, owning incidents, and being the person leadership trusts.",
-    articles: [
-      { title: "What Actually Makes a Cybersecurity Pro Stand Out", slug: "what-actually-makes-a-cybersecurity", why: "The traits that separate seniors from juniors." },
-      { title: "You Can't Learn Cybersecurity Just by Watching", slug: "you-cant-learn-cybersecurity-just", why: "Stop consuming. Start producing." },
-      { title: "The Incident Response Mistakes That Cost Careers", slug: "the-incident-response-mistakes-that", why: "Owning incidents is how you get noticed." },
-      { title: "Most Cybersecurity Beginners Study Wrong", slug: "most-cybersecurity-beginners-study", why: "The lessons apply to mid-career too." },
-      { title: "Shadow AI Is the New Shadow IT", slug: "shadow-ai-is-the-new-shadow-it-only", why: "Get ahead of the next big risk category." },
+      { title: "What Actually Makes a Cybersecurity Pro Stand Out", slug: "what-actually-makes-a-cybersecurity", why: "The traits that mark senior people. The same ones you'll hire for." },
+      { title: "15 Laws Every CISSP Candidate Must Know", slug: "15-laws-every-cissp-candidate-must", why: "Leaders set policy. Policy comes from law." },
+      { title: "How Risk Management Frameworks Keep Systems Secure", slug: "how-risk-management-frameworks-keep", why: "Risk is the lens leadership uses to allocate." },
+      { title: "Security Policies, Standards, and Procedures", slug: "security-policies-standards-and-procedures", why: "Your org's defensive perimeter, in writing." },
+      { title: "The 8 Security Principles Every CISSP Must Know", slug: "the-8-security-principles-every-cissp", why: "The foundation under every strategic call you'll make." },
+      { title: "The Incident Response Mistakes That Cost Careers", slug: "the-incident-response-mistakes-that", why: "Leadership owns the incidents. Know what goes wrong." },
+      { title: "What Does CEO Have To Do With Cybersecurity", slug: "what-does-ceo-have-to-do-with-cybersecurity", why: "How security fits into a C-suite. Who actually owns what." },
+      { title: "Quantitative Risk Analysis: Let The Numbers Do All The Talking", slug: "quantitative-risk-analysis-let-the", why: "Numbers move budgets. Learn to speak in them." },
     ],
   },
 };
 
-// Tie-break priority: prefer more specific paths when scores are equal
-const PATH_PRIORITY = ["cissp", "grc", "stuck", "cc", "switcher", "foundation"];
+// Tie-break priority: prefer more specialized paths when scores are equal
+const PATH_PRIORITY = ["offensive", "soc", "builder", "grc", "leader"];
 
 function buildExportText(pathKey) {
   const path = PATHS[pathKey];
   const sep = "=".repeat(56);
   const sub = "-".repeat(56);
   const lines = [];
-  lines.push("DECODED SECURITY // YOUR CYBERSECURITY PATH");
+  lines.push("DECODED SECURITY // YOUR CYBERSECURITY DIRECTION");
   lines.push(sep);
   lines.push("");
-  lines.push(`PATH:      ${path.title}`);
+  lines.push(`DIRECTION: ${path.title}`);
   lines.push(`CODE:      [${path.label}]`);
   lines.push("");
   lines.push(path.tagline);
@@ -202,20 +194,21 @@ function buildExportText(pathKey) {
     lines.push("");
   });
   lines.push(sub);
+  lines.push(`Based on:    ${SOURCE_ARTICLE_URL}`);
   lines.push(`Newsletter:  ${SUBSCRIBE_URL}`);
   lines.push("");
   return lines.join("\n");
 }
 
 function calculatePath(answers) {
-  const scores = { foundation: 0, switcher: 0, grc: 0, cissp: 0, stuck: 0, cc: 0 };
+  const scores = { offensive: 0, soc: 0, builder: 0, grc: 0, leader: 0 };
   answers.forEach((answerIdx, qIdx) => {
     const weights = QUESTIONS[qIdx].options[answerIdx].w;
     Object.entries(weights).forEach(([path, points]) => {
       scores[path] += points;
     });
   });
-  let best = "foundation";
+  let best = "soc";
   let bestScore = -1;
   PATH_PRIORITY.forEach((p) => {
     if (scores[p] > bestScore) {
@@ -226,14 +219,13 @@ function calculatePath(answers) {
   return { winner: best, scores };
 }
 
-export default function PathFinder() {
+export default function DirectionFinder() {
   const [stage, setStage] = useState("welcome"); // welcome | quiz | result
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [result, setResult] = useState(null);
   const [transitioning, setTransitioning] = useState(false);
 
-  // Inject IBM Plex Mono
   useEffect(() => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -247,7 +239,7 @@ export default function PathFinder() {
   const fontStack = "'IBM Plex Mono', ui-monospace, Menlo, monospace";
 
   const handleAnswer = (optionIdx) => {
-    track("question_answered", { question: currentQ + 1, answer: optionIdx });
+    track("question_answered", { quiz: "direction", question: currentQ + 1, answer: optionIdx });
     const newAnswers = [...answers, optionIdx];
     setTransitioning(true);
     setTimeout(() => {
@@ -257,7 +249,7 @@ export default function PathFinder() {
         setTransitioning(false);
       } else {
         const r = calculatePath(newAnswers);
-        track("quiz_completed", { path: r.winner });
+        track("quiz_completed", { quiz: "direction", path: r.winner });
         setResult(r);
         setAnswers(newAnswers);
         setStage("result");
@@ -267,7 +259,7 @@ export default function PathFinder() {
   };
 
   const restart = () => {
-    track("quiz_restarted", { from_path: result?.winner ?? null });
+    track("quiz_restarted", { quiz: "direction", from_path: result?.winner ?? null });
     setStage("welcome");
     setCurrentQ(0);
     setAnswers([]);
@@ -275,7 +267,7 @@ export default function PathFinder() {
   };
 
   const startQuiz = () => {
-    track("quiz_started");
+    track("quiz_started", { quiz: "direction" });
     setStage("quiz");
     setCurrentQ(0);
     setAnswers([]);
@@ -283,19 +275,18 @@ export default function PathFinder() {
 
   const handleDownload = () => {
     if (!result) return;
-    track("reading_list_exported", { path: result.winner });
+    track("reading_list_exported", { quiz: "direction", path: result.winner });
     const text = buildExportText(result.winner);
     const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `decoded-security-${result.winner}-reading-list.txt`;
+    a.download = `decoded-security-${result.winner}-direction.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
-
 
   const progress = ((currentQ) / QUESTIONS.length) * 100;
 
@@ -315,7 +306,7 @@ export default function PathFinder() {
         <header style={{ marginBottom: 40, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 10, height: 10, backgroundColor: COLORS.red, borderRadius: "50%", boxShadow: `0 0 12px ${COLORS.red}` }} />
-            <div style={{ fontSize: 12, letterSpacing: 2, color: COLORS.muted }}>DECODED_SECURITY // QUIZ_01: STUDY PATH</div>
+            <div style={{ fontSize: 12, letterSpacing: 2, color: COLORS.muted }}>DECODED_SECURITY // QUIZ_02: DIRECTION</div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
             <a
@@ -342,17 +333,10 @@ export default function PathFinder() {
           </div>
         </header>
 
-        {/* PROGRESS BAR (quiz only) */}
+        {/* PROGRESS BAR */}
         {stage === "quiz" && (
           <div style={{ height: 2, backgroundColor: COLORS.border, marginBottom: 48, overflow: "hidden" }}>
-            <div
-              style={{
-                height: "100%",
-                width: `${progress}%`,
-                backgroundColor: COLORS.red,
-                transition: "width 400ms ease-out",
-              }}
-            />
+            <div style={{ height: "100%", width: `${progress}%`, backgroundColor: COLORS.red, transition: "width 400ms ease-out" }} />
           </div>
         )}
 
@@ -364,18 +348,53 @@ export default function PathFinder() {
             </div>
             <h1 style={{ fontSize: "clamp(36px, 6vw, 56px)", fontWeight: 700, lineHeight: 1.05, marginBottom: 24, letterSpacing: -1 }}>
               Find your<br />
-              <span style={{ color: COLORS.red }}>cybersecurity path.</span>
+              <span style={{ color: COLORS.red }}>cybersecurity direction.</span>
             </h1>
             <p style={{ fontSize: 17, lineHeight: 1.6, color: "#cccccc", marginBottom: 12, maxWidth: 560 }}>
-              Most people drift through cybersecurity without a plan. They watch random YouTube videos. They start certs they never finish. They burn months going nowhere.
+              You've committed to cyber. The next decision is which of the five career lanes is yours — and that decision shapes every cert, every course, every job application from here on.
             </p>
             <p style={{ fontSize: 17, lineHeight: 1.6, color: "#cccccc", marginBottom: 32, maxWidth: 560 }}>
-              This 60-second diagnostic tells you exactly where to focus, with a personalized reading list pulled from the Decoded Security archive.
+              This 60-second diagnostic picks one of the five paths and gives you a reading list to start moving toward it today.
             </p>
+
+            <a
+              href={SOURCE_ARTICLE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => track("source_article_clicked", { quiz: "direction" })}
+              style={{
+                display: "block",
+                borderLeft: `2px solid ${COLORS.red}`,
+                paddingLeft: 16,
+                marginBottom: 40,
+                maxWidth: 560,
+                textDecoration: "none",
+                color: COLORS.white,
+                transition: "all 150ms ease-out",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.paddingLeft = "20px";
+                e.currentTarget.style.backgroundColor = "rgba(230, 72, 51, 0.04)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.paddingLeft = "16px";
+                e.currentTarget.style.backgroundColor = "transparent";
+              }}
+            >
+              <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 2, marginBottom: 6 }}>
+                BASED ON THE ARTICLE
+              </div>
+              <div style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.4, color: COLORS.white }}>
+                How to Choose the Right Cybersecurity Role <span style={{ color: COLORS.red }}>↗</span>
+              </div>
+              <div style={{ fontSize: 12, color: COLORS.muted, marginTop: 4, letterSpacing: 0.5 }}>
+                Read the full breakdown of the five paths on Decoded Security
+              </div>
+            </a>
 
             <div style={{ display: "flex", gap: 32, marginBottom: 48, flexWrap: "wrap", fontSize: 13, color: COLORS.muted }}>
               <div><span style={{ color: COLORS.red }}>06</span> questions</div>
-              <div><span style={{ color: COLORS.red }}>06</span> possible paths</div>
+              <div><span style={{ color: COLORS.red }}>05</span> possible directions</div>
               <div><span style={{ color: COLORS.red }}>~60s</span> to complete</div>
             </div>
 
@@ -402,12 +421,12 @@ export default function PathFinder() {
                 e.currentTarget.style.boxShadow = "none";
               }}
             >
-              START THE DIAGNOSTIC →
+              FIND MY DIRECTION →
             </button>
 
             {/* CROSS-QUIZ NAV */}
             <a
-              href="#/direction"
+              href="#/path"
               style={{
                 display: "block",
                 marginTop: 40,
@@ -431,7 +450,7 @@ export default function PathFinder() {
                 WRONG QUIZ?
               </div>
               <div style={{ fontSize: 14, lineHeight: 1.45, color: COLORS.white }}>
-                If you already know cyber is for you and want to pick a career lane (offensive, SOC, builder, GRC, leadership), take the <span style={{ color: COLORS.red, fontWeight: 600 }}>Direction Quiz →</span>
+                If you're still figuring out where you are in your cyber journey (exploring, switching in, or stuck at your level), take the <span style={{ color: COLORS.red, fontWeight: 600 }}>Study Path Quiz →</span>
               </div>
             </a>
           </div>
@@ -501,7 +520,7 @@ export default function PathFinder() {
               &gt; DIAGNOSTIC COMPLETE
             </div>
             <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 2, marginBottom: 12 }}>
-              YOUR PATH:
+              YOUR DIRECTION:
             </div>
             <h1 style={{ fontSize: "clamp(36px, 6vw, 56px)", fontWeight: 700, lineHeight: 1.05, marginBottom: 8, letterSpacing: -1 }}>
               <span style={{ color: COLORS.red }}>{PATHS[result.winner].title}</span>
@@ -539,7 +558,7 @@ export default function PathFinder() {
                     href={`${BASE_URL}${article.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => track("article_clicked", { path: result.winner, slug: article.slug, position: idx + 1 })}
+                    onClick={() => track("article_clicked", { quiz: "direction", path: result.winner, slug: article.slug, position: idx + 1 })}
                     style={{
                       display: "block",
                       padding: "20px 0",
@@ -549,12 +568,8 @@ export default function PathFinder() {
                       transition: "all 150ms",
                       animation: `fadeInUp 500ms ease-out ${idx * 80}ms both`,
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.paddingLeft = "12px";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.paddingLeft = "0px";
-                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.paddingLeft = "12px"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.paddingLeft = "0px"; }}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16 }}>
                       <div style={{ flex: 1 }}>
@@ -575,7 +590,7 @@ export default function PathFinder() {
               </div>
             </div>
 
-            {/* EXPORT READING LIST */}
+            {/* EXPORT */}
             <div
               style={{
                 border: `1px solid ${COLORS.border}`,
@@ -613,7 +628,7 @@ export default function PathFinder() {
               </button>
             </div>
 
-            {/* CTA: FREE LEAD MAGNET */}
+            {/* LEAD MAGNET */}
             <div
               style={{
                 border: `1px solid ${COLORS.red}`,
@@ -623,19 +638,19 @@ export default function PathFinder() {
               }}
             >
               <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 12 }}>
-                FREE DOWNLOAD
+                90-DAY BLUEPRINT
               </div>
               <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 10, lineHeight: 1.2 }}>
-                The 10 Cybersecurity Concepts That Get You Through 90% of Interviews
+                The 90-Day Cybersecurity Job Blueprint
               </div>
               <p style={{ fontSize: 14, color: "#bbbbbb", marginBottom: 20, lineHeight: 1.5 }}>
-                The fundamentals every employer expects, in one PDF. No fluff.
+                A 90-day plan for each of the five paths. Stop figuring it out yourself. 4.8 stars, 14-day refund.
               </p>
               <a
                 href={GUMROAD_LEAD_MAGNET}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => track("lead_magnet_clicked", { path: result.winner })}
+                onClick={() => track("lead_magnet_clicked", { quiz: "direction", path: result.winner })}
                 style={{
                   display: "inline-block",
                   fontFamily: fontStack,
@@ -648,11 +663,11 @@ export default function PathFinder() {
                   padding: "14px 28px",
                 }}
               >
-                DOWNLOAD FREE →
+                GET THE BLUEPRINT →
               </a>
             </div>
 
-            {/* CTA: SUBSCRIBE */}
+            {/* SUBSCRIBE */}
             <div
               style={{
                 border: `1px solid ${COLORS.border}`,
@@ -667,13 +682,13 @@ export default function PathFinder() {
                 Get one practical cybersecurity article every week.
               </div>
               <p style={{ fontSize: 14, color: "#bbbbbb", marginBottom: 20, lineHeight: 1.5 }}>
-                1,000+ readers. No fluff. Built for people serious about the path you just chose.
+                1,000+ readers. Built for people serious about the direction you just picked.
               </p>
               <a
                 href={SUBSCRIBE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => track("subscribe_clicked", { path: result.winner })}
+                onClick={() => track("subscribe_clicked", { quiz: "direction", path: result.winner })}
                 style={{
                   display: "inline-block",
                   fontFamily: fontStack,
@@ -711,7 +726,7 @@ export default function PathFinder() {
 
             {/* CROSS-QUIZ NAV */}
             <a
-              href="#/direction"
+              href="#/path"
               style={{
                 display: "block",
                 marginTop: 32,
@@ -731,10 +746,10 @@ export default function PathFinder() {
               }}
             >
               <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 2, marginBottom: 4 }}>
-                NEXT STEP
+                NOT SURE WHERE YOU ARE?
               </div>
               <div style={{ fontSize: 14, lineHeight: 1.45, color: COLORS.white }}>
-                Ready to pick a career lane (offensive / SOC / builder / GRC / leadership)? Take the <span style={{ color: COLORS.red, fontWeight: 600 }}>Direction Quiz →</span>
+                If you want a reading list matched to your current level instead, take the <span style={{ color: COLORS.red, fontWeight: 600 }}>Study Path Quiz →</span>
               </div>
             </a>
           </div>
@@ -742,24 +757,15 @@ export default function PathFinder() {
 
         {/* FOOTER */}
         <footer style={{ marginTop: 80, paddingTop: 24, borderTop: `1px solid ${COLORS.border}`, fontSize: 11, color: COLORS.muted, letterSpacing: 1.5, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <div>DECODED_SECURITY // PATH_FINDER_v1</div>
-          <div>BUILT FOR PEOPLE WHO WANT DIRECTION</div>
+          <div>DECODED_SECURITY // DIRECTION_FINDER_v1</div>
+          <div>BUILT FOR PEOPLE WHO'VE PICKED CYBER</div>
         </footer>
       </div>
 
       <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(16px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        button:focus-visible, a:focus-visible {
-          outline: 2px solid ${COLORS.red};
-          outline-offset: 2px;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        button:focus-visible, a:focus-visible { outline: 2px solid ${COLORS.red}; outline-offset: 2px; }
       `}</style>
     </div>
   );
