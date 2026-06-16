@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { track } from "@vercel/analytics/react";
 
 // =============================================================================
-// DECODED SECURITY — QUIZ CHOOSER
-// Landing page. Lets the visitor pick between the two diagnostics.
+// DECODED SECURITY — DIAGNOSTIC HUB
+// Landing page organized by goal. Each section groups related tools.
 // =============================================================================
 
 const COLORS = {
@@ -33,6 +33,27 @@ export default function Chooser() {
     track("chooser_quiz_picked", { quiz });
   };
 
+  const cardBase = {
+    display: "block",
+    border: `1px solid ${COLORS.border}`,
+    padding: 24,
+    textDecoration: "none",
+    color: COLORS.white,
+    transition: "all 200ms ease-out",
+    backgroundColor: "transparent",
+  };
+
+  const cardHover = (e) => {
+    e.currentTarget.style.borderColor = COLORS.red;
+    e.currentTarget.style.backgroundColor = "rgba(230, 72, 51, 0.04)";
+    e.currentTarget.style.transform = "translateY(-2px)";
+  };
+  const cardUnhover = (e) => {
+    e.currentTarget.style.borderColor = COLORS.border;
+    e.currentTarget.style.backgroundColor = "transparent";
+    e.currentTarget.style.transform = "translateY(0)";
+  };
+
   return (
     <div
       style={{
@@ -48,147 +69,145 @@ export default function Chooser() {
         {/* HEADER */}
         <header style={{ marginBottom: 48, display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 10, height: 10, backgroundColor: COLORS.red, borderRadius: "50%", boxShadow: `0 0 12px ${COLORS.red}` }} />
-          <div style={{ fontSize: 12, letterSpacing: 2, color: COLORS.muted }}>DECODED_SECURITY // DIAGNOSTIC</div>
+          <div style={{ fontSize: 12, letterSpacing: 2, color: COLORS.muted }}>DECODED_SECURITY // DIAGNOSTIC HUB</div>
         </header>
 
         {/* HERO */}
         <div style={{ animation: "fadeIn 600ms ease-out", marginBottom: 56 }}>
           <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 20 }}>
-            &gt; PICK YOUR DIAGNOSTIC
+            &gt; WHAT ARE YOU TRYING TO DO?
           </div>
           <h1 style={{ fontSize: "clamp(36px, 6vw, 56px)", fontWeight: 700, lineHeight: 1.05, marginBottom: 20, letterSpacing: -1 }}>
             Find your path in<br />
             <span style={{ color: COLORS.red }}>cybersecurity.</span>
           </h1>
-          <p style={{ fontSize: 17, lineHeight: 1.6, color: "#cccccc", maxWidth: 640, marginBottom: 12 }}>
-            Two diagnostics. They answer different questions. Pick the one that matches where you are right now.
-          </p>
-          <p style={{ fontSize: 14, lineHeight: 1.6, color: COLORS.muted, maxWidth: 640 }}>
-            Not sure? Start with the study path quiz — it asks where you are first.
+          <p style={{ fontSize: 17, lineHeight: 1.6, color: "#cccccc", maxWidth: 640 }}>
+            Free diagnostic tools, organized by what you're trying to figure out. Pick the section that matches your goal.
           </p>
         </div>
 
-        {/* TWO QUIZ CARDS */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-            gap: 20,
-            marginBottom: 48,
-          }}
-        >
-          {/* QUIZ 1: STUDY PATH */}
-          <a
-            href="#/path"
-            onClick={() => handlePick("path")}
-            style={{
-              display: "block",
-              border: `1px solid ${COLORS.border}`,
-              padding: 28,
-              textDecoration: "none",
-              color: COLORS.white,
-              transition: "all 200ms ease-out",
-              backgroundColor: "transparent",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = COLORS.red;
-              e.currentTarget.style.backgroundColor = "rgba(230, 72, 51, 0.04)";
-              e.currentTarget.style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = COLORS.border;
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.transform = "translateY(0)";
-            }}
-          >
-            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 12 }}>
-              QUIZ_01
+        {/* SECTION 1: FIND YOUR DIRECTION */}
+        <section style={{ marginBottom: 64 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3 }}>
+              &gt; FIND YOUR DIRECTION
             </div>
-            <div style={{ fontSize: 13, color: COLORS.muted, letterSpacing: 1, marginBottom: 8, textTransform: "uppercase" }}>
-              Start here if you're still figuring out cyber
-            </div>
-            <h2 style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.15, marginBottom: 14, letterSpacing: -0.5 }}>
-              Find your<br />
-              <span style={{ color: COLORS.red }}>study path</span>
-            </h2>
-            <p style={{ fontSize: 14, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 18 }}>
-              For people exploring the field, switching careers in, or feeling stuck at their current level. Tells you where to focus your reading next.
-            </p>
-            <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 24 }}>
-              ROUTES TO ONE OF:<br />
-              FOUNDATION BUILDER · CAREER SWITCHER · CC CANDIDATE · CISSP CANDIDATE · GRC SPECIALIST · STUCK PROFESSIONAL
-            </div>
-            <div
-              style={{
-                display: "inline-block",
-                fontSize: 13,
-                fontWeight: 600,
-                letterSpacing: 1.5,
-                color: COLORS.white,
-                backgroundColor: COLORS.red,
-                padding: "14px 24px",
-              }}
-            >
-              TAKE THIS QUIZ →
-            </div>
-          </a>
+            <div style={{ flex: 1, height: 1, backgroundColor: COLORS.border }} />
+          </div>
+          <p style={{ fontSize: 14, color: COLORS.muted, marginBottom: 20, lineHeight: 1.5 }}>
+            Diagnostic quizzes that route you to where you should focus — based on your goals and your background.
+          </p>
 
-          {/* QUIZ 2: DIRECTION */}
-          <a
-            href="#/direction"
-            onClick={() => handlePick("direction")}
+          <div
             style={{
-              display: "block",
-              border: `1px solid ${COLORS.border}`,
-              padding: 28,
-              textDecoration: "none",
-              color: COLORS.white,
-              transition: "all 200ms ease-out",
-              backgroundColor: "transparent",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = COLORS.red;
-              e.currentTarget.style.backgroundColor = "rgba(230, 72, 51, 0.04)";
-              e.currentTarget.style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = COLORS.border;
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.transform = "translateY(0)";
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gap: 16,
             }}
           >
-            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 12 }}>
-              QUIZ_02
+            {/* QUIZ 1 */}
+            <a href="#/path" onClick={() => handlePick("path")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+              <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>QUIZ_01</div>
+              <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>
+                Still figuring out cyber
+              </div>
+              <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+                Find your <span style={{ color: COLORS.red }}>study path</span>
+              </h2>
+              <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+                For people exploring the field, switching in, studying for CC or CISSP, or feeling stuck.
+              </p>
+              <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+                FOUNDATION BUILDER · CAREER SWITCHER · CC CANDIDATE · CISSP CANDIDATE · GRC SPECIALIST · STUCK PROFESSIONAL
+              </div>
+              <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+                TAKE THIS QUIZ →
+              </div>
+            </a>
+
+            {/* QUIZ 2 */}
+            <a href="#/direction" onClick={() => handlePick("direction")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+              <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>QUIZ_02</div>
+              <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>
+                Committed, picking a lane
+              </div>
+              <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+                Find your <span style={{ color: COLORS.red }}>direction</span>
+              </h2>
+              <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+                For people who know cyber is for them and are choosing between the five career lanes.
+              </p>
+              <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+                OFFENSIVE OPERATOR · SOC DEFENDER · BUILDER · GRC TRANSLATOR · SECURITY LEADER
+              </div>
+              <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+                TAKE THIS QUIZ →
+              </div>
+            </a>
+          </div>
+        </section>
+
+        {/* SECTION 2: TEST YOUR KNOWLEDGE — CISSP */}
+        <section style={{ marginBottom: 64 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3 }}>
+              &gt; TEST YOUR KNOWLEDGE // CISSP
             </div>
-            <div style={{ fontSize: 13, color: COLORS.muted, letterSpacing: 1, marginBottom: 8, textTransform: "uppercase" }}>
-              Start here if you've committed to cyber
+            <div style={{ flex: 1, height: 1, backgroundColor: COLORS.border }} />
+          </div>
+          <p style={{ fontSize: 14, color: COLORS.muted, marginBottom: 20, lineHeight: 1.5 }}>
+            Knowledge quizzes that test what you actually know, one CISSP domain at a time. Each wrong answer routes you to the article that covers it.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gap: 16,
+            }}
+          >
+            {/* CISSP D1 */}
+            <a href="#/cissp/domain-1" onClick={() => handlePick("cissp_domain_1")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+              <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>CISSP_D01</div>
+              <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>
+                Foundational concepts
+              </div>
+              <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+                <span style={{ color: COLORS.red }}>Domain 1</span><br />
+                Security & Risk Management
+              </h2>
+              <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+                CIA Triad, risk treatment, governance, control types, legal frameworks. Eight questions with instant feedback.
+              </p>
+              <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+                08 QUESTIONS · ~5 MIN · INSTANT FEEDBACK · ARTICLE LINKS
+              </div>
+              <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+                START QUIZ →
+              </div>
+            </a>
+
+            {/* COMING SOON CARD */}
+            <div style={{ ...cardBase, cursor: "default", opacity: 0.55 }}>
+              <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 3, marginBottom: 10 }}>CISSP_D02 — D08</div>
+              <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>
+                Coming soon
+              </div>
+              <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.2, marginBottom: 12, letterSpacing: -0.5, color: "#aaa" }}>
+                Domains 2 through 8
+              </h2>
+              <p style={{ fontSize: 13, color: COLORS.muted, lineHeight: 1.55, marginBottom: 14 }}>
+                Asset Security · Security Architecture · Communication Security · IAM · Assessment · Operations · Software Development Security
+              </p>
+              <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+                SAME FORMAT · ONE DOMAIN AT A TIME
+              </div>
+              <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.muted, border: `1px solid ${COLORS.border}`, padding: "12px 20px" }}>
+                SUBSCRIBE FOR LAUNCH →
+              </div>
             </div>
-            <h2 style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.15, marginBottom: 14, letterSpacing: -0.5 }}>
-              Find your<br />
-              <span style={{ color: COLORS.red }}>direction</span>
-            </h2>
-            <p style={{ fontSize: 14, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 18 }}>
-              For people who know cyber is for them and are picking between the five career lanes. Tells you which one fits.
-            </p>
-            <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 24 }}>
-              ROUTES TO ONE OF:<br />
-              OFFENSIVE OPERATOR · SOC DEFENDER · BUILDER · GRC TRANSLATOR · SECURITY LEADER
-            </div>
-            <div
-              style={{
-                display: "inline-block",
-                fontSize: 13,
-                fontWeight: 600,
-                letterSpacing: 1.5,
-                color: COLORS.white,
-                backgroundColor: COLORS.red,
-                padding: "14px 24px",
-              }}
-            >
-              TAKE THIS QUIZ →
-            </div>
-          </a>
-        </div>
+          </div>
+        </section>
 
         {/* BASED ON THE ARTICLE */}
         <a
@@ -222,13 +241,13 @@ export default function Chooser() {
             How to Choose the Right Cybersecurity Role <span style={{ color: COLORS.red }}>↗</span>
           </div>
           <div style={{ fontSize: 12, color: COLORS.muted, marginTop: 4, letterSpacing: 0.5 }}>
-            Quiz 2 maps directly to the five paths in this piece. Read the full breakdown.
+            The Direction Quiz maps directly to the five paths in this piece.
           </div>
         </a>
 
         {/* FOOTER */}
         <footer style={{ marginTop: 40, paddingTop: 24, borderTop: `1px solid ${COLORS.border}`, fontSize: 11, color: COLORS.muted, letterSpacing: 1.5, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <div>DECODED_SECURITY // DIAGNOSTIC_HUB</div>
+          <div>DECODED_SECURITY // DIAGNOSTIC_HUB_v3</div>
           <div>BUILT FOR PEOPLE WHO WANT DIRECTION</div>
         </footer>
       </div>
