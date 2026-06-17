@@ -20,10 +20,9 @@ const COLORS = {
 const BASE_URL = "https://www.decodedsecurity.com/p/";
 const SUBSCRIBE_URL = "https://www.decodedsecurity.com/subscribe";
 
-// NOTE: Update slug below if the published article URL differs.
 const SOURCE_ARTICLE = {
-  title: "The Three States of Data",
-  slug: "the-three-states-of-data",
+  title: "This Is How I Explain Data States",
+  slug: "this-is-how-i-explain-data-states",
 };
 
 const QUIZ = {
