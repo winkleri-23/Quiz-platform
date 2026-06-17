@@ -258,7 +258,7 @@ export default function ThreeStatesOfData() {
                 {SOURCE_ARTICLE.title} <span style={{ color: COLORS.red }}>↗</span>
               </div>
               <div style={{ fontSize: 12, color: COLORS.muted, marginTop: 4, letterSpacing: 0.5 }}>
-                Read the article first for the best results. Then come back and test your understanding.
+                Read the article first for the best results! Then come back and test your understanding.
               </div>
             </a>
 
