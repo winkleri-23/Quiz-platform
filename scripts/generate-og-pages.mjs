@@ -34,6 +34,13 @@ const ROUTES = [
     image: "/og-cissp-d1.png",
     imageAlt: "CISSP Domain 1 knowledge quiz — Security and Risk Management.",
   },
+  {
+    path: "article/three-states-of-data",
+    title: "The Three States of Data — Quiz | Decoded Security",
+    description: "Test your understanding of data at rest, in transit, and in use. Maps to CC, CISSP Domain 2, and Security+. 8 questions, instant feedback.",
+    image: "/og-three-states.png",
+    imageAlt: "Quiz: The Three States of Data — at rest, in transit, in use.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>

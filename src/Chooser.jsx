@@ -209,6 +209,67 @@ export default function Chooser() {
           </div>
         </section>
 
+        {/* SECTION 3: QUIZZES BASED ON ARTICLES */}
+        <section style={{ marginBottom: 64 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3 }}>
+              &gt; QUIZZES BASED ON ARTICLES
+            </div>
+            <div style={{ flex: 1, height: 1, backgroundColor: COLORS.border }} />
+          </div>
+          <p style={{ fontSize: 14, color: COLORS.muted, marginBottom: 20, lineHeight: 1.5 }}>
+            Each quiz pairs with a single article from the archive. Read the article, then test if it stuck. Wrong answers send you back to the section you missed.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gap: 16,
+            }}
+          >
+            {/* ARTICLE QUIZ 1: Three States of Data */}
+            <a href="/article/three-states-of-data" onClick={() => handlePick("article_three_states_of_data")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+              <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>ARTICLE_QUIZ_01</div>
+              <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>
+                CC · CISSP D2 · Security+
+              </div>
+              <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+                The <span style={{ color: COLORS.red }}>Three States</span> of Data
+              </h2>
+              <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+                Data at rest, in transit, in use — and the controls that protect each. Test whether the article stuck.
+              </p>
+              <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+                08 QUESTIONS · ~5 MIN · INSTANT FEEDBACK
+              </div>
+              <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+                START QUIZ →
+              </div>
+            </a>
+
+            {/* COMING SOON */}
+            <div style={{ ...cardBase, cursor: "default", opacity: 0.55 }}>
+              <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 3, marginBottom: 10 }}>ARTICLE_QUIZ_02 — ON</div>
+              <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>
+                Coming with each new article
+              </div>
+              <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.2, marginBottom: 12, letterSpacing: -0.5, color: "#aaa" }}>
+                More article quizzes
+              </h2>
+              <p style={{ fontSize: 13, color: COLORS.muted, lineHeight: 1.55, marginBottom: 14 }}>
+                Each new article gets a companion quiz. Subscribe to be notified when a new one drops.
+              </p>
+              <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+                ONE QUIZ PER ARTICLE · SAME FORMAT
+              </div>
+              <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.muted, border: `1px solid ${COLORS.border}`, padding: "12px 20px" }}>
+                SUBSCRIBE FOR LAUNCH →
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* BASED ON THE ARTICLE */}
         <a
           href={SOURCE_ARTICLE_URL}
