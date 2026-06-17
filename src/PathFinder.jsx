@@ -319,7 +319,7 @@ export default function PathFinder() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
             <a
-              href="#/"
+              href="/"
               style={{
                 fontSize: 11,
                 letterSpacing: 1.5,
@@ -407,7 +407,7 @@ export default function PathFinder() {
 
             {/* CROSS-QUIZ NAV */}
             <a
-              href="#/direction"
+              href="/direction"
               style={{
                 display: "block",
                 marginTop: 40,
@@ -711,7 +711,7 @@ export default function PathFinder() {
 
             {/* CROSS-QUIZ NAV */}
             <a
-              href="#/direction"
+              href="/direction"
               style={{
                 display: "block",
                 marginTop: 32,

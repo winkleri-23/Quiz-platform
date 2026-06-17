@@ -310,7 +310,7 @@ export default function DirectionFinder() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
             <a
-              href="#/"
+              href="/"
               style={{
                 fontSize: 11,
                 letterSpacing: 1.5,
@@ -426,7 +426,7 @@ export default function DirectionFinder() {
 
             {/* CROSS-QUIZ NAV */}
             <a
-              href="#/path"
+              href="/path"
               style={{
                 display: "block",
                 marginTop: 40,
@@ -726,7 +726,7 @@ export default function DirectionFinder() {
 
             {/* CROSS-QUIZ NAV */}
             <a
-              href="#/path"
+              href="/path"
               style={{
                 display: "block",
                 marginTop: 32,

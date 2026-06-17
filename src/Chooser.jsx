@@ -106,7 +106,7 @@ export default function Chooser() {
             }}
           >
             {/* QUIZ 1 */}
-            <a href="#/path" onClick={() => handlePick("path")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <a href="/path" onClick={() => handlePick("path")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
               <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>QUIZ_01</div>
               <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>
                 Still figuring out cyber
@@ -126,7 +126,7 @@ export default function Chooser() {
             </a>
 
             {/* QUIZ 2 */}
-            <a href="#/direction" onClick={() => handlePick("direction")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <a href="/direction" onClick={() => handlePick("direction")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
               <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>QUIZ_02</div>
               <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>
                 Committed, picking a lane
@@ -167,7 +167,7 @@ export default function Chooser() {
             }}
           >
             {/* CISSP D1 */}
-            <a href="#/cissp/domain-1" onClick={() => handlePick("cissp_domain_1")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <a href="/cissp/domain-1" onClick={() => handlePick("cissp_domain_1")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
               <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>CISSP_D01</div>
               <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>
                 Foundational concepts
