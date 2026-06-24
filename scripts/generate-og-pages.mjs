@@ -41,6 +41,13 @@ const ROUTES = [
     image: "/og-three-states.png",
     imageAlt: "Quiz: The Three States of Data — at rest, in transit, in use.",
   },
+  {
+    path: "article/recovery-metrics",
+    title: "Recovery Metrics Quiz: RTO, RPO, MTD, WRT | Decoded Security",
+    description: "Test your understanding of the backup metrics that separate beginners from professionals. Maps to CC, CISSP Domain 7, and Security+. 10 questions, instant feedback.",
+    image: "/og-recovery-metrics.png",
+    imageAlt: "Quiz: RTO, RPO, MTD, WRT — the recovery metrics that drive every backup decision.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>
