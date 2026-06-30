@@ -8,6 +8,7 @@ import DirectionFinder from "./DirectionFinder.jsx";
 import CisspDomain1 from "./CisspDomain1.jsx";
 import ThreeStatesOfData from "./ThreeStatesOfData.jsx";
 import RecoveryMetricsQuiz from "./RecoveryMetricsQuiz.jsx";
+import WifiSecurityQuiz from "./WifiSecurityQuiz.jsx";
 
 // Path-based routing. Works with Vercel rewrites for SPA fallback,
 // and per-route static HTML files so social crawlers see per-route OG meta.
@@ -81,6 +82,7 @@ export default function App() {
   if (route === "cissp/domain-1") return <CisspDomain1 />;
   if (route === "article/three-states-of-data") return <ThreeStatesOfData />;
   if (route === "article/recovery-metrics") return <RecoveryMetricsQuiz />;
+  if (route === "article/wifi-security") return <WifiSecurityQuiz />;
 
   // Fallback — anything unknown lands on the hub
   return <CategoryHub />;

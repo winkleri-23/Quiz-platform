@@ -48,6 +48,13 @@ const ROUTES = [
     image: "/og-recovery-metrics.png",
     imageAlt: "Quiz: RTO, RPO, MTD, WRT — the recovery metrics that drive every backup decision.",
   },
+  {
+    path: "article/wifi-security",
+    title: "Wi-Fi Security Quiz for CISSP | Decoded Security",
+    description: "Test your CISSP Domain 4 knowledge of Wi-Fi security. WEP, WPA, WPA2, WPA3, PSK, SAE, 802.1X. 10 questions with detailed scenario explanations.",
+    image: "/og-wifi-security.png",
+    imageAlt: "Quiz: Wi-Fi security for the CISSP — WEP, WPA, WPA2, WPA3, PSK, SAE, 802.1X.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>
