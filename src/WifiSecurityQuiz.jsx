@@ -19,10 +19,9 @@ const COLORS = {
 const BASE_URL = "https://www.decodedsecurity.com/p/";
 const SUBSCRIBE_URL = "https://www.decodedsecurity.com/subscribe";
 
-// TODO: Update slug once the article is published. Current value is a placeholder.
 const SOURCE_ARTICLE = {
   title: "Wi-Fi Security for the CISSP Candidates: Here Is What Actually Matters",
-  slug: "wifi-security-cissp",
+  slug: "wi-fi-security-for-the-cissp-candidates",
 };
 
 const QUIZ = {
