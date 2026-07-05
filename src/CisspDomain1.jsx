@@ -175,7 +175,7 @@ export default function CisspDomain1() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
             <a
-              href="/"
+              href="/cissp/domain-1"
               style={{
                 fontSize: 11,
                 letterSpacing: 1.5,
@@ -188,7 +188,7 @@ export default function CisspDomain1() {
               onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.red; e.currentTarget.style.borderBottomColor = COLORS.red; }}
               onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.muted; e.currentTarget.style.borderBottomColor = COLORS.border; }}
             >
-              ← QUIZ MENU
+              ← BACK TO DOMAIN 1
             </a>
             {stage === "question" && (
               <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 1.5 }}>

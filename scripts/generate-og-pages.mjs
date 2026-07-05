@@ -29,10 +29,17 @@ const ROUTES = [
   },
   {
     path: "cissp/domain-1",
-    title: "CISSP Domain 1 Quiz: Security and Risk Management | Decoded Security",
-    description: "Test your CISSP Domain 1 knowledge. 8 questions, instant feedback, article links for everything you miss.",
+    title: "CISSP Domain 1: Security and Risk Management | Decoded Security",
+    description: "Domain 1 topic page — mixed quiz plus article quizzes on risk, controls, laws, and governance. Instant feedback, article links, free.",
     image: "/og-cissp-d1.png",
-    imageAlt: "CISSP Domain 1 knowledge quiz — Security and Risk Management.",
+    imageAlt: "CISSP Domain 1 — Security and Risk Management.",
+  },
+  {
+    path: "cissp/domain-1/mixed",
+    title: "CISSP Domain 1 Mixed Quiz | Decoded Security",
+    description: "Test your CISSP Domain 1 knowledge across all topics. 8 questions, instant feedback, article links for everything you miss.",
+    image: "/og-cissp-d1.png",
+    imageAlt: "CISSP Domain 1 mixed knowledge quiz.",
   },
   {
     path: "article/three-states-of-data",

@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { track } from "@vercel/analytics/react";
+import { CISSP_DOMAINS, isDomainLive } from "./cisspDomains.js";
 
 // =============================================================================
 // DECODED SECURITY — CATEGORY PAGE: CISSP
-// Domain 1 quiz + coming-soon placeholder for D2 — D8.
+// 8 domain cards + 1 all-domains mixed card.
+// Domain cards route to per-domain topic pages (/cissp/domain-N).
 // =============================================================================
 
 const COLORS = {
@@ -31,7 +33,7 @@ export default function CisspCategory() {
   const cardBase = {
     display: "block",
     border: `1px solid ${COLORS.border}`,
-    padding: 24,
+    padding: 20,
     textDecoration: "none",
     color: COLORS.white,
     transition: "all 200ms ease-out",
@@ -59,7 +61,7 @@ export default function CisspCategory() {
         backgroundImage: `radial-gradient(circle at 20% 0%, rgba(230, 72, 51, 0.08), transparent 50%), radial-gradient(circle at 80% 100%, rgba(230, 72, 51, 0.05), transparent 50%)`,
       }}
     >
-      <div style={{ maxWidth: 920, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <header style={{ marginBottom: 48, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 10, height: 10, backgroundColor: COLORS.red, borderRadius: "50%", boxShadow: `0 0 12px ${COLORS.red}` }} />
@@ -79,46 +81,87 @@ export default function CisspCategory() {
             Prepare for the <span style={{ color: COLORS.red }}>CISSP</span>
           </h1>
           <p style={{ fontSize: 16, lineHeight: 1.6, color: "#cccccc", maxWidth: 640 }}>
-            Knowledge quizzes by CISSP domain. Each wrong answer routes you to the article that covers it — wrong answers turn into learning.
+            Pick a domain to see the quizzes tied to its topics — or take the all-domains mixed quiz to simulate the real exam.
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16, marginBottom: 64 }}>
-          <a href="/cissp/domain-1" onClick={() => handlePick("cissp_domain_1")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
-            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>CISSP_D01</div>
-            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Foundational concepts</div>
-            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
-              <span style={{ color: COLORS.red }}>Domain 1</span><br />
-              Security & Risk Management
-            </h2>
-            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
-              CIA Triad, risk treatment, governance, control types, legal frameworks. Eight questions with instant feedback.
-            </p>
-            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
-              08 QUESTIONS · ~5 MIN · INSTANT FEEDBACK · ARTICLE LINKS
+        {/* ALL DOMAINS MIXED CARD */}
+        <section style={{ marginBottom: 40 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3 }}>
+              &gt; EXAM SIMULATOR
             </div>
-            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
-              START QUIZ →
-            </div>
-          </a>
-
-          <div style={{ ...cardBase, cursor: "default", opacity: 0.55 }}>
-            <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 3, marginBottom: 10 }}>CISSP_D02 — D08</div>
+            <div style={{ flex: 1, height: 1, backgroundColor: COLORS.border }} />
+          </div>
+          <div style={{ ...cardBase, cursor: "default", opacity: 0.55, padding: 24 }}>
+            <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 3, marginBottom: 10 }}>CISSP_ALL_MIXED</div>
             <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Coming soon</div>
-            <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.2, marginBottom: 12, letterSpacing: -0.5, color: "#aaa" }}>
-              Domains 2 through 8
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5, color: "#aaa" }}>
+              All 8 domains mixed
             </h2>
             <p style={{ fontSize: 13, color: COLORS.muted, lineHeight: 1.55, marginBottom: 14 }}>
-              Asset Security · Security Architecture · Communication Security · IAM · Assessment · Operations · Software Development Security
+              Draws questions from every domain. Same experience as an exam readiness check — random, mixed, no warnings on topic.
             </p>
-            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
-              SAME FORMAT · ONE DOMAIN AT A TIME
-            </div>
             <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.muted, border: `1px solid ${COLORS.border}`, padding: "12px 20px" }}>
               SUBSCRIBE FOR LAUNCH →
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* THE 8 DOMAINS */}
+        <section style={{ marginBottom: 48 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3 }}>
+              &gt; THE 8 DOMAINS
+            </div>
+            <div style={{ flex: 1, height: 1, backgroundColor: COLORS.border }} />
+          </div>
+          <p style={{ fontSize: 14, color: COLORS.muted, marginBottom: 20, lineHeight: 1.5 }}>
+            Each domain page lists the mixed quiz and the topic-specific article quizzes available for it.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: 14,
+            }}
+          >
+            {CISSP_DOMAINS.map((d) => {
+              const live = isDomainLive(d);
+              const contentCount = (d.mixed ? 1 : 0) + d.articles.length;
+              const contentLabel =
+                !live ? "COMING SOON" :
+                contentCount === 1 ? (d.mixed ? "MIXED QUIZ" : "1 ARTICLE QUIZ") :
+                `${d.mixed ? "MIXED + " : ""}${d.articles.length} ARTICLE QUIZ${d.articles.length > 1 ? "ZES" : ""}`;
+
+              const CardTag = live ? "a" : "div";
+              const cardProps = live
+                ? { href: `/cissp/domain-${d.n}`, onClick: () => handlePick(`cissp_domain_${d.n}`), onMouseEnter: cardHover, onMouseLeave: cardUnhover }
+                : {};
+
+              return (
+                <CardTag key={d.n} {...cardProps} style={{ ...cardBase, cursor: live ? "pointer" : "default", opacity: live ? 1 : 0.55 }}>
+                  <div style={{ fontSize: 11, color: live ? COLORS.red : COLORS.muted, letterSpacing: 3, marginBottom: 8 }}>
+                    CISSP_D{String(d.n).padStart(2, "0")}
+                  </div>
+                  <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>
+                    {contentLabel}
+                  </div>
+                  <h2 style={{ fontSize: 18, fontWeight: 700, lineHeight: 1.2, marginBottom: 8, letterSpacing: -0.3, color: live ? COLORS.white : "#aaa" }}>
+                    Domain {d.n}: {d.title}
+                  </h2>
+                  <p style={{ fontSize: 12, color: live ? "#bbbbbb" : COLORS.muted, lineHeight: 1.55, marginBottom: 14 }}>
+                    {d.short}
+                  </p>
+                  <div style={{ display: "inline-block", fontSize: 11, fontWeight: 600, letterSpacing: 1.5, color: live ? COLORS.white : COLORS.muted, backgroundColor: live ? COLORS.red : "transparent", border: live ? "none" : `1px solid ${COLORS.border}`, padding: "10px 16px" }}>
+                    {live ? "OPEN DOMAIN →" : "COMING SOON"}
+                  </div>
+                </CardTag>
+              );
+            })}
+          </div>
+        </section>
 
         <footer style={{ marginTop: 40, paddingTop: 24, borderTop: `1px solid ${COLORS.border}`, fontSize: 11, color: COLORS.muted, letterSpacing: 1.5, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <div>DECODED_SECURITY // CISSP</div>
