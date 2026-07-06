@@ -50,6 +50,13 @@ export const CISSP_DOMAINS = [
         certs: "CISSP D4",
         questions: 10,
       },
+      {
+        title: "Top 5 Network Attacks",
+        blurb: "SYN Flood, Smurf, Ping of Death, Teardrop, Land — scenario-based questions that mirror how these show up on the exam.",
+        route: "/article/network-attacks",
+        certs: "CC · CISSP D4 · Security+",
+        questions: 10,
+      },
     ],
   },
   {

@@ -62,6 +62,13 @@ const ROUTES = [
     image: "/og-wifi-security.png",
     imageAlt: "Quiz: Wi-Fi security for the CISSP — WEP, WPA, WPA2, WPA3, PSK, SAE, 802.1X.",
   },
+  {
+    path: "article/network-attacks",
+    title: "Top 5 Network Attacks — Scenario Quiz | Decoded Security",
+    description: "Scenario-based quiz on SYN Flood, Smurf, Ping of Death, Teardrop, and Land attacks. 10 exam-style questions. Maps to CC, CISSP Domain 4, and Security+.",
+    image: "/og-network-attacks.png",
+    imageAlt: "Quiz: Top 5 network attacks — SYN Flood, Smurf, Ping of Death, Teardrop, Land.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>
