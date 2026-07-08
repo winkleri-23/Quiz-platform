@@ -19,10 +19,9 @@ const COLORS = {
 const BASE_URL = "https://www.decodedsecurity.com/p/";
 const SUBSCRIBE_URL = "https://www.decodedsecurity.com/subscribe";
 
-// TODO: Update slug once the article is published.
 const SOURCE_ARTICLE = {
   title: "Top 5 Network Attacks You Will Meet on the Exam and in Real Logs",
-  slug: "top-5-network-attacks",
+  slug: "top-5-network-attacks-every-cybersecurity",
 };
 
 const QUIZ = {
