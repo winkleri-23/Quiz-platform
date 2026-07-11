@@ -86,6 +86,13 @@ export const CISSP_DOMAINS = [
         certs: "CC · CISSP D7 · Security+",
         questions: 10,
       },
+      {
+        title: "Backup Strategies for CISSP",
+        blurb: "Full · incremental · differential · vaulting · journaling · mirroring · the 3-2-1 rule. The classic incremental-vs-differential exam trap included.",
+        route: "/article/backup-strategies",
+        certs: "CC · CISSP D7 · Security+",
+        questions: 10,
+      },
     ],
   },
   {

@@ -69,6 +69,13 @@ const ROUTES = [
     image: "/og-network-attacks.png",
     imageAlt: "Quiz: Top 5 network attacks — SYN Flood, Smurf, Ping of Death, Teardrop, Land.",
   },
+  {
+    path: "article/backup-strategies",
+    title: "Backup Strategies Quiz for CISSP | Decoded Security",
+    description: "Test your knowledge of backup strategies — full, incremental, differential, electronic vaulting, remote journaling, remote mirroring, and the 3-2-1 rule. Maps to CC, CISSP Domain 7, and Security+.",
+    image: "/og-backup-strategies.png",
+    imageAlt: "Quiz: Backup strategies for CISSP — full, incremental, differential, and the 3-2-1 rule.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>
