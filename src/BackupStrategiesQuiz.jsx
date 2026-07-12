@@ -19,10 +19,9 @@ const COLORS = {
 const BASE_URL = "https://www.decodedsecurity.com/p/";
 const SUBSCRIBE_URL = "https://www.decodedsecurity.com/subscribe";
 
-// TODO: Update slug once the article is published.
 const SOURCE_ARTICLE = {
-  title: "Backup Strategies: Full, Incremental, Differential, and the 3-2-1 Rule",
-  slug: "backup-strategies-3-2-1-rule",
+  title: "This Is How I Explain Backup Strategies",
+  slug: "this-is-how-i-explain-backup-strategies",
 };
 
 const QUIZ = {
