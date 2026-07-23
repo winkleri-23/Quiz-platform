@@ -76,6 +76,13 @@ const ROUTES = [
     image: "/og-backup-strategies.png",
     imageAlt: "Quiz: Backup strategies for CISSP — full, incremental, differential, and the 3-2-1 rule.",
   },
+  {
+    path: "article/containers-vs-vms",
+    title: "Containers vs Virtual Machines — CISSP Quiz | Decoded Security",
+    description: "Test your virtualization knowledge — VM vs container architecture, hypervisor types, isolation vs efficiency, and when to pick each. Maps to CC, CISSP Domain 3, and Security+.",
+    image: "/og-containers-vs-vms.png",
+    imageAlt: "Quiz: Containers vs Virtual Machines for CISSP.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>

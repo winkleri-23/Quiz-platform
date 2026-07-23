@@ -33,9 +33,17 @@ export const CISSP_DOMAINS = [
   {
     n: 3,
     title: "Security Architecture and Engineering",
-    short: "Secure design, cryptography, physical security",
+    short: "Secure design, virtualization, cryptography, physical security",
     mixed: false,
-    articles: [],
+    articles: [
+      {
+        title: "Containers vs Virtual Machines",
+        blurb: "Virtualization fundamentals — VM vs container architecture, hypervisor types, and when to pick each in an exam scenario.",
+        route: "/article/containers-vs-vms",
+        certs: "CC · CISSP D3 · Security+",
+        questions: 10,
+      },
+    ],
   },
   {
     n: 4,
