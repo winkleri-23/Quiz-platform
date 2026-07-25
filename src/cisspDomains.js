@@ -65,6 +65,13 @@ export const CISSP_DOMAINS = [
         certs: "CC · CISSP D4 · Security+",
         questions: 10,
       },
+      {
+        title: "SPF, DKIM, DMARC — Email Authentication",
+        blurb: "Why spoofing is possible and what actually stops it. Includes an interactive checker that generates dig/nslookup commands for any domain.",
+        route: "/article/email-authentication",
+        certs: "CC · CISSP D4 · Security+",
+        questions: 10,
+      },
     ],
   },
   {

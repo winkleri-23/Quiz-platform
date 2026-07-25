@@ -83,6 +83,13 @@ const ROUTES = [
     image: "/og-containers-vs-vms.png",
     imageAlt: "Quiz: Containers vs Virtual Machines for CISSP.",
   },
+  {
+    path: "article/email-authentication",
+    title: "SPF, DKIM, DMARC — Email Authentication Quiz | Decoded Security",
+    description: "Test your knowledge of email authentication. Why spoofing is possible, what each mechanism actually verifies, and why only DMARC alignment stops it. Includes a live domain-checker.",
+    image: "/og-email-auth.png",
+    imageAlt: "Quiz: SPF, DKIM, DMARC — email authentication for CISSP Domain 4.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>
