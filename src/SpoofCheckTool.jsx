@@ -639,16 +639,16 @@ export default function SpoofCheckTool() {
               }}
             >
               <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 12 }}>
-                SHARE YOUR FINDINGS
+                THE CHALLENGE
               </div>
               <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 10, lineHeight: 1.2 }}>
-                Post <code style={{ color: "#dddddd" }}>{result.domain}</code> and its grade in the article comments.
+                Post your favorite domain and its grade in the article comments.
               </div>
               <p style={{ fontSize: 14, color: "#cccccc", marginBottom: 20, lineHeight: 1.55 }}>
                 Compare notes with other readers. What's your bank's grade? Your employer's? Decoded Security reads every comment.
               </p>
               <a
-                href={`${articleUrl}/comments`}
+                href={articleUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => track("comments_cta_clicked", { tool: "spoof_check", grade: result.g.letter })}
@@ -664,7 +664,7 @@ export default function SpoofCheckTool() {
                   padding: "14px 28px",
                 }}
               >
-                OPEN THE ARTICLE COMMENTS →
+                OPEN THE ARTICLE →
               </a>
             </div>
 
