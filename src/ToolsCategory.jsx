@@ -101,19 +101,22 @@ export default function ToolsCategory() {
             </div>
           </a>
 
-          <div style={{ ...cardBase, cursor: "default", opacity: 0.55 }}>
-            <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 3, marginBottom: 10 }}>TOOL_02 — ON</div>
-            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Coming soon</div>
-            <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.2, marginBottom: 12, letterSpacing: -0.5, color: "#aaa" }}>
-              More tools
+          <a href="/tools/spoof-check" onClick={() => handlePick("spoof_check")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_02</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Email security</div>
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+              <span style={{ color: COLORS.red }}>Domain</span> Spoof-Check
             </h2>
-            <p style={{ fontSize: 13, color: COLORS.muted, lineHeight: 1.55, marginBottom: 14 }}>
-              Each Decoded Security article that hinges on a specific calculation gets a companion tool here. Subscribe to be notified when new ones drop.
+            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+              Type any domain. Get a live SPF + DMARC verdict — grade A through F — telling you whether an attacker could forge the visible sender.
             </p>
-            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.muted, border: `1px solid ${COLORS.border}`, padding: "12px 20px" }}>
-              SUBSCRIBE FOR LAUNCH →
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+              LIVE DNS LOOKUP · LETTER GRADE · CLIENT-SIDE ONLY
             </div>
-          </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              CHECK A DOMAIN →
+            </div>
+          </a>
         </div>
 
         <footer style={{ marginTop: 40, paddingTop: 24, borderTop: `1px solid ${COLORS.border}`, fontSize: 11, color: COLORS.muted, letterSpacing: 1.5, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>

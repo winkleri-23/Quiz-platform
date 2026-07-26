@@ -104,6 +104,13 @@ const ROUTES = [
     image: "/og-subnet-calculator.png",
     imageAlt: "Subnet Calculator — IP, CIDR, network, broadcast, host range, binary view.",
   },
+  {
+    path: "tools/spoof-check",
+    title: "Domain Spoof-Check — Can This Domain Be Spoofed? | Decoded Security",
+    description: "Type any domain. Live DNS lookup returns an A-F grade based on SPF and DMARC — telling you whether an attacker could forge the visible sender. Fully client-side.",
+    image: "/og-spoof-check.png",
+    imageAlt: "Domain Spoof-Check — grade any domain's email security A through F.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>
