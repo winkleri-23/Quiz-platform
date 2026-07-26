@@ -4,6 +4,8 @@ import DiagnosticsCategory from "./DiagnosticsCategory.jsx";
 import CisspCategory from "./CisspCategory.jsx";
 import CisspDomainTopics from "./CisspDomainTopics.jsx";
 import ArticleQuizCategory from "./ArticleQuizCategory.jsx";
+import ToolsCategory from "./ToolsCategory.jsx";
+import SubnetCalculator from "./SubnetCalculator.jsx";
 import PathFinder from "./PathFinder.jsx";
 import DirectionFinder from "./DirectionFinder.jsx";
 import CisspDomain1 from "./CisspDomain1.jsx";
@@ -85,6 +87,8 @@ export default function App() {
   if (route === "diagnostics") return <DiagnosticsCategory />;
   if (route === "cissp") return <CisspCategory />;
   if (route === "articles") return <ArticleQuizCategory />;
+  if (route === "tools") return <ToolsCategory />;
+  if (route === "tools/subnet-calculator") return <SubnetCalculator />;
 
   // CISSP domain topic pages
   const domainMatch = route.match(/^cissp\/domain-([1-8])$/);

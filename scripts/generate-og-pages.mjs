@@ -90,6 +90,20 @@ const ROUTES = [
     image: "/og-email-auth.png",
     imageAlt: "Quiz: SPF, DKIM, DMARC — email authentication for CISSP Domain 4.",
   },
+  {
+    path: "tools",
+    title: "Tools & Calculators | Decoded Security",
+    description: "Interactive calculators tied to Decoded Security articles. Type in your values, get the answer, understand why. First tool: subnet calculator.",
+    image: "/og-tools.png",
+    imageAlt: "Decoded Security tools and calculators.",
+  },
+  {
+    path: "tools/subnet-calculator",
+    title: "Subnet Calculator | Decoded Security",
+    description: "Type any IP and CIDR. Get the subnet mask, network, broadcast, first and last host — plus a binary view that shows exactly where the network / host boundary sits. Based on \"This Is How I Explain Subnetting.\"",
+    image: "/og-subnet-calculator.png",
+    imageAlt: "Subnet Calculator — IP, CIDR, network, broadcast, host range, binary view.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>

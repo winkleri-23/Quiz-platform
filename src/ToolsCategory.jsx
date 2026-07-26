@@ -1,0 +1,128 @@
+import { useEffect } from "react";
+import { track } from "@vercel/analytics/react";
+
+// =============================================================================
+// DECODED SECURITY — CATEGORY PAGE: TOOLS
+// Interactive calculators and utilities. First tool: Subnet Calculator.
+// =============================================================================
+
+const COLORS = {
+  red: "#e64833",
+  black: "#000000",
+  white: "#FFFFFF",
+  border: "#2a2a2a",
+  muted: "#888888",
+};
+
+export default function ToolsCategory() {
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap";
+    document.head.appendChild(link);
+    return () => {
+      try { document.head.removeChild(link); } catch (e) {}
+    };
+  }, []);
+
+  const fontStack = "'IBM Plex Mono', ui-monospace, Menlo, monospace";
+  const handlePick = (tool) => track("chooser_quiz_picked", { quiz: tool, from: "category_tools" });
+
+  const cardBase = {
+    display: "block",
+    border: `1px solid ${COLORS.border}`,
+    padding: 24,
+    textDecoration: "none",
+    color: COLORS.white,
+    transition: "all 200ms ease-out",
+    backgroundColor: "transparent",
+  };
+  const cardHover = (e) => {
+    e.currentTarget.style.borderColor = COLORS.red;
+    e.currentTarget.style.backgroundColor = "rgba(230, 72, 51, 0.04)";
+    e.currentTarget.style.transform = "translateY(-2px)";
+  };
+  const cardUnhover = (e) => {
+    e.currentTarget.style.borderColor = COLORS.border;
+    e.currentTarget.style.backgroundColor = "transparent";
+    e.currentTarget.style.transform = "translateY(0)";
+  };
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: COLORS.black,
+        color: COLORS.white,
+        fontFamily: fontStack,
+        padding: "24px 16px",
+        backgroundImage: `radial-gradient(circle at 20% 0%, rgba(230, 72, 51, 0.08), transparent 50%), radial-gradient(circle at 80% 100%, rgba(230, 72, 51, 0.05), transparent 50%)`,
+      }}
+    >
+      <div style={{ maxWidth: 920, margin: "0 auto" }}>
+        <header style={{ marginBottom: 48, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 10, height: 10, backgroundColor: COLORS.red, borderRadius: "50%", boxShadow: `0 0 12px ${COLORS.red}` }} />
+            <div style={{ fontSize: 12, letterSpacing: 2, color: COLORS.muted }}>DECODED_SECURITY // TOOLS</div>
+          </div>
+          <a href="/" style={{ fontSize: 11, letterSpacing: 1.5, color: COLORS.muted, textDecoration: "none", borderBottom: `1px solid ${COLORS.border}`, paddingBottom: 2, transition: "color 150ms, border-color 150ms" }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.red; e.currentTarget.style.borderBottomColor = COLORS.red; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.muted; e.currentTarget.style.borderBottomColor = COLORS.border; }}
+          >
+            ← BACK TO HUB
+          </a>
+        </header>
+
+        <div style={{ animation: "fadeIn 600ms ease-out", marginBottom: 40 }}>
+          <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 16 }}>&gt; CATEGORY_04</div>
+          <h1 style={{ fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 700, lineHeight: 1.1, marginBottom: 16, letterSpacing: -1 }}>
+            <span style={{ color: COLORS.red }}>Tools</span> and calculators
+          </h1>
+          <p style={{ fontSize: 16, lineHeight: 1.6, color: "#cccccc", maxWidth: 640 }}>
+            Interactive calculators tied to the concepts in the Decoded Security archive. Type in your values, get the answer, understand why.
+          </p>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16, marginBottom: 64 }}>
+          <a href="/tools/subnet-calculator" onClick={() => handlePick("subnet_calculator")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_01</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Networking fundamentals</div>
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+              <span style={{ color: COLORS.red }}>Subnet</span> Calculator
+            </h2>
+            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+              Type an IP and CIDR. Get the mask, network, broadcast, first and last host — plus a binary view that shows exactly where the network / host boundary sits.
+            </p>
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+              LIVE INPUTS · PRESETS · BINARY VIEW · COPY-READY VALUES
+            </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              OPEN CALCULATOR →
+            </div>
+          </a>
+
+          <div style={{ ...cardBase, cursor: "default", opacity: 0.55 }}>
+            <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 3, marginBottom: 10 }}>TOOL_02 — ON</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Coming soon</div>
+            <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.2, marginBottom: 12, letterSpacing: -0.5, color: "#aaa" }}>
+              More tools
+            </h2>
+            <p style={{ fontSize: 13, color: COLORS.muted, lineHeight: 1.55, marginBottom: 14 }}>
+              Each Decoded Security article that hinges on a specific calculation gets a companion tool here. Subscribe to be notified when new ones drop.
+            </p>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.muted, border: `1px solid ${COLORS.border}`, padding: "12px 20px" }}>
+              SUBSCRIBE FOR LAUNCH →
+            </div>
+          </div>
+        </div>
+
+        <footer style={{ marginTop: 40, paddingTop: 24, borderTop: `1px solid ${COLORS.border}`, fontSize: 11, color: COLORS.muted, letterSpacing: 1.5, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+          <div>DECODED_SECURITY // TOOLS</div>
+          <div>BUILT FOR HANDS-ON LEARNING</div>
+        </footer>
+      </div>
+
+      <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }`}</style>
+    </div>
+  );
+}

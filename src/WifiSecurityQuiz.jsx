@@ -93,7 +93,7 @@ const QUIZ = {
         "A password complexity requirement for personal Wi-Fi networks.",
       ],
       correct: 1,
-      explanation: "802.1X is NOT a Wi-Fi protocol. It's an authentication FRAMEWORK. The access point blocks all traffic, asks for credentials, forwards them to a RADIUS server, and grants access only if the server approves. Encryption (WPA2/WPA3) is separate from authentication (802.1X) — Erich's table makes this distinction explicit.",
+      explanation: "802.1X is NOT a Wi-Fi protocol. It's an authentication FRAMEWORK. The access point blocks all traffic, asks for credentials, forwards them to a RADIUS server, and grants access only if the server approves. Encryption (WPA2/WPA3) is separate from authentication (802.1X) — the Decoded Security table makes this distinction explicit.",
     },
     {
       q: "A company needs Wi-Fi for 5,000 employees, each requiring individual accountability for their network access. Which combination is most appropriate?",

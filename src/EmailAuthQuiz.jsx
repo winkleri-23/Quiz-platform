@@ -685,7 +685,7 @@ export default function EmailAuthQuiz() {
                 Drop the domain and its DMARC policy in the comments.
               </div>
               <p style={{ fontSize: 14, color: "#cccccc", marginBottom: 20, lineHeight: 1.55 }}>
-                What did your employer's domain reveal? Your bank's? Your school's? Comment the domain and the <code style={{ color: "#dddddd" }}>p=</code> value on the article — Erich reads every one and will tell you if the setup would hold up in an interview.
+                What did your employer's domain reveal? Your bank's? Your school's? Comment the domain and the <code style={{ color: "#dddddd" }}>p=</code> value on the article — Decoded Security reads every one and will tell you if the setup would hold up in an interview.
               </p>
               <a
                 href={commentsUrl}

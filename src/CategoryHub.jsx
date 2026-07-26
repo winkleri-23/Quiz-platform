@@ -135,9 +135,27 @@ export default function CategoryHub() {
               Each quiz pairs with a single Decoded Security article. Read, then test if it stuck.
             </p>
             <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.7, marginBottom: 22 }}>
-              THE THREE STATES OF DATA<br />
-              RECOVERY METRICS<br />
+              DATA STATES · RECOVERY METRICS<br />
+              WI-FI · NETWORK ATTACKS<br />
               MORE WITH EACH ARTICLE
+            </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              OPEN CATEGORY →
+            </div>
+          </a>
+
+          {/* CATEGORY 4: TOOLS */}
+          <a href="/tools" onClick={() => handlePick("tools")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 14 }}>CATEGORY_04</div>
+            <h2 style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.15, marginBottom: 14, letterSpacing: -0.5 }}>
+              <span style={{ color: COLORS.red }}>Tools</span> & calculators
+            </h2>
+            <p style={{ fontSize: 14, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 18 }}>
+              Interactive calculators tied to Decoded Security articles. Type in your values, see the answer, understand why.
+            </p>
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.7, marginBottom: 22 }}>
+              SUBNET CALCULATOR<br />
+              MORE COMING
             </div>
             <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
               OPEN CATEGORY →

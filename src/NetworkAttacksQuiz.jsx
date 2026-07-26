@@ -502,7 +502,7 @@ export default function NetworkAttacksQuiz() {
                 Drop your score in the article comments.
               </div>
               <p style={{ fontSize: 14, color: "#cccccc", marginBottom: 20, lineHeight: 1.55 }}>
-                Comment your score under the article and Erich will reach out directly with a free Network Attacks cheat sheet — the identifying detail and the countermeasure for each attack, on one page.
+                Comment your score under the article and Decoded Security will reach out directly with a free Network Attacks cheat sheet — the identifying detail and the countermeasure for each attack, on one page.
               </p>
               <a
                 href={`${articleUrl}/comments`}
