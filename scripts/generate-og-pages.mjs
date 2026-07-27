@@ -111,6 +111,13 @@ const ROUTES = [
     image: "/og-spoof-check.png",
     imageAlt: "Domain Spoof-Check — grade any domain's email security A through F.",
   },
+  {
+    path: "tools/linux-sandbox",
+    title: "Linux Sandbox — Practice ls, cd, cp, mv, rm, cat | Decoded Security",
+    description: "A real (fake) filesystem in your browser. Six guided challenges to practice the top 5 Linux commands. Nothing on your machine gets touched.",
+    image: "/og-linux-sandbox.png",
+    imageAlt: "Linux Sandbox — practice ls, cd, cp, mv, rm, cat with six guided challenges.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>
