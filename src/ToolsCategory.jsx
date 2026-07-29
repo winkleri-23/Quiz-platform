@@ -151,6 +151,23 @@ export default function ToolsCategory() {
               OPEN CALCULATOR →
             </div>
           </a>
+
+          <a href="/tools/url-trace" onClick={() => handlePick("url_trace")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_05</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Networking · Interview prep</div>
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+              <span style={{ color: COLORS.red }}>URL</span> Trace
+            </h2>
+            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+              Walk through what happens when you open a website — URL parse, DNS, TCP, TLS, HTTP, rendering. Real DNS resolution and plain-English explanation at every stage.
+            </p>
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+              6 STAGES · REAL DNS · ANIMATED HANDSHAKES
+            </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              TRACE A URL →
+            </div>
+          </a>
         </div>
 
         <footer style={{ marginTop: 40, paddingTop: 24, borderTop: `1px solid ${COLORS.border}`, fontSize: 11, color: COLORS.muted, letterSpacing: 1.5, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>

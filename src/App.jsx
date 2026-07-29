@@ -9,6 +9,7 @@ import SubnetCalculator from "./SubnetCalculator.jsx";
 import SpoofCheckTool from "./SpoofCheckTool.jsx";
 import LinuxSandbox from "./LinuxSandbox.jsx";
 import RiskCalculator from "./RiskCalculator.jsx";
+import UrlTraceTool from "./UrlTraceTool.jsx";
 import PathFinder from "./PathFinder.jsx";
 import DirectionFinder from "./DirectionFinder.jsx";
 import CisspDomain1 from "./CisspDomain1.jsx";
@@ -95,6 +96,7 @@ export default function App() {
   if (route === "tools/spoof-check") return <SpoofCheckTool />;
   if (route === "tools/linux-sandbox") return <LinuxSandbox />;
   if (route === "tools/risk-calculator") return <RiskCalculator />;
+  if (route === "tools/url-trace") return <UrlTraceTool />;
 
   // CISSP domain topic pages
   const domainMatch = route.match(/^cissp\/domain-([1-8])$/);

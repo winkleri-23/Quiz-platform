@@ -125,6 +125,13 @@ const ROUTES = [
     image: "/og-risk-calculator.png",
     imageAlt: "Quantitative Risk Calculator — SLE, ARO, ALE, cost-benefit verdict.",
   },
+  {
+    path: "tools/url-trace",
+    title: "URL Trace — What Happens When You Open a Website | Decoded Security",
+    description: "Type a URL. Walk through the six-stage chain — URL parse, DNS, TCP, TLS, HTTP, rendering — with real DNS resolution and plain-English explanations at each step.",
+    image: "/og-url-trace.png",
+    imageAlt: "URL Trace — six-stage animated walkthrough of what happens when you open a website.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>
