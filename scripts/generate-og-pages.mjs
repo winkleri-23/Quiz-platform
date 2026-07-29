@@ -118,6 +118,13 @@ const ROUTES = [
     image: "/og-linux-sandbox.png",
     imageAlt: "Linux Sandbox — practice ls, cd, cp, mv, rm, cat with six guided challenges.",
   },
+  {
+    path: "tools/risk-calculator",
+    title: "Quantitative Risk Calculator | Decoded Security",
+    description: "Turn cybersecurity risk into dollars. Compute SLE, ARO, and ALE. See instantly whether a safeguard pays for itself. CISSP Domain 1 math, in plain English.",
+    image: "/og-risk-calculator.png",
+    imageAlt: "Quantitative Risk Calculator — SLE, ARO, ALE, cost-benefit verdict.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>
