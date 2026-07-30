@@ -168,6 +168,23 @@ export default function ToolsCategory() {
               TRACE A URL →
             </div>
           </a>
+
+          <a href="/tools/vibe-coding-challenge" onClick={() => handlePick("vibe_coding_challenge")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_06</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Secure coding · Reward inside</div>
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+              <span style={{ color: COLORS.red }}>Vibe Coding</span><br />Challenge
+            </h2>
+            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+              Six broken AI-written snippets. Rewrite the bad line in each to fix it. Real code editor, instant feedback, hints if you're stuck. Complete the challenge → free month of Premium.
+            </p>
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+              6 SNIPPETS · REWRITE THE FIX · REWARD ON COMPLETE
+            </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              TAKE THE CHALLENGE →
+            </div>
+          </a>
         </div>
 
         <footer style={{ marginTop: 40, paddingTop: 24, borderTop: `1px solid ${COLORS.border}`, fontSize: 11, color: COLORS.muted, letterSpacing: 1.5, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>

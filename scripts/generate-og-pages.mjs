@@ -132,6 +132,13 @@ const ROUTES = [
     image: "/og-url-trace.png",
     imageAlt: "URL Trace — six-stage animated walkthrough of what happens when you open a website.",
   },
+  {
+    path: "tools/vibe-coding-challenge",
+    title: "Vibe Coding Challenge — Fix the AI's Security Bugs | Decoded Security",
+    description: "Six broken AI-written code snippets, one vulnerability each. Rewrite the bad line to fix it. Instant feedback, hints when you're stuck. Complete the challenge and claim a free month of Decoded Security Premium.",
+    image: "/og-vibe-coding.png",
+    imageAlt: "Vibe Coding Challenge — rewrite the bad line in AI-generated code to fix it.",
+  },
 ];
 
 const swap = (html, attr, value, contentVal) =>
