@@ -133,6 +133,13 @@ const ROUTES = [
     imageAlt: "URL Trace — six-stage animated walkthrough of what happens when you open a website.",
   },
   {
+    path: "tools/pki-sandbox",
+    title: "PKI Sandbox — Impersonate a Bank, Then Be One | Decoded Security",
+    description: "Three-act interactive: play the attacker trying to impersonate a bank, then the real bank getting a legit certificate, then the browser deciding who to trust. Real keys generated in your browser.",
+    image: "/og-pki-sandbox.png",
+    imageAlt: "PKI Sandbox — three roles, one lesson: trust is what makes the internet work.",
+  },
+  {
     path: "tools/vibe-coding-challenge",
     title: "Vibe Coding Challenge — Fix the AI's Security Bugs | Decoded Security",
     description: "Six broken AI-written code snippets, one vulnerability each. Rewrite the bad line to fix it. Instant feedback, hints when you're stuck. Complete the challenge and claim a free month of Decoded Security Premium.",

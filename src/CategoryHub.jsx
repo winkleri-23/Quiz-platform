@@ -236,10 +236,10 @@ export default function CategoryHub() {
               <span style={{ color: COLORS.red }}>Tools</span> & calculators
             </h2>
             <p style={{ fontSize: 14, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 18 }}>
-              Type real inputs, see real results. Subnet a network, spoof-check a domain, walk through what happens when you open a URL, or fix vulnerabilities in AI-generated code.
+              Type real inputs, see real results. Subnet a network, spoof-check a domain, walk through a URL trace, fix AI-generated code, or play three roles in a PKI attack scenario.
             </p>
             <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.7, marginBottom: 22 }}>
-              6 TOOLS LIVE · NEW ONE PER ARTICLE
+              7 TOOLS LIVE · NEW ONE PER ARTICLE
             </div>
             <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
               OPEN CATEGORY →

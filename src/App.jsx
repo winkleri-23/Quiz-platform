@@ -11,6 +11,7 @@ import LinuxSandbox from "./LinuxSandbox.jsx";
 import RiskCalculator from "./RiskCalculator.jsx";
 import UrlTraceTool from "./UrlTraceTool.jsx";
 import VibeCodingChallenge from "./VibeCodingChallenge.jsx";
+import PkiSandbox from "./PkiSandbox.jsx";
 import PathFinder from "./PathFinder.jsx";
 import DirectionFinder from "./DirectionFinder.jsx";
 import CisspDomain1 from "./CisspDomain1.jsx";
@@ -99,6 +100,7 @@ export default function App() {
   if (route === "tools/risk-calculator") return <RiskCalculator />;
   if (route === "tools/url-trace") return <UrlTraceTool />;
   if (route === "tools/vibe-coding-challenge") return <VibeCodingChallenge />;
+  if (route === "tools/pki-sandbox") return <PkiSandbox />;
 
   // CISSP domain topic pages
   const domainMatch = route.match(/^cissp\/domain-([1-8])$/);
