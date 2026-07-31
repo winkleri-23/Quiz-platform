@@ -606,12 +606,12 @@ export default function VibeCodingChallenge() {
                     {round.context && round.context.length > 0 && (
                       <div style={{
                         border: `1px solid ${COLORS.border}`,
-                        backgroundColor: "rgba(122, 162, 255, 0.04)",
+                        backgroundColor: "rgba(255, 255, 255, 0.03)",
                         padding: 16, marginBottom: 16,
                       }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                          <div style={{ width: 4, height: 12, backgroundColor: "#7aa2ff" }} />
-                          <div style={{ fontSize: 11, color: "#7aa2ff", letterSpacing: 2 }}>WHAT YOU HAVE</div>
+                          <div style={{ width: 4, height: 12, backgroundColor: "#e6e6e6" }} />
+                          <div style={{ fontSize: 11, color: "#e6e6e6", letterSpacing: 2 }}>WHAT YOU HAVE</div>
                         </div>
                         <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, lineHeight: 1.65, color: "#cccccc" }}>
                           {round.context.map((line, i) => (
@@ -637,7 +637,7 @@ export default function VibeCodingChallenge() {
                               border: "none", borderBottom: `1px dashed ${COLORS.border}`,
                               padding: "6px 0", cursor: "pointer", transition: "color 150ms, border-color 150ms",
                             }}
-                            onMouseEnter={(e) => { e.currentTarget.style.color = "#7aa2ff"; e.currentTarget.style.borderBottomColor = "#7aa2ff"; }}
+                            onMouseEnter={(e) => { e.currentTarget.style.color = "#e6e6e6"; e.currentTarget.style.borderBottomColor = "#e6e6e6"; }}
                             onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.muted; e.currentTarget.style.borderBottomColor = COLORS.border; }}
                           >
                             ? SHOW USAGE EXAMPLES
@@ -649,7 +649,7 @@ export default function VibeCodingChallenge() {
                             padding: 16, animation: "fadeIn 250ms ease-out",
                           }}>
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10, gap: 10 }}>
-                              <div style={{ fontSize: 11, color: "#7aa2ff", letterSpacing: 2 }}>USAGE EXAMPLES · {round.usage.lang}</div>
+                              <div style={{ fontSize: 11, color: "#e6e6e6", letterSpacing: 2 }}>USAGE EXAMPLES · {round.usage.lang}</div>
                               <button
                                 onClick={() => setShowUsage(false)}
                                 style={{ background: "none", border: "none", color: COLORS.muted, fontSize: 11, letterSpacing: 1, cursor: "pointer" }}
