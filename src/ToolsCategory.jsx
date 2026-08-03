@@ -169,6 +169,23 @@ export default function ToolsCategory() {
             </div>
           </a>
 
+          <a href="/tools/diffie-hellman" onClick={() => handlePick("diffie_hellman")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_08</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Cryptography · Key exchange</div>
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+              <span style={{ color: COLORS.red }}>Diffie-Hellman</span><br />Visualization
+            </h2>
+            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+              Watch Alice and Bob agree on a secret color without ever sharing it. Eve intercepts everything and can't reproduce it. The color-mixing analogy, made visual and interactive.
+            </p>
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+              4 STEPS · LIVE COLOR MIXING · ~2 MIN
+            </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              WATCH IT →
+            </div>
+          </a>
+
           <a href="/tools/pki-sandbox" onClick={() => handlePick("pki_sandbox")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
             <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_07</div>
             <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>PKI · Trust systems</div>

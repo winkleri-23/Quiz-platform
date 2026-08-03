@@ -133,6 +133,13 @@ const ROUTES = [
     imageAlt: "URL Trace — six-stage animated walkthrough of what happens when you open a website.",
   },
   {
+    path: "tools/diffie-hellman",
+    title: "Diffie-Hellman Visualized — See Two Strangers Share a Secret | Decoded Security",
+    description: "Interactive visualization of Diffie-Hellman key exchange using the color-mixing analogy. Watch Alice and Bob converge on a shared secret while Eve intercepts every message and cannot reproduce it. Two minutes, no math.",
+    image: "/og-diffie-hellman.png",
+    imageAlt: "Diffie-Hellman visualization — Alice, Bob, and Eve mixing colors on a public channel.",
+  },
+  {
     path: "tools/pki-sandbox",
     title: "PKI Sandbox — Impersonate a Bank, Then Be One | Decoded Security",
     description: "Three-act interactive: play the attacker trying to impersonate a bank, then the real bank getting a legit certificate, then the browser deciding who to trust. Real keys generated in your browser.",
