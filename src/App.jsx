@@ -23,6 +23,7 @@ import NetworkAttacksQuiz from "./NetworkAttacksQuiz.jsx";
 import BackupStrategiesQuiz from "./BackupStrategiesQuiz.jsx";
 import ContainersVsVMsQuiz from "./ContainersVsVMsQuiz.jsx";
 import EmailAuthQuiz from "./EmailAuthQuiz.jsx";
+import SiemQuiz from "./SiemQuiz.jsx";
 
 // Path-based routing. Works with Vercel rewrites for SPA fallback,
 // and per-route static HTML files so social crawlers see per-route OG meta.
@@ -119,6 +120,7 @@ export default function App() {
   if (route === "article/backup-strategies") return <BackupStrategiesQuiz />;
   if (route === "article/containers-vs-vms") return <ContainersVsVMsQuiz />;
   if (route === "article/email-authentication") return <EmailAuthQuiz />;
+  if (route === "article/siem") return <SiemQuiz />;
 
   return <CategoryHub />;
 }

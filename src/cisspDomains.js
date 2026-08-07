@@ -108,6 +108,13 @@ export const CISSP_DOMAINS = [
         certs: "CC · CISSP D7 · Security+",
         questions: 10,
       },
+      {
+        title: "SIEM Fundamentals",
+        blurb: "Correlation, false positives, tuning, and why a SIEM never replaces analysts. The SOC-interview SIEM questions everyone gets wrong.",
+        route: "/article/siem",
+        certs: "CC · CISSP D7 · Security+",
+        questions: 8,
+      },
     ],
   },
   {

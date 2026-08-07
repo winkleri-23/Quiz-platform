@@ -84,6 +84,13 @@ const ROUTES = [
     imageAlt: "Quiz: Containers vs Virtual Machines for CISSP.",
   },
   {
+    path: "article/siem",
+    title: "SIEM Fundamentals — Correlation, False Positives, and Tuning | Decoded Security",
+    description: "Test your understanding of what a SIEM actually does — correlation vs collection, false positive tuning, and why a SIEM never replaces analysts. Maps to CC, CISSP, and Security+. 8 questions, instant feedback.",
+    image: "/og-siem.png",
+    imageAlt: "Quiz: SIEM — correlation, false positives, tuning. The SOC-interview SIEM questions.",
+  },
+  {
     path: "article/email-authentication",
     title: "SPF, DKIM, DMARC — Email Authentication Quiz | Decoded Security",
     description: "Test your knowledge of email authentication. Why spoofing is possible, what each mechanism actually verifies, and why only DMARC alignment stops it. Includes a live domain-checker.",
