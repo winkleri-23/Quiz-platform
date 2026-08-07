@@ -140,6 +140,13 @@ const ROUTES = [
     imageAlt: "URL Trace — six-stage animated walkthrough of what happens when you open a website.",
   },
   {
+    path: "tools/alert-triage",
+    title: "Alert Triage Rush — 60-Second SOC Analyst Simulator | Decoded Security",
+    description: "You're the SOC analyst. 20 realistic alerts, 60 seconds, keyboard shortcuts. Accept real attacks, dismiss the noise. Precision + recall at the end. Feel what triage under pressure actually is.",
+    image: "/og-alert-triage.png",
+    imageAlt: "Alert Triage Rush — the 60-second SOC analyst simulator.",
+  },
+  {
     path: "tools/diffie-hellman",
     title: "Diffie-Hellman Visualized — See Two Strangers Share a Secret | Decoded Security",
     description: "Interactive visualization of Diffie-Hellman key exchange using the color-mixing analogy. Watch Alice and Bob converge on a shared secret while Eve intercepts every message and cannot reproduce it. Two minutes, no math.",

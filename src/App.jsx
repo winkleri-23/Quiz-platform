@@ -13,6 +13,7 @@ import UrlTraceTool from "./UrlTraceTool.jsx";
 import VibeCodingChallenge from "./VibeCodingChallenge.jsx";
 import PkiSandbox from "./PkiSandbox.jsx";
 import DiffieHellman from "./DiffieHellman.jsx";
+import AlertTriage from "./AlertTriage.jsx";
 import PathFinder from "./PathFinder.jsx";
 import DirectionFinder from "./DirectionFinder.jsx";
 import CisspDomain1 from "./CisspDomain1.jsx";
@@ -104,6 +105,7 @@ export default function App() {
   if (route === "tools/vibe-coding-challenge") return <VibeCodingChallenge />;
   if (route === "tools/pki-sandbox") return <PkiSandbox />;
   if (route === "tools/diffie-hellman") return <DiffieHellman />;
+  if (route === "tools/alert-triage") return <AlertTriage />;
 
   // CISSP domain topic pages
   const domainMatch = route.match(/^cissp\/domain-([1-8])$/);
