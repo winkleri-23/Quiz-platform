@@ -28,7 +28,7 @@ const SUBSCRIBE_URL = "https://www.decodedsecurity.com/subscribe";
 
 const SOURCE_ARTICLE = {
   title: "CISSP Identity Lifecycle Management: The Account You Forgot Is the One That Gets You",
-  slug: "cissp-identity-lifecycle-management",
+  slug: "cissp-identity-lifecycle-management-563",
 };
 
 const EMPLOYEE = { name: "Alex Chen" };
