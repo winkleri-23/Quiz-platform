@@ -19,7 +19,6 @@ const COLORS = {
 const BASE_URL = "https://www.decodedsecurity.com/p/";
 const SUBSCRIBE_URL = "https://www.decodedsecurity.com/subscribe";
 
-// TODO: Update slug once the article is published with its final URL.
 const SOURCE_ARTICLE = {
   title: "CISSP Identity Lifecycle Management: The Account You Forgot Is the One That Gets You",
   slug: "cissp-identity-lifecycle-management",
