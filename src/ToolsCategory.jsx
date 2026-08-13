@@ -169,6 +169,23 @@ export default function ToolsCategory() {
             </div>
           </a>
 
+          <a href="/tools/privilege-creep" onClick={() => handlePick("privilege_creep")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_10</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>IAM · CISSP D5 · Simulation</div>
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+              <span style={{ color: COLORS.red }}>Privilege Creep</span><br />Simulator
+            </h2>
+            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+              You are the manager. Watch Alex Chen move through your company for 5 years. Skip too many access reviews and the year-5 audit will find you.
+            </p>
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+              5-YEAR STORY · AUDIT AT THE END · REPLAYABLE
+            </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              HIRE ALEX →
+            </div>
+          </a>
+
           <a href="/tools/alert-triage" onClick={() => handlePick("alert_triage")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
             <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_09</div>
             <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>SOC · SIEM triage · Game</div>

@@ -84,6 +84,13 @@ const ROUTES = [
     imageAlt: "Quiz: Containers vs Virtual Machines for CISSP.",
   },
   {
+    path: "article/identity-lifecycle",
+    title: "Identity Lifecycle Management — CISSP Quiz | Decoded Security",
+    description: "Test your understanding of the IAM lifecycle — ownership, least privilege, privilege creep, access reviews, and automated deprovisioning. Maps to CC, CISSP Domain 5, and Security+. 8 questions, instant feedback.",
+    image: "/og-identity-lifecycle.png",
+    imageAlt: "Quiz: Identity Lifecycle Management — the IAM traps every CISSP interview asks about.",
+  },
+  {
     path: "article/siem",
     title: "SIEM Fundamentals — Correlation, False Positives, and Tuning | Decoded Security",
     description: "Test your understanding of what a SIEM actually does — correlation vs collection, false positive tuning, and why a SIEM never replaces analysts. Maps to CC, CISSP, and Security+. 8 questions, instant feedback.",
@@ -138,6 +145,13 @@ const ROUTES = [
     description: "Type a URL. Walk through the six-stage chain — URL parse, DNS, TCP, TLS, HTTP, rendering — with real DNS resolution and plain-English explanations at each step.",
     image: "/og-url-trace.png",
     imageAlt: "URL Trace — six-stage animated walkthrough of what happens when you open a website.",
+  },
+  {
+    path: "tools/privilege-creep",
+    title: "Privilege Creep Simulator — 5 Years, 5 Role Changes | Decoded Security",
+    description: "You are the manager. Watch Alex Chen move through your company for 5 years. Each year, decide: run an access review, or skip. Skip too many and the year-5 audit will find you. Interactive simulator based on the CISSP identity lifecycle article.",
+    image: "/og-privilege-creep.png",
+    imageAlt: "Privilege Creep Simulator — 5-year manager decision game.",
   },
   {
     path: "tools/alert-triage",

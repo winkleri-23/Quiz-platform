@@ -14,6 +14,7 @@ import VibeCodingChallenge from "./VibeCodingChallenge.jsx";
 import PkiSandbox from "./PkiSandbox.jsx";
 import DiffieHellman from "./DiffieHellman.jsx";
 import AlertTriage from "./AlertTriage.jsx";
+import PrivilegeCreep from "./PrivilegeCreep.jsx";
 import PathFinder from "./PathFinder.jsx";
 import DirectionFinder from "./DirectionFinder.jsx";
 import CisspDomain1 from "./CisspDomain1.jsx";
@@ -25,6 +26,7 @@ import BackupStrategiesQuiz from "./BackupStrategiesQuiz.jsx";
 import ContainersVsVMsQuiz from "./ContainersVsVMsQuiz.jsx";
 import EmailAuthQuiz from "./EmailAuthQuiz.jsx";
 import SiemQuiz from "./SiemQuiz.jsx";
+import IdentityLifecycleQuiz from "./IdentityLifecycleQuiz.jsx";
 
 // Path-based routing. Works with Vercel rewrites for SPA fallback,
 // and per-route static HTML files so social crawlers see per-route OG meta.
@@ -106,6 +108,7 @@ export default function App() {
   if (route === "tools/pki-sandbox") return <PkiSandbox />;
   if (route === "tools/diffie-hellman") return <DiffieHellman />;
   if (route === "tools/alert-triage") return <AlertTriage />;
+  if (route === "tools/privilege-creep") return <PrivilegeCreep />;
 
   // CISSP domain topic pages
   const domainMatch = route.match(/^cissp\/domain-([1-8])$/);
@@ -123,6 +126,7 @@ export default function App() {
   if (route === "article/containers-vs-vms") return <ContainersVsVMsQuiz />;
   if (route === "article/email-authentication") return <EmailAuthQuiz />;
   if (route === "article/siem") return <SiemQuiz />;
+  if (route === "article/identity-lifecycle") return <IdentityLifecycleQuiz />;
 
   return <CategoryHub />;
 }

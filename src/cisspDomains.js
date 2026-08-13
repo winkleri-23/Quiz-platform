@@ -79,7 +79,15 @@ export const CISSP_DOMAINS = [
     title: "Identity and Access Management",
     short: "Authentication, authorization, federation, IAM lifecycle",
     mixed: false,
-    articles: [],
+    articles: [
+      {
+        title: "Identity Lifecycle Management",
+        blurb: "Ownership, least privilege, privilege creep, access reviews, automated deprovisioning. The IAM traps every CISSP interview asks about.",
+        route: "/article/identity-lifecycle",
+        certs: "CC · CISSP D5 · Security+",
+        questions: 8,
+      },
+    ],
   },
   {
     n: 6,
