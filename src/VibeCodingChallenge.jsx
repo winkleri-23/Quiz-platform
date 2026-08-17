@@ -466,7 +466,7 @@ export default function VibeCodingChallenge() {
 
   const buildRewardLine = () => {
     if (solvedCount === totalRounds && revealedCount === 0) {
-      return `I fixed all ${totalRounds} vibe-coding bugs — no reveals. #VibeCoded`;
+      return `I fixed all ${totalRounds} vibe-coding bugs. No reveals. #VibeCoded`;
     }
     if (weakestSpot) {
       return `I fixed ${solvedCount}/${totalRounds} vibe-coding bugs. Weakest spot: ${weakestSpot}. #VibeCoded`;
@@ -876,7 +876,7 @@ export default function VibeCodingChallenge() {
             <div style={{ border: `2px solid ${COLORS.red}`, backgroundColor: "rgba(230, 72, 51, 0.06)", padding: 28, marginBottom: 20 }}>
               <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 12 }}>CLAIM YOUR REWARD</div>
               <div style={{ fontSize: 20, fontWeight: 700, marginBottom: 10, lineHeight: 1.2 }}>
-                One month of Decoded Security Premium — on the house.
+                One month of Decoded Security Premium, on the house.
               </div>
               <p style={{ fontSize: 14, color: "#cccccc", marginBottom: 18, lineHeight: 1.6 }}>
                 Copy the line below, paste it into the article comments, and Decoded Security will DM you a promo code.

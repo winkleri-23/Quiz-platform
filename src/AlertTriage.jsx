@@ -475,9 +475,9 @@ export default function AlertTriage() {
   const recall = totalReal === 0 ? null : Math.round((tp / totalReal) * 100);
 
   const buildShareLine = () => {
-    const parts = [`I scored ${accuracy}% on Alert Triage Rush`];
-    if (totalReal > 0) parts.push(`caught ${tp}/${totalReal} real attacks in 60s`);
-    return `🚨 ${parts.join(" — ")}. Try it: quiz.decodedsecurity.com/tools/alert-triage #AlertTriageRush`;
+    const first = `I scored ${accuracy}% on Alert Triage Rush.`;
+    const second = totalReal > 0 ? ` Caught ${tp}/${totalReal} real attacks in 60 seconds.` : "";
+    return `🚨 ${first}${second} #AlertTriageRush`;
   };
 
   const copyShare = async () => {
@@ -665,27 +665,45 @@ export default function AlertTriage() {
               {totalReal > 0 && recall !== null && ` You caught ${recall}% of the real attacks that appeared.`}
             </p>
 
-            {/* SHARE */}
-            <div style={{ border: `2px solid ${COLORS.red}`, backgroundColor: "rgba(230,72,51,0.06)", padding: 24, marginBottom: 20 }}>
-              <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 12 }}>CHALLENGE SOMEONE</div>
+            {/* REWARD CTA */}
+            <div style={{ border: `2px solid ${COLORS.red}`, backgroundColor: "rgba(230, 72, 51, 0.06)", padding: 28, marginBottom: 20 }}>
+              <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 12 }}>CLAIM YOUR REWARD</div>
+              <div style={{ fontSize: 20, fontWeight: 700, marginBottom: 10, lineHeight: 1.2 }}>
+                One month of Decoded Security Premium, on the house.
+              </div>
+              <p style={{ fontSize: 14, color: "#cccccc", marginBottom: 18, lineHeight: 1.6 }}>
+                Copy the line below, paste it into the article comments, and Decoded Security will DM you a promo code.
+              </p>
               <div style={{
-                padding: 12, backgroundColor: COLORS.codeBg,
-                border: `1px solid ${COLORS.border}`, marginBottom: 12,
+                padding: 14, backgroundColor: COLORS.codeBg,
+                border: `1px solid ${COLORS.border}`, marginBottom: 14,
                 fontSize: 13, color: COLORS.white, wordBreak: "break-word", lineHeight: 1.5,
               }}>
                 {buildShareLine()}
               </div>
-              <button onClick={copyShare}
-                style={{
-                  fontFamily: fontStack, fontSize: 13, fontWeight: 600, letterSpacing: 1.5,
-                  color: copied ? COLORS.green : COLORS.white,
-                  backgroundColor: "transparent",
-                  border: `1px solid ${copied ? COLORS.green : COLORS.white}`,
-                  padding: "12px 22px", cursor: "pointer", transition: "all 150ms",
-                }}
-              >
-                {copied ? "COPIED ✓" : "COPY & SHARE"}
-              </button>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                <button onClick={copyShare}
+                  style={{
+                    fontFamily: fontStack, fontSize: 13, fontWeight: 600, letterSpacing: 1.5,
+                    color: copied ? COLORS.green : COLORS.white,
+                    backgroundColor: "transparent",
+                    border: `1px solid ${copied ? COLORS.green : COLORS.white}`,
+                    padding: "12px 22px", cursor: "pointer", transition: "all 150ms",
+                  }}
+                >
+                  {copied ? "COPIED ✓" : "COPY THIS LINE"}
+                </button>
+                <a href={articleUrl} target="_blank" rel="noopener noreferrer"
+                  onClick={() => track("comments_cta_clicked", { tool: "alert_triage", accuracy })}
+                  style={{
+                    display: "inline-block", fontFamily: fontStack, fontSize: 13, fontWeight: 600,
+                    letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red,
+                    textDecoration: "none", padding: "12px 22px",
+                  }}
+                >
+                  OPEN THE ARTICLE →
+                </a>
+              </div>
             </div>
 
             {/* Missed real attacks */}
