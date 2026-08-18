@@ -15,6 +15,7 @@ import PkiSandbox from "./PkiSandbox.jsx";
 import DiffieHellman from "./DiffieHellman.jsx";
 import AlertTriage from "./AlertTriage.jsx";
 import PrivilegeCreep from "./PrivilegeCreep.jsx";
+import ControlsClassifier from "./ControlsClassifier.jsx";
 import PathFinder from "./PathFinder.jsx";
 import DirectionFinder from "./DirectionFinder.jsx";
 import CisspDomain1 from "./CisspDomain1.jsx";
@@ -109,6 +110,7 @@ export default function App() {
   if (route === "tools/diffie-hellman") return <DiffieHellman />;
   if (route === "tools/alert-triage") return <AlertTriage />;
   if (route === "tools/privilege-creep") return <PrivilegeCreep />;
+  if (route === "tools/controls-classifier") return <ControlsClassifier />;
 
   // CISSP domain topic pages
   const domainMatch = route.match(/^cissp\/domain-([1-8])$/);

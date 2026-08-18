@@ -169,6 +169,23 @@ export default function ToolsCategory() {
             </div>
           </a>
 
+          <a href="/tools/controls-classifier" onClick={() => handlePick("controls_classifier")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_11</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>CISSP · Control types · Rapid game</div>
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+              <span style={{ color: COLORS.red }}>Controls</span><br />Classifier
+            </h2>
+            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+              20 real controls. For each, pick HOW it works and WHY it exists. Two taps per round, instant reasoning. The CISSP control-classification questions everyone gets wrong.
+            </p>
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+              20 CONTROLS · TWO-TAP · MULTI-VALID ANSWERS
+            </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              START CLASSIFYING →
+            </div>
+          </a>
+
           <a href="/tools/privilege-creep" onClick={() => handlePick("privilege_creep")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
             <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_10</div>
             <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>IAM · CISSP D5 · Simulation</div>

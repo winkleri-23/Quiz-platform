@@ -147,6 +147,13 @@ const ROUTES = [
     imageAlt: "URL Trace — six-stage animated walkthrough of what happens when you open a website.",
   },
   {
+    path: "tools/controls-classifier",
+    title: "Security Controls Classifier — Two-Tap Categorization Game | Decoded Security",
+    description: "20 real security controls, one at a time. Pick HOW each one works (Administrative, Technical, Physical) and WHY it exists (Preventive, Detective, Corrective, Deterrent, Recovery, Compensating). Instant reasoning per round. Based on the CISSP controls article.",
+    image: "/og-controls-classifier.png",
+    imageAlt: "Security Controls Classifier — two-tap categorization game for CISSP.",
+  },
+  {
     path: "tools/privilege-creep",
     title: "Privilege Creep Simulator — 5 Years, 5 Role Changes | Decoded Security",
     description: "You are the manager. Watch Alex Chen move through your company for 5 years. Each year, decide: run an access review, or skip. Skip too many and the year-5 audit will find you. Interactive simulator based on the CISSP identity lifecycle article.",
