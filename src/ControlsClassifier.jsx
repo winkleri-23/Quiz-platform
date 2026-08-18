@@ -225,7 +225,7 @@ export default function ControlsClassifier() {
   const [queue, setQueue] = useState([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [pickedHow, setPickedHow] = useState(null);
-  const [pickedWhy, setPickedWhy] = useState(null);
+  const [pickedWhy, setPickedWhy] = useState(new Set()); // multi-select — "pick all that apply"
   const [submitted, setSubmitted] = useState(false);
   const [responses, setResponses] = useState([]);
   const [copied, setCopied] = useState(false);
@@ -264,27 +264,35 @@ export default function ControlsClassifier() {
     setQueue(shuffle(CONTROLS));
     setCurrentIdx(0);
     setPickedHow(null);
-    setPickedWhy(null);
+    setPickedWhy(new Set());
     setSubmitted(false);
     setResponses([]);
     setStage("play");
   };
 
   const submit = () => {
-    if (!pickedHow || !pickedWhy || submitted) return;
+    if (!pickedHow || pickedWhy.size === 0 || submitted) return;
     const control = queue[currentIdx];
+    const accepted = new Set(control.why);
     const howOK = pickedHow === control.how;
-    const whyOK = control.why.includes(pickedWhy);
+    // Multi-select grading: every user pick must be valid, AND every valid answer must be picked.
+    const anyWrong = [...pickedWhy].some((w) => !accepted.has(w));
+    const anyMissed = [...accepted].some((w) => !pickedWhy.has(w));
+    const whyOK = !anyWrong && !anyMissed;
+    const whyPartial = !anyWrong && anyMissed; // right so far, missed one
     track("controls_classifier_answered", {
       id: control.id,
-      picked_how: pickedHow, picked_why: pickedWhy,
-      how_ok: howOK, why_ok: whyOK,
+      picked_how: pickedHow,
+      picked_why_count: pickedWhy.size,
+      how_ok: howOK, why_ok: whyOK, why_partial: whyPartial,
     });
     setSubmitted(true);
     setResponses([...responses, {
       id: control.id, name: control.name,
-      pickedHow, pickedWhy, howOK, whyOK,
-      correctHow: control.how, correctWhy: control.why[0],
+      pickedHow, pickedWhy: new Set(pickedWhy),
+      howOK, whyOK, whyPartial, anyWrong, anyMissed,
+      correctHow: control.how, acceptedWhy: control.why,
+      primaryWhy: control.why[0],
       reasoning: control.reasoning,
     }]);
   };
@@ -293,14 +301,15 @@ export default function ControlsClassifier() {
     if (currentIdx + 1 >= queue.length) {
       const scoreHow = responses.filter((r) => r.howOK).length;
       const scoreWhy = responses.filter((r) => r.whyOK).length;
+      const partialCount = responses.filter((r) => r.whyPartial).length;
       track("controls_classifier_completed", {
-        score_how: scoreHow, score_why: scoreWhy, total: queue.length,
+        score_how: scoreHow, score_why: scoreWhy, why_partial: partialCount, total: queue.length,
       });
       setStage("done");
     } else {
       setCurrentIdx(currentIdx + 1);
       setPickedHow(null);
-      setPickedWhy(null);
+      setPickedWhy(new Set());
       setSubmitted(false);
     }
   };
@@ -312,16 +321,18 @@ export default function ControlsClassifier() {
 
   const scoreHow = responses.filter((r) => r.howOK).length;
   const scoreWhy = responses.filter((r) => r.whyOK).length;
+  const partialWhy = responses.filter((r) => r.whyPartial).length;
   const total = queue.length || CONTROLS.length;
-  const combined = total === 0 ? 0 : Math.round(100 * (scoreHow + scoreWhy) / (total * 2));
+  // Full = 1 point, partial WHY = 0.5, plus HOW is its own point. Then percent-normalize.
+  const combined = total === 0 ? 0 : Math.round(100 * (scoreHow + scoreWhy + partialWhy * 0.5) / (total * 2));
 
-  // Weakest WHY type (for the result-page feedback)
+  // Weakest WHY type (for the result-page feedback) — grouped by the control's primary WHY.
   const weakestWhy = (() => {
     if (responses.length === 0) return null;
     const stats = {};
     for (const w of WHY) stats[w] = { seen: 0, correct: 0 };
     for (const r of responses) {
-      const canonical = r.correctWhy;
+      const canonical = r.primaryWhy;
       stats[canonical].seen++;
       if (r.whyOK) stats[canonical].correct++;
     }
@@ -483,38 +494,59 @@ export default function ControlsClassifier() {
               })}
             </div>
 
-            {/* WHY row */}
-            <SectionLabel>WHY · Function</SectionLabel>
+            {/* WHY row — MULTI-SELECT ("pick all that apply") */}
+            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8, flexWrap: "wrap", gap: 8 }}>
+              <div style={{ fontSize: 10, letterSpacing: 2, color: COLORS.muted, textTransform: "uppercase" }}>WHY · Function · Pick all that apply</div>
+              {!submitted && (
+                <div style={{ fontSize: 10, letterSpacing: 1, color: pickedWhy.size > 0 ? COLORS.red : COLORS.muted }}>
+                  {pickedWhy.size} selected
+                </div>
+              )}
+            </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 8, marginBottom: 20 }}>
               {WHY.map((w) => {
-                const isPicked = pickedWhy === w;
-                const isAccepted = submitted && currentControl.why.includes(w);
-                const isWrongPicked = submitted && isPicked && !isAccepted;
+                const isPicked = pickedWhy.has(w);
+                const isAccepted = currentControl.why.includes(w);
+                // Post-submit color rules:
+                //  - accepted + user picked it → green (correct pick)
+                //  - accepted + user missed it → outlined green (missed correct)
+                //  - not accepted + user picked → red (wrong pick)
+                //  - not accepted + not picked → neutral
+                let border = COLORS.border;
+                let bg = "transparent";
+                let icon = null;
+                if (submitted) {
+                  if (isAccepted && isPicked) { border = COLORS.green; bg = "rgba(58,182,118,0.14)"; icon = <span style={{ marginLeft: 6, color: COLORS.green }}>✓</span>; }
+                  else if (isAccepted && !isPicked) { border = COLORS.green; bg = "rgba(58,182,118,0.04)"; icon = <span style={{ marginLeft: 6, color: COLORS.green, fontSize: 11 }}>MISSED</span>; }
+                  else if (!isAccepted && isPicked) { border = COLORS.red; bg = "rgba(230,72,51,0.14)"; icon = <span style={{ marginLeft: 6, color: COLORS.red }}>✗</span>; }
+                } else if (isPicked) {
+                  border = COLORS.red; bg = "rgba(230,72,51,0.08)";
+                }
+                const toggle = () => {
+                  if (submitted) return;
+                  const next = new Set(pickedWhy);
+                  if (next.has(w)) next.delete(w);
+                  else next.add(w);
+                  setPickedWhy(next);
+                };
                 return (
                   <button key={w}
-                    onClick={() => !submitted && setPickedWhy(w)}
+                    onClick={toggle}
                     disabled={submitted}
                     style={{
                       fontFamily: fontStack, fontSize: 13, fontWeight: 600, letterSpacing: 1,
-                      color: COLORS.white,
-                      backgroundColor: isAccepted ? "rgba(58,182,118,0.14)"
-                                     : isWrongPicked ? "rgba(230,72,51,0.14)"
-                                     : isPicked ? "rgba(230,72,51,0.08)"
-                                     : "transparent",
-                      border: `1px solid ${isAccepted ? COLORS.green
-                                        : isWrongPicked ? COLORS.red
-                                        : isPicked ? COLORS.red
-                                        : COLORS.border}`,
+                      color: COLORS.white, backgroundColor: bg,
+                      border: `1px solid ${border}`,
                       padding: "12px 16px",
                       cursor: submitted ? "default" : "pointer",
                       transition: "all 150ms",
+                      display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6,
                     }}
                     onMouseEnter={(e) => { if (!submitted && !isPicked) { e.currentTarget.style.borderColor = COLORS.red; } }}
                     onMouseLeave={(e) => { if (!submitted && !isPicked) { e.currentTarget.style.borderColor = COLORS.border; } }}
                   >
-                    {WHY_LABEL[w]}
-                    {isAccepted && <span style={{ marginLeft: 6, color: COLORS.green }}>✓</span>}
-                    {isWrongPicked && <span style={{ marginLeft: 6, color: COLORS.red }}>✗</span>}
+                    <span>{WHY_LABEL[w]}</span>
+                    {icon}
                   </button>
                 );
               })}
@@ -523,29 +555,42 @@ export default function ControlsClassifier() {
             {/* Submit or feedback + next */}
             {!submitted ? (
               <div>
-                <button onClick={submit} disabled={!pickedHow || !pickedWhy} style={primaryBtn(fontStack, !pickedHow || !pickedWhy)}>
-                  {pickedHow && pickedWhy ? "SUBMIT ANSWER →" : "PICK BOTH TO SUBMIT"}
+                <button onClick={submit} disabled={!pickedHow || pickedWhy.size === 0}
+                  style={primaryBtn(fontStack, !pickedHow || pickedWhy.size === 0)}>
+                  {pickedHow && pickedWhy.size > 0 ? "SUBMIT ANSWER →" : "PICK HOW + AT LEAST ONE WHY"}
                 </button>
-                <div style={{ marginTop: 12, fontSize: 11, color: COLORS.muted, letterSpacing: 1 }}>
-                  Some controls have more than one valid WHY. Either accepted answer counts.
+                <div style={{ marginTop: 12, fontSize: 11, color: COLORS.muted, letterSpacing: 1, lineHeight: 1.6 }}>
+                  Many controls fit more than one WHY. For full credit, pick every type that applies — missing one counts as partial.
                 </div>
               </div>
             ) : (
               <div style={{ animation: "fadeIn 250ms ease-out" }}>
-                <div style={{
-                  borderLeft: `2px solid ${currentResponse.howOK && currentResponse.whyOK ? COLORS.green : COLORS.red}`,
-                  paddingLeft: 18, marginBottom: 20,
-                }}>
-                  <div style={{ fontSize: 11, letterSpacing: 2, marginBottom: 8, color: currentResponse.howOK && currentResponse.whyOK ? COLORS.green : COLORS.red }}>
-                    {currentResponse.howOK && currentResponse.whyOK ? "BOTH CORRECT ✓"
-                     : currentResponse.howOK ? "HOW correct · WHY wrong"
-                     : currentResponse.whyOK ? "WHY correct · HOW wrong"
-                     : "BOTH WRONG"}
-                  </div>
-                  <p style={{ fontSize: 14, lineHeight: 1.6, color: "#dddddd", margin: 0 }}>
-                    {currentResponse.reasoning}
-                  </p>
-                </div>
+                {(() => {
+                  const bothFull = currentResponse.howOK && currentResponse.whyOK;
+                  const partialOK = currentResponse.howOK && currentResponse.whyPartial;
+                  const borderColor = bothFull ? COLORS.green : partialOK ? COLORS.amber : COLORS.red;
+                  const labelColor = borderColor;
+                  let label;
+                  if (bothFull) label = "BOTH FULLY CORRECT ✓";
+                  else if (currentResponse.howOK && currentResponse.whyPartial) label = "HOW correct · WHY partial (missed one)";
+                  else if (currentResponse.howOK && !currentResponse.whyOK) label = "HOW correct · WHY wrong";
+                  else if (!currentResponse.howOK && currentResponse.whyOK) label = "WHY fully correct · HOW wrong";
+                  else if (!currentResponse.howOK && currentResponse.whyPartial) label = "WHY partial · HOW wrong";
+                  else label = "BOTH WRONG";
+                  return (
+                    <div style={{ borderLeft: `2px solid ${borderColor}`, paddingLeft: 18, marginBottom: 20 }}>
+                      <div style={{ fontSize: 11, letterSpacing: 2, marginBottom: 8, color: labelColor }}>{label}</div>
+                      {currentResponse.acceptedWhy.length > 1 && (
+                        <div style={{ fontSize: 12, color: COLORS.muted, marginBottom: 8 }}>
+                          Accepted WHY types: {currentResponse.acceptedWhy.map((w) => WHY_LABEL[w]).join(" · ")}
+                        </div>
+                      )}
+                      <p style={{ fontSize: 14, lineHeight: 1.6, color: "#dddddd", margin: 0 }}>
+                        {currentResponse.reasoning}
+                      </p>
+                    </div>
+                  );
+                })()}
                 <button onClick={next} style={primaryBtn(fontStack)}>
                   {currentIdx + 1 < queue.length ? "NEXT CONTROL →" : "SEE MY RESULT →"}
                 </button>
@@ -577,7 +622,12 @@ export default function ControlsClassifier() {
                 <div style={{ fontSize: 28, fontWeight: 700, color: scoreWhy >= total * 0.8 ? COLORS.green : scoreWhy >= total * 0.6 ? COLORS.amber : COLORS.red, lineHeight: 1, marginBottom: 6 }}>
                   {scoreWhy}<span style={{ fontSize: 14, color: COLORS.muted, marginLeft: 4 }}>/ {total}</span>
                 </div>
-                <div style={{ fontSize: 10, letterSpacing: 1.5, color: COLORS.muted }}>WHY CORRECT</div>
+                <div style={{ fontSize: 10, letterSpacing: 1.5, color: COLORS.muted }}>WHY FULLY CORRECT</div>
+                {partialWhy > 0 && (
+                  <div style={{ fontSize: 11, color: COLORS.amber, marginTop: 4 }}>
+                    + {partialWhy} partial (missed a valid type)
+                  </div>
+                )}
                 <div style={{ fontSize: 11, color: "#999", marginTop: 4 }}>Preventive · Detective · Corrective · Deterrent · Recovery · Compensating</div>
               </div>
             </div>
