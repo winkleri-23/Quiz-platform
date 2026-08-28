@@ -72,6 +72,13 @@ export const CISSP_DOMAINS = [
         certs: "CC · CISSP D4 · Security+",
         questions: 10,
       },
+      {
+        title: "Ports and Scanning",
+        blurb: "What a port is, the three scan states (open / closed / filtered), well-known ports, and the myth that \"open port = vulnerability.\"",
+        route: "/article/ports",
+        certs: "CC · CISSP D4 · Security+",
+        questions: 8,
+      },
     ],
   },
   {

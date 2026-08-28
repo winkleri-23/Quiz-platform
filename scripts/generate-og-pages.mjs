@@ -84,6 +84,13 @@ const ROUTES = [
     imageAlt: "Quiz: Containers vs Virtual Machines for CISSP.",
   },
   {
+    path: "article/ports",
+    title: "Ports and Scanning — CISSP D4 Quiz | Decoded Security",
+    description: "Test your understanding of ports and port scanning — what a port actually is, the three scan states (open, closed, filtered), well-known ports, and the myth that \"open port = vulnerability.\" Maps to CC, CISSP Domain 4, and Security+. 8 questions, instant feedback.",
+    image: "/og-ports.png",
+    imageAlt: "Quiz: Ports and Scanning — the port questions every SOC interview asks.",
+  },
+  {
     path: "article/identity-lifecycle",
     title: "Identity Lifecycle Management — CISSP Quiz | Decoded Security",
     description: "Test your understanding of the IAM lifecycle — ownership, least privilege, privilege creep, access reviews, and automated deprovisioning. Maps to CC, CISSP Domain 5, and Security+. 8 questions, instant feedback.",

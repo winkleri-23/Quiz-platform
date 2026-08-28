@@ -209,6 +209,23 @@ export default function ArticleQuizCategory() {
             </div>
           </a>
 
+          <a href="/article/ports" onClick={() => handlePick("article_ports")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>ARTICLE_QUIZ_10</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>CC · CISSP D4 · Security+</div>
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+              <span style={{ color: COLORS.red }}>Ports and Scanning</span>
+            </h2>
+            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+              What a port is, the three scan states (open / closed / filtered), well-known ports, and the myth that "open port = vulnerability."
+            </p>
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+              8 QUESTIONS · ~5 MIN · INSTANT FEEDBACK
+            </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              START QUIZ →
+            </div>
+          </a>
+
           <a href="/article/identity-lifecycle" onClick={() => handlePick("article_identity_lifecycle")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
             <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>ARTICLE_QUIZ_09</div>
             <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>CC · CISSP D5 · Security+</div>

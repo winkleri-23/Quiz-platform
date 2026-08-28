@@ -29,6 +29,7 @@ import ContainersVsVMsQuiz from "./ContainersVsVMsQuiz.jsx";
 import EmailAuthQuiz from "./EmailAuthQuiz.jsx";
 import SiemQuiz from "./SiemQuiz.jsx";
 import IdentityLifecycleQuiz from "./IdentityLifecycleQuiz.jsx";
+import PortsQuiz from "./PortsQuiz.jsx";
 
 // Path-based routing. Works with Vercel rewrites for SPA fallback,
 // and per-route static HTML files so social crawlers see per-route OG meta.
@@ -131,6 +132,7 @@ export default function App() {
   if (route === "article/email-authentication") return <EmailAuthQuiz />;
   if (route === "article/siem") return <SiemQuiz />;
   if (route === "article/identity-lifecycle") return <IdentityLifecycleQuiz />;
+  if (route === "article/ports") return <PortsQuiz />;
 
   return <CategoryHub />;
 }

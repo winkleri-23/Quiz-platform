@@ -222,7 +222,7 @@ export default function CategoryHub() {
               Every quiz pairs one-for-one with a Decoded Security article. Read the article, then prove it stuck. Instant feedback with the "why" for every question.
             </p>
             <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.7, marginBottom: 22 }}>
-              9 QUIZZES LIVE · NEW ONE PER ARTICLE
+              10 QUIZZES LIVE · NEW ONE PER ARTICLE
             </div>
             <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
               OPEN CATEGORY →
