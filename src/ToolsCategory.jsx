@@ -169,6 +169,23 @@ export default function ToolsCategory() {
             </div>
           </a>
 
+          <a href="/tools/port-scanner" onClick={() => handlePick("port_scanner")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_12</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Networking · Ports · Scanning</div>
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+              <span style={{ color: COLORS.red }}>Port</span><br />Scanner
+            </h2>
+            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+              Every host is a building. Every port is a door. Click any door to knock. See what opens, what stays shut, and what's blocked by a firewall. Six real-world target scenarios.
+            </p>
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+              16 PORTS · 6 TARGETS · LIVE ANIMATION
+            </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              KNOCK ON DOORS →
+            </div>
+          </a>
+
           <a href="/tools/controls-classifier" onClick={() => handlePick("controls_classifier")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
             <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_11</div>
             <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>CISSP · Control types · Rapid game</div>

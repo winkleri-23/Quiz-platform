@@ -147,6 +147,13 @@ const ROUTES = [
     imageAlt: "URL Trace — six-stage animated walkthrough of what happens when you open a website.",
   },
   {
+    path: "tools/port-scanner",
+    title: "Port Scanner Visualizer — Every Host Is a Building | Decoded Security",
+    description: "Interactive port-scan tool. Every host is a building, every port is a door. Click a door to knock — see what opens, what stays shut, and what a firewall silently blocks. Six real target scenarios. Based on the ports-and-scanning article.",
+    image: "/og-port-scanner.png",
+    imageAlt: "Port Scanner Visualizer — 16 numbered doors, click to knock.",
+  },
+  {
     path: "tools/controls-classifier",
     title: "Security Controls Classifier — Two-Tap Categorization Game | Decoded Security",
     description: "20 real security controls, one at a time. Pick HOW each one works (Administrative, Technical, Physical) and WHY it exists (Preventive, Detective, Corrective, Deterrent, Recovery, Compensating). Instant reasoning per round. Based on the CISSP controls article.",

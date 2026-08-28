@@ -16,6 +16,7 @@ import DiffieHellman from "./DiffieHellman.jsx";
 import AlertTriage from "./AlertTriage.jsx";
 import PrivilegeCreep from "./PrivilegeCreep.jsx";
 import ControlsClassifier from "./ControlsClassifier.jsx";
+import PortScanner from "./PortScanner.jsx";
 import PathFinder from "./PathFinder.jsx";
 import DirectionFinder from "./DirectionFinder.jsx";
 import CisspDomain1 from "./CisspDomain1.jsx";
@@ -111,6 +112,7 @@ export default function App() {
   if (route === "tools/alert-triage") return <AlertTriage />;
   if (route === "tools/privilege-creep") return <PrivilegeCreep />;
   if (route === "tools/controls-classifier") return <ControlsClassifier />;
+  if (route === "tools/port-scanner") return <PortScanner />;
 
   // CISSP domain topic pages
   const domainMatch = route.match(/^cissp\/domain-([1-8])$/);
