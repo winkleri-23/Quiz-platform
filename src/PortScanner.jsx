@@ -27,10 +27,9 @@ const COLORS = {
 const BASE_URL = "https://www.decodedsecurity.com/p/";
 const SUBSCRIBE_URL = "https://www.decodedsecurity.com/subscribe";
 
-// TODO: Update slug once article publishes with its final URL.
 const SOURCE_ARTICLE = {
-  title: "What Is a Port? (And Why Every Cybersecurity Beginner Needs to Understand Scanning)",
-  slug: "what-is-a-port",
+  title: "Ports and Why We Scan Them",
+  slug: "ports-and-why-we-scan-them",
 };
 
 // -----------------------------------------------------------------------------
