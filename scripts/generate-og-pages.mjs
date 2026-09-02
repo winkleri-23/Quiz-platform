@@ -112,6 +112,13 @@ const ROUTES = [
     imageAlt: "Quiz: SPF, DKIM, DMARC — email authentication for CISSP Domain 4.",
   },
   {
+    path: "flashcards",
+    title: "Cybersecurity Flashcards — 20 Essentials | Decoded Security",
+    description: "The 20 cybersecurity terms every beginner needs cold. CIA, AAA, encryption, hashing, SIEM, incident response, and 14 more. Free, no account, works offline. Filter by category, flip through, shuffle.",
+    image: "/og-flashcards.png",
+    imageAlt: "20 essential cybersecurity flashcards — flip through in five minutes.",
+  },
+  {
     path: "tools",
     title: "Tools & Calculators | Decoded Security",
     description: "Interactive calculators tied to Decoded Security articles. Type in your values, get the answer, understand why. First tool: subnet calculator.",

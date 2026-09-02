@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import CategoryHub from "./CategoryHub.jsx";
+import FlashcardsPage from "./FlashcardsPage.jsx";
 import DiagnosticsCategory from "./DiagnosticsCategory.jsx";
 import CisspCategory from "./CisspCategory.jsx";
 import CisspDomainTopics from "./CisspDomainTopics.jsx";
@@ -102,6 +103,7 @@ export default function App() {
   if (route === "cissp") return <CisspCategory />;
   if (route === "articles") return <ArticleQuizCategory />;
   if (route === "tools") return <ToolsCategory />;
+  if (route === "flashcards") return <FlashcardsPage />;
   if (route === "tools/subnet-calculator") return <SubnetCalculator />;
   if (route === "tools/spoof-check") return <SpoofCheckTool />;
   if (route === "tools/linux-sandbox") return <LinuxSandbox />;

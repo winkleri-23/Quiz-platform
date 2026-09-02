@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { track } from "@vercel/analytics/react";
-import Flashcards from "./Flashcards.jsx";
 
 // =============================================================================
 // DECODED SECURITY — CATEGORY HUB (Homepage)
@@ -121,19 +120,38 @@ export default function CategoryHub() {
           </p>
         </div>
 
-        {/* FLASHCARDS WIDGET — try the platform right on the homepage */}
-        <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 8 }}>
-            &gt; QUICK STUDY
+        {/* FLASHCARDS PROMO — compact link to the dedicated page */}
+        <a href="/flashcards"
+          onClick={() => track("flashcards_promo_clicked")}
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16,
+            border: `1px solid ${COLORS.border}`, borderLeft: `2px solid ${COLORS.red}`,
+            padding: "18px 22px", marginBottom: 40,
+            backgroundColor: "rgba(230, 72, 51, 0.04)",
+            textDecoration: "none", color: COLORS.white,
+            flexWrap: "wrap",
+            transition: "all 150ms",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(230, 72, 51, 0.08)"; e.currentTarget.style.borderColor = COLORS.red; }}
+          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(230, 72, 51, 0.04)"; e.currentTarget.style.borderColor = COLORS.border; }}
+        >
+          <div style={{ flex: "1 1 320px" }}>
+            <div style={{ fontSize: 10, color: COLORS.red, letterSpacing: 2, marginBottom: 6 }}>QUICK STUDY</div>
+            <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 4, lineHeight: 1.3 }}>
+              20 cybersecurity flashcards — the essentials every beginner needs cold.
+            </div>
+            <div style={{ fontSize: 12, color: COLORS.muted, lineHeight: 1.5 }}>
+              CIA, AAA, encryption, SIEM, incident response, and 15 more. Five minutes.
+            </div>
           </div>
-          <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12, lineHeight: 1.2, letterSpacing: -0.5 }}>
-            20 cybersecurity flashcards. Flip through in five minutes.
-          </h2>
-          <p style={{ fontSize: 14, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 20, maxWidth: 640 }}>
-            The 20 concepts every beginner needs cold. CIA, AAA, encryption, hashing, SIEM, incident response, and the rest. Filter by category, shuffle when you feel confident, come back tomorrow.
-          </p>
-          <Flashcards />
-        </div>
+          <div style={{
+            fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white,
+            backgroundColor: COLORS.red, padding: "10px 18px",
+            whiteSpace: "nowrap",
+          }}>
+            OPEN FLASHCARDS →
+          </div>
+        </a>
 
         {/* HOW TO USE — step-by-step */}
         <div style={{ marginBottom: 64 }}>
