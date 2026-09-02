@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { track } from "@vercel/analytics/react";
+import Flashcards from "./Flashcards.jsx";
 
 // =============================================================================
 // DECODED SECURITY — CATEGORY HUB (Homepage)
@@ -118,6 +119,20 @@ export default function CategoryHub() {
           <p style={{ fontSize: 14, color: COLORS.muted, letterSpacing: 0.5, maxWidth: 720 }}>
             Free · No account · Nothing installed · Runs in your browser
           </p>
+        </div>
+
+        {/* FLASHCARDS WIDGET — try the platform right on the homepage */}
+        <div style={{ marginBottom: 64 }}>
+          <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 8 }}>
+            &gt; QUICK STUDY
+          </div>
+          <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12, lineHeight: 1.2, letterSpacing: -0.5 }}>
+            20 cybersecurity flashcards. Flip through in five minutes.
+          </h2>
+          <p style={{ fontSize: 14, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 20, maxWidth: 640 }}>
+            The 20 concepts every beginner needs cold. CIA, AAA, encryption, hashing, SIEM, incident response, and the rest. Filter by category, shuffle when you feel confident, come back tomorrow.
+          </p>
+          <Flashcards />
         </div>
 
         {/* HOW TO USE — step-by-step */}
