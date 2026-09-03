@@ -112,6 +112,20 @@ const ROUTES = [
     imageAlt: "Quiz: SPF, DKIM, DMARC — email authentication for CISSP Domain 4.",
   },
   {
+    path: "guest",
+    title: "Special Guest Content — Cybersecurity Quizzes | Decoded Security",
+    description: "Guest quizzes and tools contributed by other cybersecurity creators. Every piece credits its author with a link back to their original work.",
+    image: "/og-guest.png",
+    imageAlt: "Special guest cybersecurity content on Decoded Security.",
+  },
+  {
+    path: "guest/auth-scans",
+    title: "Authenticated vs Non-Authenticated Scans — Guest Quiz by DrawnToCyber | Decoded Security",
+    description: "The difference between \"looking from outside\" and \"checking with the keys.\" 10 questions on scan depth, visibility, and when to use which. Original article and questions by DrawnToCyber.",
+    image: "/og-guest-auth-scans.png",
+    imageAlt: "Authenticated vs Non-Authenticated Scans — guest quiz by DrawnToCyber.",
+  },
+  {
     path: "flashcards",
     title: "Cybersecurity Flashcards — 20 Essentials | Decoded Security",
     description: "The 20 cybersecurity terms every beginner needs cold. CIA, AAA, encryption, hashing, SIEM, incident response, and 14 more. Free, no account, works offline. Filter by category, flip through, shuffle.",

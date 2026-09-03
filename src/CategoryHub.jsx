@@ -3,9 +3,9 @@ import { track } from "@vercel/analytics/react";
 
 // =============================================================================
 // DECODED SECURITY — CATEGORY HUB (Homepage)
-// Introduces the platform, explains the four categories, gives a step-by-step
-// path for first-time visitors. The four category cards remain the primary
-// call-to-action.
+// Redesigned for accessibility: category cards sit immediately below a tight
+// hero so the main navigation is visible without scrolling. Flashcards promo,
+// "how to use" tips, and newsletter live below.
 // =============================================================================
 
 const COLORS = {
@@ -17,6 +17,49 @@ const COLORS = {
 };
 
 const SUBSCRIBE_URL = "https://www.decodedsecurity.com/subscribe";
+
+const CATEGORIES = [
+  {
+    id: "diagnostics",
+    href: "/diagnostics",
+    num: "01",
+    title: (c) => <>Find your <span style={{ color: c.red }}>direction</span></>,
+    blurb: "Two 60-second diagnostics. Study path and career direction, with a personalized reading list at the end.",
+    meta: "STUDY PATH · DIRECTION FINDER",
+  },
+  {
+    id: "cissp",
+    href: "/cissp",
+    num: "02",
+    title: (c) => <>Prepare for <span style={{ color: c.red }}>CISSP</span></>,
+    blurb: "Knowledge quizzes by CISSP domain. Every wrong answer links back to the article that covers it.",
+    meta: "DOMAIN 1 LIVE · MORE COMING",
+  },
+  {
+    id: "articles",
+    href: "/articles",
+    num: "03",
+    title: (c) => <><span style={{ color: c.red }}>Article</span> quizzes</>,
+    blurb: "Every quiz pairs one-for-one with a Decoded Security article. Read it, prove it stuck.",
+    meta: "10 QUIZZES LIVE · NEW ONE PER ARTICLE",
+  },
+  {
+    id: "tools",
+    href: "/tools",
+    num: "04",
+    title: (c) => <><span style={{ color: c.red }}>Tools</span> and calculators</>,
+    blurb: "Type real inputs, see real results. Subnet, spoof-check, URL trace, PKI, port scan, and more.",
+    meta: "12 TOOLS LIVE · NEW ONE PER ARTICLE",
+  },
+  {
+    id: "guest",
+    href: "/guest",
+    num: "05",
+    title: (c) => <><span style={{ color: c.red }}>Special guest</span> content</>,
+    blurb: "Guest quizzes from other cybersecurity creators I trust. Fresh perspectives, same standards.",
+    meta: "1 GUEST QUIZ LIVE",
+  },
+];
 
 export default function CategoryHub() {
   useEffect(() => {
@@ -30,23 +73,21 @@ export default function CategoryHub() {
   }, []);
 
   const fontStack = "'IBM Plex Mono', ui-monospace, Menlo, monospace";
-
-  const handlePick = (category) => {
-    track("category_picked", { category });
-  };
+  const handlePick = (category) => track("category_picked", { category });
 
   const cardBase = {
-    display: "block",
+    display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 12,
+    minHeight: 200,
     border: `1px solid ${COLORS.border}`,
-    padding: 28,
+    padding: 20,
     textDecoration: "none",
     color: COLORS.white,
-    transition: "all 200ms ease-out",
+    transition: "all 180ms ease-out",
     backgroundColor: "transparent",
   };
   const cardHover = (e) => {
     e.currentTarget.style.borderColor = COLORS.red;
-    e.currentTarget.style.backgroundColor = "rgba(230, 72, 51, 0.04)";
+    e.currentTarget.style.backgroundColor = "rgba(230, 72, 51, 0.05)";
     e.currentTarget.style.transform = "translateY(-2px)";
   };
   const cardUnhover = (e) => {
@@ -55,27 +96,6 @@ export default function CategoryHub() {
     e.currentTarget.style.transform = "translateY(0)";
   };
 
-  const STEPS = [
-    {
-      num: "01",
-      title: "Start with a diagnostic",
-      body: "Not sure where to focus? Two short quizzes (2 minutes each) route you to your study path or your best-fit cybersecurity career lane. You get a personalized reading list at the end.",
-      hint: "→ Category 01",
-    },
-    {
-      num: "02",
-      title: "Test what you know",
-      body: "CISSP knowledge quizzes if you're prepping for the exam. Article-paired quizzes if you want to check whether a specific Decoded Security post actually stuck. Every wrong answer links back to the article that covers it.",
-      hint: "→ Category 02 · 03",
-    },
-    {
-      num: "03",
-      title: "Practice with tools",
-      body: "Actually use what you've learned. Calculate a subnet, check if a domain can be spoofed, walk through what happens when you open a URL, or fix AI-generated code bugs to claim a free month of Premium.",
-      hint: "→ Category 04",
-    },
-  ];
-
   return (
     <div
       style={{
@@ -83,19 +103,20 @@ export default function CategoryHub() {
         backgroundColor: COLORS.black,
         color: COLORS.white,
         fontFamily: fontStack,
-        padding: "24px 16px",
+        padding: "20px 16px",
         backgroundImage: `radial-gradient(circle at 20% 0%, rgba(230, 72, 51, 0.08), transparent 50%), radial-gradient(circle at 80% 100%, rgba(230, 72, 51, 0.05), transparent 50%)`,
       }}
     >
-      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-        <header style={{ marginBottom: 48, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+        {/* Compact header */}
+        <header style={{ marginBottom: 24, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 10, height: 10, backgroundColor: COLORS.red, borderRadius: "50%", boxShadow: `0 0 12px ${COLORS.red}` }} />
             <div style={{ fontSize: 12, letterSpacing: 2, color: COLORS.muted }}>DECODED_SECURITY // INTERACTIVE PLATFORM</div>
           </div>
           <a href={SUBSCRIBE_URL} target="_blank" rel="noopener noreferrer"
             onClick={() => track("subscribe_clicked", { source: "hub_header" })}
-            style={{ fontSize: 11, letterSpacing: 1.5, color: COLORS.muted, textDecoration: "none", borderBottom: `1px solid ${COLORS.border}`, paddingBottom: 2, transition: "color 150ms, border-color 150ms" }}
+            style={{ fontSize: 11, letterSpacing: 1.5, color: COLORS.muted, textDecoration: "none", borderBottom: `1px solid ${COLORS.border}`, paddingBottom: 2 }}
             onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.red; e.currentTarget.style.borderBottomColor = COLORS.red; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.muted; e.currentTarget.style.borderBottomColor = COLORS.border; }}
           >
@@ -103,21 +124,49 @@ export default function CategoryHub() {
           </a>
         </header>
 
-        {/* HERO */}
-        <div style={{ animation: "fadeIn 600ms ease-out", marginBottom: 64 }}>
-          <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 20 }}>
-            &gt; WELCOME TO DECODED SECURITY
+        {/* TIGHT HERO — three lines total */}
+        <div style={{ animation: "fadeIn 500ms ease-out", marginBottom: 24 }}>
+          <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>
+            &gt; WELCOME
           </div>
-          <h1 style={{ fontSize: "clamp(36px, 6vw, 60px)", fontWeight: 700, lineHeight: 1.05, marginBottom: 24, letterSpacing: -1 }}>
-            Cybersecurity,<br />
-            <span style={{ color: COLORS.red }}>made interactive.</span>
+          <h1 style={{ fontSize: "clamp(28px, 4.5vw, 44px)", fontWeight: 700, lineHeight: 1.08, marginBottom: 8, letterSpacing: -0.8 }}>
+            Cybersecurity, <span style={{ color: COLORS.red }}>made interactive.</span>
           </h1>
-          <p style={{ fontSize: 17, lineHeight: 1.6, color: "#cccccc", marginBottom: 12, maxWidth: 720 }}>
-            The companion platform to the Decoded Security newsletter. Diagnostics that route you to what to study, knowledge quizzes for CISSP prep, article-paired quizzes that test what stuck, and hands-on tools that let you actually try what you've read about.
-          </p>
-          <p style={{ fontSize: 14, color: COLORS.muted, letterSpacing: 0.5, maxWidth: 720 }}>
+          <p style={{ fontSize: 13, color: COLORS.muted, letterSpacing: 0.5, margin: 0 }}>
             Free · No account · Nothing installed · Runs in your browser
           </p>
+        </div>
+
+        {/* CATEGORIES — above the fold, primary navigation */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: 12,
+            marginBottom: 32,
+          }}
+        >
+          {CATEGORIES.map((cat) => (
+            <a key={cat.id} href={cat.href} onClick={() => handlePick(cat.id)}
+              style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}
+            >
+              <div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                  <div style={{ fontSize: 10, color: COLORS.red, letterSpacing: 2.5 }}>CATEGORY_{cat.num}</div>
+                  <div style={{ fontSize: 16, color: COLORS.red }}>→</div>
+                </div>
+                <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.2, marginBottom: 10, letterSpacing: -0.4 }}>
+                  {cat.title(COLORS)}
+                </h2>
+                <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.5, margin: 0 }}>
+                  {cat.blurb}
+                </p>
+              </div>
+              <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.5 }}>
+                {cat.meta}
+              </div>
+            </a>
+          ))}
         </div>
 
         {/* FLASHCARDS PROMO — compact link to the dedicated page */}
@@ -126,7 +175,7 @@ export default function CategoryHub() {
           style={{
             display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16,
             border: `1px solid ${COLORS.border}`, borderLeft: `2px solid ${COLORS.red}`,
-            padding: "18px 22px", marginBottom: 40,
+            padding: "18px 22px", marginBottom: 32,
             backgroundColor: "rgba(230, 72, 51, 0.04)",
             textDecoration: "none", color: COLORS.white,
             flexWrap: "wrap",
@@ -153,170 +202,61 @@ export default function CategoryHub() {
           </div>
         </a>
 
-        {/* HOW TO USE — step-by-step */}
-        <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 8 }}>
-            &gt; HOW TO USE THIS PLATFORM
-          </div>
-          <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 28, lineHeight: 1.2, letterSpacing: -0.5 }}>
-            Three steps. Any order.
-          </h2>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: 20,
-          }}>
-            {STEPS.map((s) => (
-              <div key={s.num} style={{
-                border: `1px solid ${COLORS.border}`,
-                borderLeft: `2px solid ${COLORS.red}`,
-                padding: 22,
-                backgroundColor: "rgba(230, 72, 51, 0.03)",
-              }}>
-                <div style={{
-                  fontSize: 40, fontWeight: 700, color: COLORS.red,
-                  lineHeight: 1, marginBottom: 12, letterSpacing: -2,
-                }}>
-                  {s.num}
-                </div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: COLORS.white, marginBottom: 10, lineHeight: 1.3 }}>
-                  {s.title}
-                </div>
-                <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
-                  {s.body}
-                </p>
-                <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2 }}>
-                  {s.hint}
+        {/* HOW TO USE — collapsed onto one row of compact hints */}
+        <div style={{ marginBottom: 32 }}>
+          <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 2, marginBottom: 10 }}>NEW HERE? THREE-STEP FLOW:</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10 }}>
+            {[
+              { n: "01", t: "Take a diagnostic", d: "→ Category 01. Find where to focus." },
+              { n: "02", t: "Test what you know", d: "→ Category 02 · 03. Quizzes with instant feedback." },
+              { n: "03", t: "Practice with tools", d: "→ Category 04. Actually use what you learned." },
+            ].map((s) => (
+              <div key={s.n} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "10px 12px", border: `1px solid ${COLORS.border}` }}>
+                <div style={{ fontSize: 18, fontWeight: 700, color: COLORS.red, lineHeight: 1, minWidth: 22 }}>{s.n}</div>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: COLORS.white, marginBottom: 2 }}>{s.t}</div>
+                  <div style={{ fontSize: 11, color: COLORS.muted }}>{s.d}</div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* CATEGORIES — the actual entry points */}
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 8 }}>
-            &gt; PICK A CATEGORY
-          </div>
-          <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 24, lineHeight: 1.2, letterSpacing: -0.5 }}>
-            Four ways in.
-          </h2>
-        </div>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: 20,
-            marginBottom: 56,
-          }}
-        >
-          {/* CATEGORY 1: DIAGNOSTICS */}
-          <a href="/diagnostics" onClick={() => handlePick("diagnostics")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
-            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 14 }}>CATEGORY_01</div>
-            <h2 style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.15, marginBottom: 14, letterSpacing: -0.5 }}>
-              Find your <span style={{ color: COLORS.red }}>direction</span>
-            </h2>
-            <p style={{ fontSize: 14, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 18 }}>
-              Two 60-second diagnostics — one tells you your best-fit study path, the other tells you which cybersecurity career lane suits you. Personalized reading list at the end.
-            </p>
-            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.7, marginBottom: 22 }}>
-              STUDY PATH · DIRECTION FINDER
-            </div>
-            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
-              OPEN CATEGORY →
-            </div>
-          </a>
-
-          {/* CATEGORY 2: CISSP */}
-          <a href="/cissp" onClick={() => handlePick("cissp")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
-            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 14 }}>CATEGORY_02</div>
-            <h2 style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.15, marginBottom: 14, letterSpacing: -0.5 }}>
-              Prepare for <span style={{ color: COLORS.red }}>CISSP</span>
-            </h2>
-            <p style={{ fontSize: 14, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 18 }}>
-              Knowledge quizzes by CISSP domain. Every wrong answer routes you to the article that covers what you missed.
-            </p>
-            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.7, marginBottom: 22 }}>
-              DOMAIN 1 LIVE · DOMAINS 2–8 COMING
-            </div>
-            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
-              OPEN CATEGORY →
-            </div>
-          </a>
-
-          {/* CATEGORY 3: ARTICLE QUIZZES */}
-          <a href="/articles" onClick={() => handlePick("articles")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
-            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 14 }}>CATEGORY_03</div>
-            <h2 style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.15, marginBottom: 14, letterSpacing: -0.5 }}>
-              <span style={{ color: COLORS.red }}>Article</span> quizzes
-            </h2>
-            <p style={{ fontSize: 14, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 18 }}>
-              Every quiz pairs one-for-one with a Decoded Security article. Read the article, then prove it stuck. Instant feedback with the "why" for every question.
-            </p>
-            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.7, marginBottom: 22 }}>
-              10 QUIZZES LIVE · NEW ONE PER ARTICLE
-            </div>
-            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
-              OPEN CATEGORY →
-            </div>
-          </a>
-
-          {/* CATEGORY 4: TOOLS */}
-          <a href="/tools" onClick={() => handlePick("tools")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
-            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 14 }}>CATEGORY_04</div>
-            <h2 style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.15, marginBottom: 14, letterSpacing: -0.5 }}>
-              <span style={{ color: COLORS.red }}>Tools</span> & calculators
-            </h2>
-            <p style={{ fontSize: 14, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 18 }}>
-              Type real inputs, see real results. Subnet a network, spoof-check a domain, walk through a URL trace, fix AI-generated code, or play three roles in a PKI attack scenario.
-            </p>
-            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.7, marginBottom: 22 }}>
-              12 TOOLS LIVE · NEW ONE PER ARTICLE
-            </div>
-            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
-              OPEN CATEGORY →
-            </div>
-          </a>
-        </div>
-
         {/* NEWSLETTER CTA */}
         <div style={{
           border: `1px solid ${COLORS.red}`,
           backgroundColor: "rgba(230, 72, 51, 0.05)",
-          padding: 28, marginBottom: 40,
+          padding: 24, marginBottom: 32,
         }}>
-          <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 12 }}>
-            THE SOURCE
-          </div>
-          <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 10, lineHeight: 1.2, letterSpacing: -0.5 }}>
+          <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>THE SOURCE</div>
+          <div style={{ fontSize: 20, fontWeight: 700, marginBottom: 8, lineHeight: 1.25, letterSpacing: -0.4 }}>
             Everything here is built around the Decoded Security newsletter.
           </div>
-          <p style={{ fontSize: 14, color: "#cccccc", marginBottom: 20, lineHeight: 1.55, maxWidth: 640 }}>
-            Free weekly cybersecurity breakdowns — AI security, secure coding, exam prep, and the fundamentals nobody explains clearly. 1,450+ readers.
+          <p style={{ fontSize: 13, color: "#cccccc", marginBottom: 16, lineHeight: 1.55, maxWidth: 640 }}>
+            Free weekly cybersecurity breakdowns. AI security, secure coding, exam prep, and the fundamentals nobody explains clearly. 1,450+ readers.
           </p>
           <a
             href={SUBSCRIBE_URL}
             target="_blank" rel="noopener noreferrer"
             onClick={() => track("subscribe_clicked", { source: "hub_cta" })}
             style={{
-              display: "inline-block", fontFamily: fontStack, fontSize: 14, fontWeight: 600,
+              display: "inline-block", fontFamily: fontStack, fontSize: 13, fontWeight: 600,
               letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red,
-              textDecoration: "none", padding: "14px 28px",
+              textDecoration: "none", padding: "12px 24px",
             }}
           >
             SUBSCRIBE — IT'S FREE →
           </a>
         </div>
 
-        <footer style={{ marginTop: 40, paddingTop: 24, borderTop: `1px solid ${COLORS.border}`, fontSize: 11, color: COLORS.muted, letterSpacing: 1.5, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <div>DECODED_SECURITY // INTERACTIVE_PLATFORM_v5</div>
+        <footer style={{ marginTop: 24, paddingTop: 20, borderTop: `1px solid ${COLORS.border}`, fontSize: 11, color: COLORS.muted, letterSpacing: 1.5, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+          <div>DECODED_SECURITY // INTERACTIVE_PLATFORM_v6</div>
           <div>BUILT FOR PEOPLE WHO LEARN BY DOING</div>
         </footer>
       </div>
 
       <style>{`
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
     </div>
   );
