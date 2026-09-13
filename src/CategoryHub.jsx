@@ -49,7 +49,7 @@ const CATEGORIES = [
     num: "04",
     title: (c) => <><span style={{ color: c.red }}>Tools</span> and calculators</>,
     blurb: "Type real inputs, see real results. Subnet, spoof-check, URL trace, PKI, port scan, and more.",
-    meta: "12 TOOLS LIVE · NEW ONE PER ARTICLE",
+    meta: "13 TOOLS LIVE · NEW ONE PER ARTICLE",
   },
   {
     id: "guest",

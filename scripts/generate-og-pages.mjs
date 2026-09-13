@@ -175,6 +175,13 @@ const ROUTES = [
     imageAlt: "URL Trace — six-stage animated walkthrough of what happens when you open a website.",
   },
   {
+    path: "tools/secure-agent-sandbox",
+    title: "Secure AI Agent Sandbox Builder — 5 Rules, 3 Attacks | Decoded Security",
+    description: "Configure a sandbox for your AI agent in five decisions. Then three real attack scenarios (poisoned npm package, prompt injection, misread rm -rf) run against your setup. See which of your choices contained each attack and which let it through. Companion to \"How to Run Your AI Agent in YOLO Mode Safely.\"",
+    image: "/og-secure-agent-sandbox.png",
+    imageAlt: "Secure AI Agent Sandbox Builder — configure the box, watch the attacks land or bounce.",
+  },
+  {
     path: "tools/port-scanner",
     title: "Port Scanner Visualizer — Every Host Is a Building | Decoded Security",
     description: "Interactive port-scan tool. Every host is a building, every port is a door. Click a door to knock — see what opens, what stays shut, and what a firewall silently blocks. Six real target scenarios. Based on the ports-and-scanning article.",

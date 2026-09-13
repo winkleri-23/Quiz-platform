@@ -169,6 +169,23 @@ export default function ToolsCategory() {
             </div>
           </a>
 
+          <a href="/tools/secure-agent-sandbox" onClick={() => handlePick("secure_agent_sandbox")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_13</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>AI Security · Least Privilege · Sandbox</div>
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+              <span style={{ color: COLORS.red }}>Secure AI Agent</span><br />Sandbox Builder
+            </h2>
+            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+              Configure a sandbox for your AI agent in five decisions. Then three real attack scenarios run against your setup. See which of your choices contained each attack — and which let it through.
+            </p>
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+              5 RULES · 3 ATTACKS · DEFENSE IN DEPTH
+            </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              CONFIGURE THE BOX →
+            </div>
+          </a>
+
           <a href="/tools/port-scanner" onClick={() => handlePick("port_scanner")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
             <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>TOOL_12</div>
             <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Networking · Ports · Scanning</div>
