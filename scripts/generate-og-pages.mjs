@@ -175,6 +175,13 @@ const ROUTES = [
     imageAlt: "URL Trace — six-stage animated walkthrough of what happens when you open a website.",
   },
   {
+    path: "tools/phishing-simulator",
+    title: "Phishing Simulator — Spot the Flags, Not Just the Phish | Decoded Security",
+    description: "10 messages arrive in your inbox — email, SMS, Slack. For each: legit or phishing? Then, if phishing, pick every red flag you spotted. Trains the specific tells behind the 7 psychological tricks. Based on the Psychology of Hacking article.",
+    image: "/og-phishing-simulator.png",
+    imageAlt: "Phishing Simulator — spot the red flags across 10 messages.",
+  },
+  {
     path: "tools/secure-agent-sandbox",
     title: "Secure AI Agent Sandbox Builder — 5 Rules, 3 Attacks | Decoded Security",
     description: "Configure a sandbox for your AI agent in five decisions. Then three real attack scenarios (poisoned npm package, prompt injection, misread rm -rf) run against your setup. See which of your choices contained each attack and which let it through. Companion to \"How to Run Your AI Agent in YOLO Mode Safely.\"",
