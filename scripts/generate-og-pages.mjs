@@ -14,6 +14,13 @@ const BASE = fs.readFileSync(path.join(DIST, "index.html"), "utf-8");
 
 const ROUTES = [
   {
+    path: "cc-readiness",
+    title: "Would You Pass the ISC2 CC Today? Free Readiness Test | Decoded Security",
+    description: "25 original questions on the new 2026 ISC2 CC exam outline. Get a score for every domain and find the one most likely to fail you, before you pay $199 for the exam.",
+    image: "/og-cc-readiness.png",
+    imageAlt: "Free ISC2 CC Readiness Test: 25 questions, 5 domain scores.",
+  },
+  {
     path: "path",
     title: "Find Your Study Path | Decoded Security",
     description: "A 60-second diagnostic that tells you exactly where to focus your cybersecurity study, with a personalized reading list.",

@@ -35,6 +35,7 @@ import EmailAuthQuiz from "./EmailAuthQuiz.jsx";
 import SiemQuiz from "./SiemQuiz.jsx";
 import IdentityLifecycleQuiz from "./IdentityLifecycleQuiz.jsx";
 import PortsQuiz from "./PortsQuiz.jsx";
+import CCReadiness from "./CCReadiness.jsx";
 
 // Path-based routing. Works with Vercel rewrites for SPA fallback,
 // and per-route static HTML files so social crawlers see per-route OG meta.
@@ -49,6 +50,8 @@ import PortsQuiz from "./PortsQuiz.jsx";
 // INDIVIDUAL QUIZZES (unchanged URLs — shareable links keep working)
 //   "/path"                              → PathFinder
 //   "/direction"                         → DirectionFinder
+//   "/cc-readiness"                      → CCReadiness (public lead magnet, offers on results)
+//   "/cc-readiness/start"                → CCReadiness buyer mode (Day 1 baseline, no offers)
 //   "/cissp/domain-1/mixed"              → CisspDomain1 (mixed Domain 1 knowledge quiz)
 //   "/article/three-states-of-data"      → ThreeStatesOfData
 //   "/article/recovery-metrics"          → RecoveryMetricsQuiz
@@ -132,6 +135,8 @@ export default function App() {
   // Individual quiz pages
   if (route === "path") return <PathFinder />;
   if (route === "direction") return <DirectionFinder />;
+  if (route === "cc-readiness") return <CCReadiness mode="public" />;
+  if (route === "cc-readiness/start") return <CCReadiness mode="buyer" />;
   if (route === "cissp/domain-1/mixed") return <CisspDomain1 />;
   if (route === "article/three-states-of-data") return <ThreeStatesOfData />;
   if (route === "article/recovery-metrics") return <RecoveryMetricsQuiz />;

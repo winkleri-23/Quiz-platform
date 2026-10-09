@@ -3,7 +3,7 @@ import { track } from "@vercel/analytics/react";
 
 // =============================================================================
 // DECODED SECURITY — CATEGORY PAGE: DIAGNOSTICS
-// Study Path + Direction quizzes.
+// Study Path + Direction quizzes + CC Readiness Test.
 // =============================================================================
 
 const COLORS = {
@@ -115,6 +115,23 @@ export default function DiagnosticsCategory() {
             </div>
             <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
               TAKE THIS QUIZ →
+            </div>
+          </a>
+
+          <a href="/cc-readiness" onClick={() => handlePick("cc-readiness")} style={cardBase} onMouseEnter={cardHover} onMouseLeave={cardUnhover}>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 10 }}>QUIZ_03 · NEW</div>
+            <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 1, marginBottom: 6, textTransform: "uppercase" }}>Studying for the ISC2 CC</div>
+            <h2 style={{ fontSize: 24, fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
+              Would you pass the <span style={{ color: COLORS.red }}>CC today</span>?
+            </h2>
+            <p style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.55, marginBottom: 14 }}>
+              25 questions on the new 2026 exam outline. A score for every domain, and the one most likely to fail you.
+            </p>
+            <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.2, lineHeight: 1.6, marginBottom: 18 }}>
+              SECURITY PRINCIPLES · GOVERNANCE · IAM · NETWORKING AND CLOUD · SECURITY OPERATIONS
+            </div>
+            <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: 1.5, color: COLORS.white, backgroundColor: COLORS.red, padding: "12px 20px" }}>
+              TAKE THE TEST →
             </div>
           </a>
         </div>
