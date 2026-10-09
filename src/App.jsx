@@ -36,6 +36,8 @@ import SiemQuiz from "./SiemQuiz.jsx";
 import IdentityLifecycleQuiz from "./IdentityLifecycleQuiz.jsx";
 import PortsQuiz from "./PortsQuiz.jsx";
 import CCReadiness from "./CCReadiness.jsx";
+import CCPlanQuiz from "./CCPlanQuiz.jsx";
+import { PLAN_TOKEN } from "./ccPlanQuizzes.js";
 
 // Path-based routing. Works with Vercel rewrites for SPA fallback,
 // and per-route static HTML files so social crawlers see per-route OG meta.
@@ -137,6 +139,10 @@ export default function App() {
   if (route === "direction") return <DirectionFinder />;
   if (route === "cc-readiness") return <CCReadiness mode="public" />;
   if (route === "cc-readiness/start") return <CCReadiness mode="buyer" />;
+
+  // 30-Day CC plan quizzes: unlisted, reached only from links inside the paid plan
+  const planMatch = route.match(/^cc\/([a-z0-9]+)\/([a-z0-9-]+)$/);
+  if (planMatch && planMatch[1] === PLAN_TOKEN) return <CCPlanQuiz quizId={planMatch[2]} />;
   if (route === "cissp/domain-1/mixed") return <CisspDomain1 />;
   if (route === "article/three-states-of-data") return <ThreeStatesOfData />;
   if (route === "article/recovery-metrics") return <RecoveryMetricsQuiz />;
