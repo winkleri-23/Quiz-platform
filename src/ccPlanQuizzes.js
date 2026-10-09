@@ -5,13 +5,20 @@
 // All questions are original (ISC2 exam content is under NDA).
 // =============================================================================
 
+import { GENERATED_QUIZZES } from "./ccPlanQuizBank.js";
+
 export const PLAN_TOKEN = "03mxwkm7";
+
+// Invite link to the CC study channel. Leave null until it exists:
+// the pages then point people to the invite in their welcome email.
+export const DISCORD_URL = null;
 
 const A = (title, slug) => ({ title, slug });
 
-export const PLAN_QUIZZES = {
+const WEEK1_QUIZZES = {
   // --------------------------------------------------------------- DAY 2
   "day-2": {
+    day: 2,
     title: "Day 2 quiz: CIA, non-repudiation and privacy",
     domain: 1,
     mode: "practice",
@@ -57,6 +64,7 @@ export const PLAN_QUIZZES = {
 
   // --------------------------------------------------------------- DAY 3
   "day-3": {
+    day: 3,
     title: "Day 3 quiz: authentication, authorization and accounting",
     domain: 1,
     mode: "practice",
@@ -102,6 +110,7 @@ export const PLAN_QUIZZES = {
 
   // --------------------------------------------------------------- DAY 4
   "day-4": {
+    day: 4,
     title: "Day 4 quiz: risk management",
     domain: 1,
     mode: "practice",
@@ -147,6 +156,7 @@ export const PLAN_QUIZZES = {
 
   // --------------------------------------------------------------- DAY 5
   "day-5": {
+    day: 5,
     title: "Day 5 quiz: governance, laws and policies",
     domain: 1,
     mode: "practice",
@@ -192,6 +202,7 @@ export const PLAN_QUIZZES = {
 
   // --------------------------------------------------------------- DAY 6
   "day-6": {
+    day: 6,
     title: "Day 6 quiz: security controls and ethics",
     domain: 1,
     mode: "practice",
@@ -237,6 +248,7 @@ export const PLAN_QUIZZES = {
 
   // --------------------------------------------------------- DOMAIN 1 QUIZ
   "domain-1": {
+    day: 7,
     title: "Domain 1 quiz: Security Principles",
     domain: 1,
     mode: "exam",
@@ -352,3 +364,5 @@ export const PLAN_QUIZZES = {
     ],
   },
 };
+
+export const PLAN_QUIZZES = { ...WEEK1_QUIZZES, ...GENERATED_QUIZZES };
