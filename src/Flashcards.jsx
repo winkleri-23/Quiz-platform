@@ -157,9 +157,12 @@ const CARDS = [
 // Component
 // =============================================================================
 
-export default function Flashcards() {
+export default function Flashcards({ cards = CARDS, categories = CATEGORIES, deckId = "essentials" } = {}) {
+  // Optional deck props, so other pages (the CC decks) can reuse this widget.
+  const CARDS_ = cards;
+  const CATS_ = categories;
   const [filter, setFilter] = useState("all");
-  const [order, setOrder] = useState(() => CARDS.map((_, i) => i));
+  const [order, setOrder] = useState(() => CARDS_.map((_, i) => i));
   const [idx, setIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [flippedTracked, setFlippedTracked] = useState(false);
@@ -168,12 +171,12 @@ export default function Flashcards() {
 
   // Filtered order (respect current filter)
   const filteredOrder = useMemo(
-    () => order.filter((i) => filter === "all" || CARDS[i].category === filter),
+    () => order.filter((i) => filter === "all" || CARDS_[i].category === filter),
     [order, filter]
   );
 
   const safeIdx = filteredOrder.length === 0 ? 0 : Math.min(idx, filteredOrder.length - 1);
-  const card = filteredOrder.length > 0 ? CARDS[filteredOrder[safeIdx]] : null;
+  const card = filteredOrder.length > 0 ? CARDS_[filteredOrder[safeIdx]] : null;
 
   const next = () => {
     if (filteredOrder.length === 0) return;
@@ -194,12 +197,12 @@ export default function Flashcards() {
     setOrder(shuffled);
     setIdx(0);
     setFlipped(false);
-    track("flashcards_shuffled");
+    track("flashcards_shuffled", { deck: deckId });
   };
   const flip = () => {
     setFlipped((f) => !f);
     if (!flippedTracked) {
-      track("flashcards_first_flip");
+      track("flashcards_first_flip", { deck: deckId });
       setFlippedTracked(true);
     }
   };
@@ -208,16 +211,16 @@ export default function Flashcards() {
     setFilter(f);
     setIdx(0);
     setFlipped(false);
-    track("flashcards_filtered", { category: f });
+    track("flashcards_filtered", { category: f, deck: deckId });
   };
 
   return (
     <div style={{ maxWidth: 640, fontFamily: fontStack }}>
       {/* Category filter */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
-        <FilterChip label="All" active={filter === "all"} onClick={() => pickFilter("all")} count={CARDS.length} />
-        {Object.entries(CATEGORIES).map(([id, label]) => {
-          const count = CARDS.filter((c) => c.category === id).length;
+        <FilterChip label="All" active={filter === "all"} onClick={() => pickFilter("all")} count={CARDS_.length} />
+        {Object.entries(CATS_).map(([id, label]) => {
+          const count = CARDS_.filter((c) => c.category === id).length;
           return (
             <FilterChip key={id} label={label} active={filter === id} onClick={() => pickFilter(id)} count={count} />
           );
@@ -248,7 +251,7 @@ export default function Flashcards() {
           }}>
             {/* FRONT */}
             <CardFace flipped={false}>
-              <CategoryTag category={card.category} />
+              <CategoryTag category={card.category} categories={CATS_} />
               <div style={{
                 fontSize: "clamp(22px, 4vw, 32px)", fontWeight: 700, letterSpacing: -0.5,
                 lineHeight: 1.2, color: COLORS.white,
@@ -265,7 +268,7 @@ export default function Flashcards() {
             {/* BACK */}
             <CardFace flipped={true}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
-                <CategoryTag category={card.category} />
+                <CategoryTag category={card.category} categories={CATS_} />
                 <div style={{ fontSize: 12, color: COLORS.white, fontWeight: 700, letterSpacing: 0.5 }}>
                   {card.term}
                 </div>
@@ -356,7 +359,7 @@ function CardFace({ flipped, children }) {
   );
 }
 
-function CategoryTag({ category }) {
+function CategoryTag({ category, categories = CATEGORIES }) {
   return (
     <div style={{
       display: "inline-block",
@@ -366,7 +369,7 @@ function CategoryTag({ category }) {
       alignSelf: "flex-start",
       textTransform: "uppercase",
     }}>
-      {CATEGORIES[category] || category}
+      {categories[category] || category}
     </div>
   );
 }
