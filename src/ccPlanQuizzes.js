@@ -13,6 +13,12 @@ export const PLAN_TOKEN = "03mxwkm7";
 // the pages then point people to the invite in their welcome email.
 export const DISCORD_URL = "https://discord.gg/H4qhSTqd9p";
 
+// Free CC Week 1 Kit: its own path, so the buyer token never appears in the free PDF.
+// Routes: /cc/week1/<quiz id>, only the Week 1 quizzes below.
+export const FREE_TOKEN = "week1";
+export const FREE_QUIZ_IDS = ["day-2", "day-3", "day-4", "day-5", "day-6", "domain-1"];
+export const PLAN_URL = null; // Gumroad page of the full 30-Day plan, set when live
+
 const A = (title, slug) => ({ title, slug });
 
 const WEEK1_QUIZZES = {

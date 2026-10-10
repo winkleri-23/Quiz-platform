@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { track } from "@vercel/analytics/react";
-import { PLAN_QUIZZES, DISCORD_URL } from "./ccPlanQuizzes.js";
+import { PLAN_QUIZZES, DISCORD_URL, PLAN_URL } from "./ccPlanQuizzes.js";
 
 // =============================================================================
 // DECODED SECURITY: 30-DAY CC PLAN QUIZ (buyer-only, unlisted)
@@ -55,7 +55,7 @@ function verdict(mode, pct, target) {
     : "This is the plan working: better to find the gaps now than on exam day. Follow the repair step below, then come back and retake." };
 }
 
-export default function CCPlanQuiz({ quizId }) {
+export default function CCPlanQuiz({ quizId, free = false }) {
   const quiz = PLAN_QUIZZES[quizId];
   const mode = quiz?.mode || "practice";
   const isExam = mode !== "practice";
@@ -122,7 +122,7 @@ export default function CCPlanQuiz({ quizId }) {
 
   const totalQ = questions.length;
   const q = questions[currentQ];
-  const trackId = `ccplan_${quizId}`;
+  const trackId = `${free ? "ccfree" : "ccplan"}_${quizId}`;
   const day = quiz.day;
 
   function finish(finalAnswers, timedOut = false) {
@@ -345,7 +345,7 @@ export default function CCPlanQuiz({ quizId }) {
             <div style={box}>
               <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 2, marginBottom: 12 }}>DO THIS NOW</div>
               <ol style={{ fontSize: 14, color: "#dddddd", lineHeight: 1.85, paddingLeft: 20, margin: "0 0 18px" }}>
-                <li>Write <strong>{pct}%</strong> in the score log of your plan{mode === "mock" ? ", with your five domain scores" : ""}.</li>
+                <li>Write <strong>{pct}%</strong> in the score log of your {free ? "Week 1 Kit" : "plan"}{mode === "mock" ? ", with your five domain scores" : ""}.</li>
                 {missed.length > 0 && <li>Turn {missed.length === 1 ? "the miss" : `the ${missed.length} misses`} below into flashcards. Write the right answer and the reason in your own words.</li>}
                 {isExam && pct < target && quiz.retry && <li>{quiz.retry}</li>}
                 <li>
@@ -358,7 +358,21 @@ export default function CCPlanQuiz({ quizId }) {
               )}
             </div>
 
-            {isExam && (
+            {free && quizId === "domain-1" && (
+              <div style={{ ...box, borderColor: COLORS.red }}>
+                <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 2, marginBottom: 8 }}>WEEK 1 DONE. 23 DAYS TO GO.</div>
+                <p style={{ fontSize: 14, color: "#cccccc", lineHeight: 1.65, margin: "0 0 16px" }}>
+                  You just finished the biggest domain on the exam (24%). Days 8 to 30 are in the full 30-Day CC First-Try Pass Plan: the other four domains, 16 more quizzes, two timed 125-question mock exams, the CC Exam Map and the Pass-or-Paid-Back Promise. Same format you just used, all the way to exam day.
+                </p>
+                {PLAN_URL ? (
+                  <a href={PLAN_URL} target="_blank" rel="noopener noreferrer" onClick={() => track("cc_plan_clicked", { quiz: trackId, pct })} style={btn}>GET THE FULL PLAN →</a>
+                ) : (
+                  <p style={{ fontSize: 13, color: COLORS.muted, margin: 0 }}>The link to the full plan is on the last page of your Week 1 Kit.</p>
+                )}
+              </div>
+            )}
+
+            {isExam && !free && (
               <div style={{ ...box, borderColor: "#444" }}>
                 <div style={{ fontSize: 11, color: COLORS.green, letterSpacing: 2, marginBottom: 8 }}>PASS-OR-PAID-BACK PROMISE</div>
                 <p style={{ fontSize: 14, color: "#cccccc", lineHeight: 1.65, margin: 0 }}>
@@ -400,7 +414,7 @@ export default function CCPlanQuiz({ quizId }) {
 
         <footer style={{ marginTop: 80, paddingTop: 24, borderTop: `1px solid ${COLORS.border}`, fontSize: 11, color: COLORS.muted, letterSpacing: 1.5, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <div>DECODED_SECURITY // 30-DAY CC FIRST-TRY PASS PLAN</div>
-          <div>FOR PLAN MEMBERS · NOT AFFILIATED WITH ISC2</div>
+          <div>{free ? "FREE CC WEEK 1 KIT" : "FOR PLAN MEMBERS"} · NOT AFFILIATED WITH ISC2</div>
         </footer>
       </div>
       <style>{`
