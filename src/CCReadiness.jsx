@@ -17,8 +17,8 @@ import { CC_DOMAINS, CC_QUESTIONS } from "./ccReadinessQuestions.js";
 // ---- LAUNCH SETTINGS --------------------------------------------------------
 // Leave a URL as null until the product is live. While null, the button
 // falls back to the newsletter so nothing on the page is ever a dead link.
-const WEEK1_KIT_URL = null; // $0 Gumroad product: CC Week 1 Kit
-const PLAN_URL = null; // Gumroad: 30-Day CC First-Try Pass Plan
+const WEEK1_KIT_URL = "https://decodedsecurity.gumroad.com/l/cc-week-1-kit"; // $0 Gumroad product: CC Week 1 Kit
+const PLAN_URL = "https://decodedsecurity.gumroad.com/l/cc-30-day-plan"; // Gumroad: 30-Day CC First-Try Pass Plan
 const PLAN_PRICE = "$27"; // founding price; change to $37 / $47 as it rises
 const PLAN_FULL_PRICE = "$47";
 const DISCORD_URL = "https://discord.gg/H4qhSTqd9p"; // CC study channel invite (buyer mode)
