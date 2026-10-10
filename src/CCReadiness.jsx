@@ -21,7 +21,7 @@ const WEEK1_KIT_URL = null; // $0 Gumroad product: CC Week 1 Kit
 const PLAN_URL = null; // Gumroad: 30-Day CC First-Try Pass Plan
 const PLAN_PRICE = "$27"; // founding price; change to $37 / $47 as it rises
 const PLAN_FULL_PRICE = "$47";
-const DISCORD_URL = null; // CC study channel invite (buyer mode)
+const DISCORD_URL = "https://discord.gg/H4qhSTqd9p"; // CC study channel invite (buyer mode)
 // -----------------------------------------------------------------------------
 
 const COLORS = {

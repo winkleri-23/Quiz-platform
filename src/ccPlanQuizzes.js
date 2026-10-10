@@ -11,7 +11,7 @@ export const PLAN_TOKEN = "03mxwkm7";
 
 // Invite link to the CC study channel. Leave null until it exists:
 // the pages then point people to the invite in their welcome email.
-export const DISCORD_URL = null;
+export const DISCORD_URL = "https://discord.gg/H4qhSTqd9p";
 
 const A = (title, slug) => ({ title, slug });
 
