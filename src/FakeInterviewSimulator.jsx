@@ -4,8 +4,8 @@ import { track } from "@vercel/analytics/react";
 // =============================================================================
 // DECODED SECURITY — FAKE INTERVIEW SIMULATOR
 // Based on the Lazarus Group attack vector that cost Binance $6.3B.
-// 4 job offers, 13 red flags, 4 decisions. One offer is real — don't flag it.
-// Perfect play = 210/210. Everyone can win if they read carefully.
+// Simple mechanic: read each offer, make ONE decision. Review reveals the
+// red flags with explanations. 4/4 correct = HIRED.
 // =============================================================================
 
 const COLORS = {
@@ -19,14 +19,11 @@ const COLORS = {
   codeBg: "#0e0e0e",
 };
 
-const BASE_URL = "https://www.decodedsecurity.com/p/";
 const SUBSCRIBE_URL = "https://www.decodedsecurity.com/subscribe";
 
-const POINTS_PER_FLAG = 10;
-const POINTS_PER_DECISION = 20;
-
 // -----------------------------------------------------------------------------
-// OFFERS: each has sections with items. `flag: true` items are red flags.
+// OFFERS: each has sections of readable content, plus a list of red flags
+// found inside it (with explanations shown in the review).
 // correctDecision: "proceed" | "verify" | "decline"
 // -----------------------------------------------------------------------------
 
@@ -35,90 +32,129 @@ const OFFERS = [
     id: "quantumyield",
     company: "QuantumYield Capital",
     recruiter: "Sarah M.",
-    tagline: "Warm-up round. The obvious scam.",
+    tagline: "Warm-up round.",
     correctDecision: "decline",
     verdict: "FAKE",
     sections: [
       {
-        title: "LINKEDIN INMAIL",
-        items: [
-          { id: "q-1", text: "URGENT opportunity — respond within 24 hours", flag: true, note: "Artificial urgency is attacker 101. Real recruiters don't need to pressure you in the first message." },
-          { id: "q-2", text: "$280,000/year for a Junior Developer role", flag: true, note: "Salaries 3x market rate are the oldest scam hook. If it looks too good to be true, it is." },
-          { id: "q-3", text: "Fully remote worldwide", flag: false, note: "Common and legitimate perk." },
+        title: "LINKEDIN INMAIL — SARAH M. → YOU",
+        lines: [
+          "Hi,",
+          "URGENT opportunity — we're hiring Junior Developers at QuantumYield Capital.",
+          "$280,000/year, fully remote worldwide.",
+          "You must respond within 24 hours or the role closes.",
+          "Sarah M. · Talent Acquisition Lead",
         ],
       },
       {
-        title: "SENDER'S LINKEDIN PROFILE",
-        items: [
-          { id: "q-4", text: "47 connections", flag: true, note: "A real recruiter has hundreds or thousands of connections. 47 is a throwaway account." },
-          { id: "q-5", text: "Account created: October 2026", flag: true, note: "A brand-new account for a 'senior' recruiter is a huge red flag." },
-          { id: "q-6", text: "No posts, no activity history", flag: true, note: "Combined with the new account, this is a throwaway profile built for a single scam." },
+        title: "SARAH'S LINKEDIN PROFILE",
+        lines: [
+          "47 connections",
+          "Account created: October 2026",
+          "No posts, no activity history",
+          "Generic headshot, no employer links",
         ],
       },
     ],
+    flags: [
+      { text: "Artificial 24-hour deadline", note: "Attacker 101. Real recruiters don't need to pressure you in the first message." },
+      { text: "$280K for a Junior role (3x market rate)", note: "If a salary looks too good to be true, it is. Oldest scam hook." },
+      { text: "47 connections", note: "A real recruiter has hundreds or thousands of connections." },
+      { text: "Account created last month", note: "A brand-new LinkedIn for a 'senior' recruiter is a throwaway account." },
+      { text: "Zero posts or activity", note: "Combined with the new account, this is a profile built for a single scam." },
+    ],
+    explanation: "Everything points to a disposable scam account. The urgency, inflated salary, and empty profile are red flags you should catch in under 10 seconds. Decline and report.",
   },
   {
     id: "lazarus",
     company: "Lazarus Trading Systems",
     recruiter: "Jennifer Walsh",
-    tagline: "Looks real. Only two subtle flags. This is how Binance lost $6.3B.",
+    tagline: "Looks real. This is how Binance lost $6.3B.",
     correctDecision: "verify",
     verdict: "FAKE",
     sections: [
       {
-        title: "EMAIL",
-        items: [
-          { id: "l-1", text: "From: jennifer.walsh@lazarus-trading.co", flag: true, note: "Lookalike domain. The real company would use .com. Attackers register .co, .io, .net variants that look identical at a glance." },
-          { id: "l-2", text: "Salary range: $180,000 to $220,000", flag: false, note: "Realistic market rate for a senior role." },
-          { id: "l-3", text: "3-week structured interview with 4 stages", flag: false, note: "Professional process." },
+        title: "EMAIL — JENNIFER WALSH → YOU",
+        lines: [
+          "From: jennifer.walsh@lazarus-trading.co",
+          "Subject: Senior Blockchain Engineer — $180K to $220K",
+          "",
+          "Hi,",
+          "We'd love to talk to you about a Senior Blockchain Engineer role.",
+          "Salary: $180,000 to $220,000. 3-week structured process, 4 interview stages.",
+          "Round 2 is with our CTO, Martin Chen.",
+          "",
+          "Jennifer Walsh · Head of Talent, Lazarus Trading",
         ],
       },
       {
-        title: "SENDER'S LINKEDIN PROFILE",
-        items: [
-          { id: "l-4", text: "2,400+ LinkedIn connections, active since 2019", flag: false, note: "Strong, authentic-looking profile — this is why the attack is hard to spot." },
-          { id: "l-5", text: "Head of Talent at Lazarus Trading (5 years)", flag: false, note: "Long tenure. Not a flag on its own — attackers invest in cover." },
+        title: "JENNIFER'S LINKEDIN PROFILE",
+        lines: [
+          "2,400+ connections, active since 2019",
+          "Head of Talent at Lazarus Trading (5 years)",
+          "47 endorsements for Technical Recruiting",
+          "Posts about hiring every 2 weeks",
         ],
       },
       {
-        title: "TECHNICAL TASK EMAIL",
-        items: [
-          { id: "l-6", text: "Please install our dev environment: npm install @lazarus-trading/dev-env", flag: true, note: "This is the attack. Installing a package from an unverified source runs arbitrary code on your machine. This is exactly how the Binance attackers deployed their malware." },
-          { id: "l-7", text: "Deadline: 5 business days", flag: false, note: "Reasonable timeline." },
+        title: "TECHNICAL TASK (EMAILED 3 DAYS LATER)",
+        lines: [
+          "Build a simple price-feed aggregator.",
+          "To use our internal types, please install our dev environment:",
+          "    npm install @lazarus-trading/dev-env",
+          "Submit within 5 business days.",
         ],
       },
     ],
+    flags: [
+      { text: "Email domain is .co, not .com", note: "Lookalike domain. The real company would use .com. Attackers register .co, .io, .net variants that look identical at a glance." },
+      { text: "npm install from an unverified package", note: "This IS the attack. Installing a package from an unverified source runs arbitrary code on your machine. Exactly how the Binance attackers deployed their malware." },
+    ],
+    explanation: "This one looks almost perfect. The recruiter profile is real-looking, the salary is realistic, the process is professional. Two subtle flags give it away: the lookalike domain and the unverified npm package. The right move isn't to decline immediately — it's to VERIFY by calling the company through their real website (not the email's domain). This is the exact pattern that compromised a developer at Binance.",
   },
   {
     id: "meridian",
     company: "Meridian Technologies",
     recruiter: "David Chen",
-    tagline: "This one is real. Don't flag anything.",
+    tagline: "This one is real.",
     correctDecision: "proceed",
     verdict: "REAL",
     sections: [
       {
-        title: "EMAIL",
-        items: [
-          { id: "m-1", text: "From: david.chen@meridiantech.com", flag: false, note: "Domain matches the company website exactly." },
-          { id: "m-2", text: "Saw your GitHub project on distributed caching", flag: false, note: "Specific, personalized. Real recruiters do research." },
-          { id: "m-3", text: "No task before the first call — just a chat", flag: false, note: "Legitimate recruiters don't make you work before they introduce themselves." },
+        title: "EMAIL — DAVID CHEN → YOU",
+        lines: [
+          "From: david.chen@meridiantech.com",
+          "Subject: Open to chatting about an engineering role at Meridian?",
+          "",
+          "Hi,",
+          "I saw your GitHub project on distributed caching — nice work on the LRU eviction policy.",
+          "We're growing the platform team at Meridian and I think you'd be a good fit.",
+          "No task before the first call — just a chat. Our Careers page is here if you want to research us first.",
+          "",
+          "David Chen · Engineering Recruiter, Meridian Technologies",
         ],
       },
       {
-        title: "SENDER'S LINKEDIN PROFILE",
-        items: [
-          { id: "m-4", text: "10 years at Meridian, 850+ connections", flag: false, note: "Long tenure at the company he's recruiting for." },
-          { id: "m-5", text: "Endorsements from Meridian engineers", flag: false, note: "Social proof from inside the company." },
+        title: "DAVID'S LINKEDIN PROFILE",
+        lines: [
+          "10 years at Meridian Technologies",
+          "850+ connections, many from Meridian engineering",
+          "Endorsements from Meridian engineers",
+          "Regular posts about engineering culture",
         ],
       },
       {
-        title: "COMPANY PAGE",
-        items: [
-          { id: "m-6", text: "Series C, 200 employees, 4.2★ Glassdoor (380 reviews)", flag: false, note: "Established, well-funded, with a deep review history you can verify." },
+        title: "MERIDIAN COMPANY PAGE",
+        lines: [
+          "Founded 2015 · 200 employees · Series C",
+          "4.2★ Glassdoor (380 reviews)",
+          "Press: TechCrunch, The Verge, Wired",
+          "Offices: Austin, Berlin, Toronto",
         ],
       },
     ],
+    flags: [],
+    explanation: "Every signal is consistent. Matching domain, long-tenure recruiter with internal connections, personalized pitch referencing your actual work, no pressure, no pre-interview task, verifiable company history. These are the patterns to trust. Proceed.",
   },
   {
     id: "prometheus",
@@ -129,46 +165,57 @@ const OFFERS = [
     verdict: "FAKE",
     sections: [
       {
-        title: "TELEGRAM MESSAGE",
-        items: [
-          { id: "p-1", text: "Contacted via Telegram first (no email)", flag: true, note: "Legitimate recruiters use LinkedIn or corporate email first. Telegram as first contact for a corporate role is suspicious." },
-          { id: "p-2", text: "\"Let's continue on my Gmail: alex.p.dev@gmail.com\"", flag: true, note: "Real recruiters use corporate email. Switching to personal Gmail avoids corporate email security monitoring." },
+        title: "TELEGRAM MESSAGE — ALEX P. → YOU",
+        lines: [
+          "Hi, saw your resume online.",
+          "We're hiring blockchain developers at Prometheus Labs.",
+          "Let's continue on my Gmail for convenience: alex.p.dev@gmail.com",
         ],
       },
       {
-        title: "SENDER'S LINKEDIN PROFILE",
-        items: [
-          { id: "p-3", text: "\"Technical Recruiter at Stealth Startup\"", flag: true, note: "'Stealth' with no verifiable employer link is a classic cover. You can't verify what doesn't exist." },
-          { id: "p-4", text: "112 connections, account 8 months old", flag: true, note: "Thin network for a 'recruiter' plus recent account." },
+        title: "ALEX'S LINKEDIN PROFILE",
+        lines: [
+          "112 connections",
+          "Account joined: 8 months ago",
+          "Current role: 'Technical Recruiter at Stealth Startup'",
+          "No profile photo",
         ],
       },
       {
-        title: "COMPANY PAGE",
-        items: [
-          { id: "p-5", text: "Domain registered 3 months ago, uses .xyz TLD", flag: true, note: "A 'well-funded startup' with a 3-month-old domain on a cheap TLD often abused by throwaway sites." },
+        title: "PROMETHEUS LABS WEBSITE",
+        lines: [
+          "Domain: prometheuslabs.xyz",
+          "Domain registered 3 months ago (per WHOIS)",
+          "Generic stock photos, no team page",
+          "Contact: info@prometheuslabs.xyz",
         ],
       },
       {
         title: "TECHNICAL CHALLENGE",
-        items: [
-          { id: "p-6", text: "Clone this repo from Alex's personal GitHub and run npm install", flag: true, note: "This is the attack. Running unknown code from a personal account (not a company org) is how systems get compromised." },
+        lines: [
+          "Clone our GitHub repo and run `npm install` to explore our codebase.",
+          "The repo is in Alex's personal GitHub, not a company org.",
+          "Interview via Google Meet on his personal account.",
+          "Deliver in 3 days.",
         ],
       },
     ],
+    flags: [
+      { text: "First contact via Telegram", note: "Legitimate recruiters use LinkedIn or corporate email first. Telegram as first contact for a corporate role is suspicious." },
+      { text: "Switch to personal Gmail", note: "Real recruiters use corporate email. Switching to personal Gmail avoids corporate email security monitoring." },
+      { text: "'Stealth Startup' with no verifiable employer", note: "A classic cover. You can't verify what doesn't exist." },
+      { text: "Thin, young LinkedIn profile", note: "112 connections and an 8-month-old account for a 'recruiter' is a red flag by itself." },
+      { text: "3-month-old .xyz domain", note: "A 'well-funded startup' with a 3-month-old domain on a cheap TLD often abused by throwaway sites." },
+      { text: "npm install from a personal GitHub", note: "Running unknown code from a personal account (not a company org) is how systems get compromised." },
+    ],
+    explanation: "Six red flags. The attacker switched to a messaging app, moved off corporate email, hid behind a 'stealth' company, and is trying to run code on your machine. Decline and report — don't even verify, this one has no chance of being real.",
   },
 ];
 
-const TOTAL_FLAGS = OFFERS.reduce(
-  (sum, o) => sum + o.sections.reduce((s, sec) => s + sec.items.filter((i) => i.flag).length, 0),
-  0
-);
-const TOTAL_DECISIONS = OFFERS.length;
-const MAX_SCORE = TOTAL_FLAGS * POINTS_PER_FLAG + TOTAL_DECISIONS * POINTS_PER_DECISION;
-
 const DECISIONS = [
-  { id: "proceed", label: "PROCEED", sub: "Looks legit. Move forward with the process." },
+  { id: "proceed", label: "PROCEED", sub: "Move forward with the interview process." },
   { id: "verify", label: "VERIFY FIRST", sub: "Call the company via official number before proceeding." },
-  { id: "decline", label: "DECLINE & REPORT", sub: "Too many flags. Walk away and report the account." },
+  { id: "decline", label: "DECLINE & REPORT", sub: "Walk away and report the account." },
 ];
 
 // -----------------------------------------------------------------------------
@@ -176,11 +223,9 @@ const DECISIONS = [
 // -----------------------------------------------------------------------------
 
 export default function FakeInterviewSimulator() {
-  const [stage, setStage] = useState("intro"); // intro | play | decision | review | results
+  const [stage, setStage] = useState("intro"); // intro | play | review | results
   const [offerIdx, setOfferIdx] = useState(0);
-  const [taps, setTaps] = useState({}); // { itemId: true }
   const [decisions, setDecisions] = useState({}); // { offerId: decisionId }
-  const [shake, setShake] = useState(null);
 
   // Load IBM Plex Mono
   useEffect(() => {
@@ -199,30 +244,22 @@ export default function FakeInterviewSimulator() {
     track("fake_interview_started");
     setStage("play");
     setOfferIdx(0);
-    setTaps({});
     setDecisions({});
   };
 
-  const handleTap = (item) => {
-    if (item.flag) {
-      setTaps((prev) => ({ ...prev, [item.id]: !prev[item.id] }));
-    } else {
-      setShake(item.id);
-      setTimeout(() => setShake(null), 400);
-    }
-  };
-
-  const goToDecision = () => setStage("decision");
-
   const chooseDecision = (decisionId) => {
     setDecisions((prev) => ({ ...prev, [currentOffer.id]: decisionId }));
-    track("fake_interview_decision", { offer: currentOffer.id, decision: decisionId, correct: decisionId === currentOffer.correctDecision });
+    track("fake_interview_decision", {
+      offer: currentOffer.id,
+      decision: decisionId,
+      correct: decisionId === currentOffer.correctDecision,
+    });
     setStage("review");
   };
 
   const nextOffer = () => {
     if (isLastOffer) {
-      track("fake_interview_completed", { score: calcScore().total });
+      track("fake_interview_completed", { correct: countCorrect() });
       setStage("results");
     } else {
       setOfferIdx(offerIdx + 1);
@@ -230,34 +267,19 @@ export default function FakeInterviewSimulator() {
     }
   };
 
-  const allItems = (offer) => offer.sections.flatMap((s) => s.items);
-  const flagsInOffer = (offer) => allItems(offer).filter((i) => i.flag).length;
-  const flagsFoundInOffer = (offer) => allItems(offer).filter((i) => i.flag && taps[i.id]).length;
+  const countCorrect = () =>
+    OFFERS.filter((o) => decisions[o.id] === o.correctDecision).length;
 
-  const calcScore = () => {
-    const flagsFound = OFFERS.reduce((sum, o) => sum + flagsFoundInOffer(o), 0);
-    const correctDecisions = OFFERS.filter((o) => decisions[o.id] === o.correctDecision).length;
-    const flagPoints = flagsFound * POINTS_PER_FLAG;
-    const decisionPoints = correctDecisions * POINTS_PER_DECISION;
-    return {
-      flagsFound,
-      correctDecisions,
-      flagPoints,
-      decisionPoints,
-      total: flagPoints + decisionPoints,
-    };
-  };
-
-  const getRank = (score) => {
-    const pct = score / MAX_SCORE;
-    if (pct === 1) return { label: "HIRED", color: COLORS.green, desc: "Perfect score. You caught every attack and recognized the real opportunity. You would have kept your job and your company's crypto." };
-    if (pct >= 0.7) return { label: "CLOSE CALL", color: COLORS.amber, desc: "You caught most of it, but missed just enough. In a real attack, that gap is all it takes." };
-    return { label: "HACKED", color: COLORS.red, desc: "You just ran attacker code on a work machine. That is how Binance lost $6.3B. Read the newsletter. Don't be next." };
+  const getRank = (correct) => {
+    if (correct === OFFERS.length) return { label: "HIRED", color: COLORS.green, desc: "Perfect. You caught every attack and recognized the real opportunity. You'd keep your job and your company's crypto." };
+    if (correct >= 3) return { label: "CLOSE CALL", color: COLORS.amber, desc: "You caught most of it, but missed just enough. In a real attack, that gap is all it takes." };
+    if (correct >= 2) return { label: "COMPROMISED", color: COLORS.amber, desc: "Half right, half wrong. Any of the misses could have been the one that cost you everything." };
+    return { label: "HACKED", color: COLORS.red, desc: "You just ran attacker code on a work machine. That's how Binance lost $6.3B. Read the newsletter. Don't be next." };
   };
 
   const buildShareText = () => {
-    const { total, flagsFound } = calcScore();
-    return `I scored ${total}/${MAX_SCORE} on the Fake Interview Simulator by Decoded Security. Found ${flagsFound}/${TOTAL_FLAGS} red flags. Can you beat me? decodedsecurity.com/tools/fake-interview`;
+    const c = countCorrect();
+    return `I got ${c}/${OFFERS.length} right on the Fake Interview Simulator by Decoded Security. Can you spot the fake offer before it hacks you? decodedsecurity.com/tools/fake-interview`;
   };
 
   const handleShare = async () => {
@@ -319,7 +341,7 @@ export default function FakeInterviewSimulator() {
         {/* INTRO */}
         {stage === "intro" && (
           <div style={{ animation: "fadeIn 500ms ease-out" }}>
-            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 16 }}>&gt; 4 OFFERS · {TOTAL_FLAGS} RED FLAGS · ONE IS REAL</div>
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 16 }}>&gt; 4 OFFERS · ONE IS REAL · ONE DECISION EACH</div>
             <h1 style={{ fontSize: "clamp(30px, 5vw, 46px)", fontWeight: 700, lineHeight: 1.08, marginBottom: 20, letterSpacing: -0.8 }}>
               Can you spot the fake offer <span style={{ color: COLORS.red }}>before it hacks you?</span>
             </h1>
@@ -327,20 +349,19 @@ export default function FakeInterviewSimulator() {
               In 2026, attackers stole <strong style={{ color: COLORS.white }}>$6.3B from Binance</strong>. They didn't crack any code. They sent fake job offers. One developer ran a technical task on a work machine. That was enough.
             </p>
             <p style={{ fontSize: 15, lineHeight: 1.6, color: "#cccccc", marginBottom: 14, maxWidth: 680 }}>
-              You'll review 4 job offers. One is real. Three are fake. For each one: tap every red flag you can find, then make a decision — <strong style={{ color: COLORS.white }}>Proceed</strong>, <strong style={{ color: COLORS.white }}>Verify first</strong>, or <strong style={{ color: COLORS.white }}>Decline and report</strong>.
+              You'll review 4 job offers. One is real. Three are fake. For each one, you make a single call:
             </p>
-            <p style={{ fontSize: 14, color: COLORS.muted, lineHeight: 1.55, marginBottom: 28, maxWidth: 680 }}>
-              Tapping a safe item costs you nothing — it just dismisses. Perfect play = {MAX_SCORE} points. The game is winnable if you read carefully.
-            </p>
-
-            <div style={{ border: `1px solid ${COLORS.border}`, padding: 18, marginBottom: 28, maxWidth: 680 }}>
-              <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 2, marginBottom: 10 }}>SCORING</div>
-              <div style={{ fontSize: 13, color: "#cccccc", lineHeight: 1.7 }}>
-                <div>+{POINTS_PER_FLAG} per red flag found ({TOTAL_FLAGS} total)</div>
-                <div>+{POINTS_PER_DECISION} per correct decision (4 offers)</div>
-                <div style={{ color: COLORS.red, marginTop: 6 }}>Max score: {MAX_SCORE}</div>
-              </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28, maxWidth: 680 }}>
+              {DECISIONS.map((d) => (
+                <div key={d.id} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+                  <div style={{ fontSize: 13, color: COLORS.red, letterSpacing: 2, fontWeight: 700, minWidth: 130 }}>{d.label}</div>
+                  <div style={{ fontSize: 14, color: "#cccccc", lineHeight: 1.5 }}>{d.sub}</div>
+                </div>
+              ))}
             </div>
+            <p style={{ fontSize: 14, color: COLORS.muted, lineHeight: 1.55, marginBottom: 28, maxWidth: 680 }}>
+              After each decision, you'll see the red flags and why each one matters. Get all 4 right = HIRED.
+            </p>
 
             <button onClick={startGame} style={primaryBtn}>START THE SIMULATION →</button>
           </div>
@@ -350,12 +371,10 @@ export default function FakeInterviewSimulator() {
         {stage === "play" && currentOffer && (
           <div style={{ animation: "fadeIn 300ms ease-out" }}>
             {/* Progress */}
-            <div style={{ marginBottom: 20 }}>
+            <div style={{ marginBottom: 24 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, flexWrap: "wrap", gap: 8 }}>
                 <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3 }}>OFFER {offerIdx + 1} / {OFFERS.length}</div>
-                <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 1.5 }}>
-                  FLAGS: {flagsFoundInOffer(currentOffer)} / {flagsInOffer(currentOffer)}
-                </div>
+                <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: 1.5 }}>READ · DECIDE</div>
               </div>
               <div style={{ height: 3, backgroundColor: COLORS.border, overflow: "hidden" }}>
                 <div style={{ height: "100%", width: `${(offerIdx / OFFERS.length) * 100}%`, backgroundColor: COLORS.red, transition: "width 400ms ease-out" }} />
@@ -363,7 +382,7 @@ export default function FakeInterviewSimulator() {
             </div>
 
             <div style={{ marginBottom: 24 }}>
-              <h2 style={{ fontSize: "clamp(26px, 4.5vw, 36px)", fontWeight: 700, lineHeight: 1.1, marginBottom: 8, letterSpacing: -0.5 }}>
+              <h2 style={{ fontSize: "clamp(26px, 4.5vw, 36px)", fontWeight: 700, lineHeight: 1.1, marginBottom: 6, letterSpacing: -0.5 }}>
                 {currentOffer.company}
               </h2>
               <div style={{ fontSize: 14, color: COLORS.muted, fontStyle: "italic" }}>
@@ -371,8 +390,8 @@ export default function FakeInterviewSimulator() {
               </div>
             </div>
 
-            {/* Sections */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 18, marginBottom: 32 }}>
+            {/* Sections (read-only) */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 32 }}>
               {currentOffer.sections.map((section) => (
                 <div key={section.title} style={{ border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.codeBg }}>
                   <div style={{
@@ -385,75 +404,19 @@ export default function FakeInterviewSimulator() {
                   }}>
                     {section.title}
                   </div>
-                  <div style={{ padding: 18, display: "flex", flexDirection: "column", gap: 10 }}>
-                    {section.items.map((item) => {
-                      const isTapped = !!taps[item.id];
-                      const isShaking = shake === item.id;
-                      return (
-                        <div
-                          key={item.id}
-                          onClick={() => handleTap(item)}
-                          style={{
-                            cursor: "pointer",
-                            fontSize: 14,
-                            lineHeight: 1.5,
-                            color: isTapped ? COLORS.red : COLORS.white,
-                            padding: "11px 14px",
-                            border: `1px solid ${isTapped ? COLORS.red : COLORS.border}`,
-                            backgroundColor: isTapped ? "rgba(230, 72, 51, 0.08)" : "transparent",
-                            transition: "all 150ms",
-                            userSelect: "none",
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            gap: 10,
-                            animation: isShaking ? "fakeShake 400ms" : "none",
-                          }}
-                          onMouseEnter={(e) => { if (!isTapped) e.currentTarget.style.borderColor = COLORS.muted; }}
-                          onMouseLeave={(e) => { if (!isTapped) e.currentTarget.style.borderColor = COLORS.border; }}
-                        >
-                          <span>{item.text}</span>
-                          <span style={{
-                            color: COLORS.red,
-                            fontSize: 18,
-                            minWidth: 22,
-                            textAlign: "right",
-                            opacity: isTapped ? 1 : 0,
-                            transition: "opacity 150ms",
-                            fontWeight: 700,
-                          }}>
-                            ⚑
-                          </span>
-                        </div>
-                      );
-                    })}
+                  <div style={{ padding: "16px 18px", display: "flex", flexDirection: "column", gap: 6, fontSize: 14, lineHeight: 1.55, color: "#e4e4e4" }}>
+                    {section.lines.map((line, i) => (
+                      <div key={i} style={{ minHeight: line === "" ? 8 : "auto", whiteSpace: "pre-wrap" }}>
+                        {line}
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-              <div style={{ fontSize: 12, color: COLORS.muted, maxWidth: 400 }}>
-                Tap anything suspicious. When you're done, make your decision.
-              </div>
-              <button onClick={goToDecision} style={primaryBtn}>
-                MAKE DECISION →
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* DECISION */}
-        {stage === "decision" && currentOffer && (
-          <div style={{ animation: "fadeIn 300ms ease-out" }}>
-            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 16 }}>&gt; DECISION TIME</div>
-            <h2 style={{ fontSize: "clamp(24px, 4vw, 32px)", fontWeight: 700, lineHeight: 1.15, marginBottom: 12, letterSpacing: -0.5 }}>
-              What do you do about <span style={{ color: COLORS.red }}>{currentOffer.company}</span>?
-            </h2>
-            <p style={{ fontSize: 14, color: "#cccccc", marginBottom: 28 }}>
-              +{POINTS_PER_DECISION} points for the right call.
-            </p>
-
+            {/* Decision buttons */}
+            <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 14 }}>&gt; YOUR DECISION</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {DECISIONS.map((d) => (
                 <button
@@ -491,7 +454,6 @@ export default function FakeInterviewSimulator() {
         {stage === "review" && currentOffer && (
           <ReviewPanel
             offer={currentOffer}
-            taps={taps}
             userDecision={decisions[currentOffer.id]}
             onNext={nextOffer}
             isLast={isLastOffer}
@@ -502,7 +464,9 @@ export default function FakeInterviewSimulator() {
         {/* RESULTS */}
         {stage === "results" && (
           <ResultsPanel
-            score={calcScore()}
+            correct={countCorrect()}
+            total={OFFERS.length}
+            decisions={decisions}
             getRank={getRank}
             onShare={handleShare}
             onReplay={startGame}
@@ -520,11 +484,6 @@ export default function FakeInterviewSimulator() {
 
       <style>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fakeShake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-6px); }
-          75% { transform: translateX(6px); }
-        }
       `}</style>
     </div>
   );
@@ -534,12 +493,10 @@ export default function FakeInterviewSimulator() {
 // REVIEW PANEL
 // =============================================================================
 
-function ReviewPanel({ offer, taps, userDecision, onNext, isLast, primaryBtn }) {
-  const allItems = offer.sections.flatMap((s) => s.items);
-  const flagsTotal = allItems.filter((i) => i.flag).length;
-  const flagsFound = allItems.filter((i) => i.flag && taps[i.id]).length;
-  const decisionCorrect = userDecision === offer.correctDecision;
-  const correctDecisionLabel = DECISIONS.find((d) => d.id === offer.correctDecision)?.label;
+function ReviewPanel({ offer, userDecision, onNext, isLast, primaryBtn }) {
+  const correct = userDecision === offer.correctDecision;
+  const correctLabel = DECISIONS.find((d) => d.id === offer.correctDecision)?.label;
+  const userLabel = DECISIONS.find((d) => d.id === userDecision)?.label;
 
   return (
     <div style={{ animation: "fadeIn 300ms ease-out" }}>
@@ -550,56 +507,52 @@ function ReviewPanel({ offer, taps, userDecision, onNext, isLast, primaryBtn }) 
         VERDICT: {offer.verdict}
       </div>
 
-      {/* Stats */}
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 28 }}>
-        <div style={{ flex: 1, minWidth: 160, border: `1px solid ${COLORS.border}`, padding: 14 }}>
-          <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.5, marginBottom: 4 }}>FLAGS FOUND</div>
-          <div style={{ fontSize: 22, fontWeight: 700, color: flagsFound === flagsTotal ? COLORS.green : COLORS.amber }}>
-            {flagsFound} / {flagsTotal}
-          </div>
+      {/* Decision result */}
+      <div style={{
+        border: `1px solid ${correct ? COLORS.green : COLORS.red}`,
+        padding: 18,
+        marginBottom: 28,
+        backgroundColor: correct ? "rgba(58,182,118,0.06)" : "rgba(230,72,51,0.06)",
+      }}>
+        <div style={{ fontSize: 11, color: correct ? COLORS.green : COLORS.red, letterSpacing: 2, marginBottom: 8, fontWeight: 600 }}>
+          {correct ? "✓ CORRECT DECISION" : "✗ WRONG DECISION"}
         </div>
-        <div style={{ flex: 1, minWidth: 160, border: `1px solid ${COLORS.border}`, padding: 14 }}>
-          <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 1.5, marginBottom: 4 }}>DECISION</div>
-          <div style={{ fontSize: 14, fontWeight: 700, color: decisionCorrect ? COLORS.green : COLORS.red }}>
-            {decisionCorrect ? "✓ CORRECT" : `✗ should be ${correctDecisionLabel}`}
-          </div>
+        <div style={{ fontSize: 14, color: "#e4e4e4", lineHeight: 1.6 }}>
+          You chose <strong style={{ color: COLORS.white }}>{userLabel}</strong>.{" "}
+          {correct ? (
+            <>That was the right call.</>
+          ) : (
+            <>The right call was <strong style={{ color: COLORS.green }}>{correctLabel}</strong>.</>
+          )}
         </div>
       </div>
 
-      {/* Breakdown */}
-      <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 14 }}>&gt; BREAKDOWN</div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
-        {allItems.filter((i) => i.flag).map((item) => {
-          const found = !!taps[item.id];
-          return (
-            <div key={item.id} style={{
-              borderLeft: `3px solid ${found ? COLORS.green : COLORS.red}`,
-              paddingLeft: 14,
-              paddingTop: 6,
-              paddingBottom: 6,
-            }}>
-              <div style={{ fontSize: 10, letterSpacing: 2, color: found ? COLORS.green : COLORS.red, marginBottom: 4 }}>
-                {found ? "✓ FOUND" : "✗ MISSED"}
-              </div>
-              <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{item.text}</div>
-              <div style={{ fontSize: 12, color: "#bbbbbb", lineHeight: 1.5 }}>{item.note}</div>
-            </div>
-          );
-        })}
-        {offer.verdict === "REAL" && (
-          <div style={{
-            borderLeft: `3px solid ${COLORS.green}`,
-            paddingLeft: 14,
-            paddingTop: 6,
-            paddingBottom: 6,
-          }}>
-            <div style={{ fontSize: 10, letterSpacing: 2, color: COLORS.green, marginBottom: 4 }}>REAL OFFER</div>
-            <div style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.5 }}>
-              This one was genuine. The signals are all consistent — a long-tenure recruiter, a matching domain, a personalized pitch, no pressure, and verifiable company history. These are the patterns to trust.
-            </div>
-          </div>
-        )}
+      {/* Explanation */}
+      <div style={{ borderLeft: `3px solid ${COLORS.red}`, paddingLeft: 16, marginBottom: 28 }}>
+        <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 2, marginBottom: 6 }}>WHY</div>
+        <div style={{ fontSize: 14, color: "#e4e4e4", lineHeight: 1.6 }}>
+          {offer.explanation}
+        </div>
       </div>
+
+      {/* Red flags (if any) */}
+      {offer.flags.length > 0 && (
+        <>
+          <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 14 }}>&gt; RED FLAGS IN THIS OFFER</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
+            {offer.flags.map((f, i) => (
+              <div key={i} style={{
+                border: `1px solid ${COLORS.border}`,
+                padding: 14,
+                backgroundColor: COLORS.codeBg,
+              }}>
+                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 6, color: COLORS.red }}>⚑ {f.text}</div>
+                <div style={{ fontSize: 13, color: "#bbbbbb", lineHeight: 1.5 }}>{f.note}</div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
       <button onClick={onNext} style={primaryBtn}>
         {isLast ? "SEE FINAL RESULTS →" : "NEXT OFFER →"}
@@ -612,45 +565,46 @@ function ReviewPanel({ offer, taps, userDecision, onNext, isLast, primaryBtn }) 
 // RESULTS PANEL
 // =============================================================================
 
-function ResultsPanel({ score, getRank, onShare, onReplay, fontStack, primaryBtn }) {
-  const { total, flagsFound, correctDecisions, flagPoints, decisionPoints } = score;
-  const { label, color, desc } = getRank(total);
+function ResultsPanel({ correct, total, decisions, getRank, onShare, onReplay, fontStack, primaryBtn }) {
+  const { label, color, desc } = getRank(correct);
 
   return (
     <div style={{ animation: "fadeIn 500ms ease-out" }}>
       <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 3, marginBottom: 16 }}>&gt; SIMULATION COMPLETE</div>
 
-      <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 2, marginBottom: 12 }}>YOUR SCORE</div>
-      <div style={{ fontSize: "clamp(64px, 12vw, 108px)", fontWeight: 700, lineHeight: 1, letterSpacing: -3, marginBottom: 8 }}>
-        {total}
-        <span style={{ fontSize: "clamp(20px, 4vw, 30px)", color: COLORS.muted, marginLeft: 12 }}>/ {MAX_SCORE}</span>
+      <div style={{ fontSize: 12, color: COLORS.muted, letterSpacing: 2, marginBottom: 12 }}>CORRECT DECISIONS</div>
+      <div style={{ fontSize: "clamp(72px, 14vw, 120px)", fontWeight: 700, lineHeight: 1, letterSpacing: -3, marginBottom: 8 }}>
+        {correct}
+        <span style={{ fontSize: "clamp(20px, 4vw, 32px)", color: COLORS.muted, marginLeft: 12 }}>/ {total}</span>
       </div>
 
-      <div style={{ fontSize: "clamp(28px, 5vw, 42px)", fontWeight: 700, color, letterSpacing: -1, marginBottom: 12 }}>
+      <div style={{ fontSize: "clamp(32px, 6vw, 48px)", fontWeight: 700, color, letterSpacing: -1, marginBottom: 12 }}>
         {label}
       </div>
       <p style={{ fontSize: 15, lineHeight: 1.6, color: "#cccccc", marginBottom: 32, maxWidth: 600 }}>
         {desc}
       </p>
 
+      {/* Per-offer recap */}
       <div style={{ border: `1px solid ${COLORS.border}`, padding: 18, marginBottom: 32 }}>
-        <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 2, marginBottom: 12 }}>SCORE BREAKDOWN</div>
-        <div style={{ fontSize: 13, color: "#cccccc", lineHeight: 1.9 }}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span>Red flags found ({flagsFound} / {TOTAL_FLAGS})</span>
-            <span style={{ color: COLORS.white }}>+{flagPoints}</span>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span>Correct decisions ({correctDecisions} / {TOTAL_DECISIONS})</span>
-            <span style={{ color: COLORS.white }}>+{decisionPoints}</span>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", borderTop: `1px solid ${COLORS.border}`, paddingTop: 8, marginTop: 8, fontWeight: 700 }}>
-            <span style={{ color: COLORS.white }}>TOTAL</span>
-            <span style={{ color: COLORS.red }}>{total} / {MAX_SCORE}</span>
-          </div>
+        <div style={{ fontSize: 10, color: COLORS.muted, letterSpacing: 2, marginBottom: 12 }}>YOUR CALLS</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {OFFERS.map((o) => {
+            const chosen = decisions[o.id];
+            const ok = chosen === o.correctDecision;
+            return (
+              <div key={o.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, fontSize: 13 }}>
+                <span style={{ color: "#e4e4e4" }}>{o.company}</span>
+                <span style={{ color: ok ? COLORS.green : COLORS.red, fontWeight: 600, letterSpacing: 1 }}>
+                  {ok ? "✓" : "✗"} {DECISIONS.find((d) => d.id === chosen)?.label || "—"}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
 
+      {/* The One Rule */}
       <div style={{ borderLeft: `3px solid ${COLORS.red}`, paddingLeft: 18, marginBottom: 36 }}>
         <div style={{ fontSize: 11, color: COLORS.red, letterSpacing: 2, marginBottom: 6 }}>THE ONE RULE TO REMEMBER</div>
         <div style={{ fontSize: 16, lineHeight: 1.5, fontWeight: 600 }}>
