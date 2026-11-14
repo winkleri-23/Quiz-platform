@@ -22,6 +22,7 @@ import ControlsClassifier from "./ControlsClassifier.jsx";
 import PortScanner from "./PortScanner.jsx";
 import SecureAgentSandbox from "./SecureAgentSandbox.jsx";
 import PhishingSimulator from "./PhishingSimulator.jsx";
+import FakeInterviewSimulator from "./FakeInterviewSimulator.jsx";
 import PathFinder from "./PathFinder.jsx";
 import DirectionFinder from "./DirectionFinder.jsx";
 import CisspDomain1 from "./CisspDomain1.jsx";
@@ -130,6 +131,7 @@ export default function App() {
   if (route === "tools/port-scanner") return <PortScanner />;
   if (route === "tools/secure-agent-sandbox") return <SecureAgentSandbox />;
   if (route === "tools/phishing-simulator") return <PhishingSimulator />;
+  if (route === "tools/fake-interview") return <FakeInterviewSimulator />;
 
   // CISSP domain topic pages
   const domainMatch = route.match(/^cissp\/domain-([1-8])$/);
